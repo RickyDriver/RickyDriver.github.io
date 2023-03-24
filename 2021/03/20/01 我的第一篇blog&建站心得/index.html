@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="写在最前面今天肝了一天总算把一个博客的基本框架支棱起来了，目前还需要修改一些网站的样式：  选择网站的主题色，采用6:3:1的方法选择 为网站选择一个logo，准备尝试一下下ai设计 添加背景图 掌握md语法输出文章  总结一下建站的心得 总花费：8元 耗时6个钟">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hello World!我的第一篇blog">
+<meta property="og:url" content="http://example.com/2021/03/20/01%20%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87blog&%E5%BB%BA%E7%AB%99%E5%BF%83%E5%BE%97/index.html">
+<meta property="og:site_name" content="RickyD&#39;s blog">
+<meta property="og:description" content="写在最前面今天肝了一天总算把一个博客的基本框架支棱起来了，目前还需要修改一些网站的样式：  选择网站的主题色，采用6:3:1的方法选择 为网站选择一个logo，准备尝试一下下ai设计 添加背景图 掌握md语法输出文章  总结一下建站的心得 总花费：8元 耗时6个钟">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-20T00:00:00.000Z">
+<meta property="article:modified_time" content="2023-03-24T09:21:27.422Z">
+<meta property="article:author" content="RickyD">
+<meta property="article:tag" content="博客编写">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/03/20/01%20%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87blog&%E5%BB%BA%E7%AB%99%E5%BF%83%E5%BE%97/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Hello World!我的第一篇blog | RickyD's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">RickyD's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个工地仔的救赎之路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class=" fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="download fa-fw"></i>资源</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/20/01%20%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87blog&%E5%BB%BA%E7%AB%99%E5%BF%83%E5%BE%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="RickyD">
+      <meta itemprop="description" content="如果站长加班加似了，这个网站就是他留给世界最后的遗产">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RickyD's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Hello World!我的第一篇blog
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-20 08:00:00" itemprop="dateCreated datePublished" datetime="2021-03-20T08:00:00+08:00">2021-03-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-03-24 17:21:27" itemprop="dateModified" datetime="2023-03-24T17:21:27+08:00">2023-03-24</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h2><p>今天肝了一天总算把一个博客的基本框架支棱起来了，目前还需要修改一些网站的样式：</p>
+<ol>
+<li>选择网站的主题色，采用6:3:1的方法选择</li>
+<li>为网站选择一个logo，准备尝试一下下ai设计</li>
+<li>添加背景图</li>
+<li>掌握md语法输出文章</li>
+</ol>
+<h2 id="总结一下建站的心得"><a href="#总结一下建站的心得" class="headerlink" title="总结一下建站的心得"></a>总结一下建站的心得</h2><ol>
+<li>总花费：8元</li>
+<li>耗时6个钟<span id="more"></span></li>
+</ol>
+<p>我选择的教程是知乎上<strong>枫叶</strong>大神的教程，<br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/102592286">枫叶大佬的知乎文章</a>共分为8个章节，下面我根据章节来总结下遇到的坑。</p>
+<h3 id="第一节：注册github"><a href="#第一节：注册github" class="headerlink" title="第一节：注册github"></a>第一节：注册github</h3><p>这一节并不难，只需要一个魔法上网连接到github（有时候可以裸连），然后就按照教程一步步走即可。</p>
+<h3 id="第二节：安装git"><a href="#第二节：安装git" class="headerlink" title="第二节：安装git"></a>第二节：安装git</h3><p>按教程的一步步走，建议在非系统盘中安装</p>
+<h3 id="第三节：绑定github仓库"><a href="#第三节：绑定github仓库" class="headerlink" title="第三节：绑定github仓库"></a>第三节：绑定github仓库</h3><p>绑定github命令，建议使用下面的办法</p>
+<ol>
+<li><p>本地在非系统盘中新建文件夹用于克隆远程仓库，新建完成后右键，点击git bash here,然后输入以下命令：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这个命令的作用是克隆github上远程的仓库下来</p>
+</blockquote>
+</li>
+<li><p>克隆下来后打开vscode,左边工作区添加刚刚克隆的文件夹至资源区，然后新建文件测试能否传回到仓库里。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">git add . </span><br><span class="line">&lt;!-- 把当前仓库的所有内容添加到提交队列 --&gt;</span><br><span class="line">   </span><br><span class="line">git commit -m &#x27;你的备注&#x27;</span><br><span class="line">&lt;!-- 这个是将刚刚的队列提交到缓存区，可以修改&#x27;你的备注&#x27;为你想说的话作为提交时的备注 --&gt;</span><br><span class="line">   </span><br><span class="line">git push</span><br><span class="line">&lt;!-- 开始提交！ --&gt;</span><br></pre></td></tr></table></figure>
+<p>首次提交会<strong>弹出github的登录页面</strong>，按照链接的教程登录一下即可。成功后在远程仓库就可以看到你刚刚上传的测试文件了。</p>
+</li>
+</ol>
+<h3 id="第四节：域名的购买"><a href="#第四节：域名的购买" class="headerlink" title="第四节：域名的购买"></a>第四节：域名的购买</h3><ul>
+<li>推荐使用阿里云，域名比较便宜，如果有钱的话可以使用.com域名，没有的话选择便宜的即可，按照教程上传<strong>身份证</strong>和<strong>相关信息</strong>审核，大约两个半小时可以审核完成。</li>
+<li>域名选择尽量选择规范的好记的域名，方便他人访问你的博客。</li>
+</ul>
+<h3 id="第五节：下载node-js以及hexo"><a href="#第五节：下载node-js以及hexo" class="headerlink" title="第五节：下载node.js以及hexo"></a>第五节：下载node.js以及hexo</h3><p>这里有提到这种类型的博客采用的是hexo框架搭建的，目前我刚刚接触，还不是很熟悉。</p>
+<ul>
+<li>首先需要注意的是：</li>
+<li><strong>github已经将主分支名字改成main，而不是原来的master</strong>，如果你没有改的话，将会新建一个master分支来部署，则会直接导致后面的步骤失败！！</li>
+<li>补救方法：去github上把master分支删掉，重新正确跑一次代码即可。<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">type: git</span><br><span class="line">repository: github.com/fengye97/fen #你的仓库地址</span><br><span class="line">branch: main #在做到这一步的时候,记得把master改成main</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="第六节：解析域名"><a href="#第六节：解析域名" class="headerlink" title="第六节：解析域名"></a>第六节：解析域名</h3><p>根据教程走，如果你的域名已经正确绑定，但是提示ip地址不对，或者dns错误，可以尝试以下方法：</p>
+<blockquote>
+<p>“可以试试在解析中多加几条记录 A @ 185.199.108.153 和 A @ 185.199.109.153 和 A @ 185.199.110.153 和 A @ 185.199.111.153 这就相当于把所有可能的都加上了，因为我的github上的IP老是在这几个里面变来变去。如果还不行的，就把这篇文章做的全部删除，删除域名解析，先看一下上一篇文章的最后的结果能不能展现出来，如果可以就再把这篇的做一遍，还是不行的话就等一会就好了”<br>—来自知乎@来搞笑的</p>
+</blockquote>
+<h3 id="第七节：样式修改，写博文等等"><a href="#第七节：样式修改，写博文等等" class="headerlink" title="第七节：样式修改，写博文等等"></a>第七节：样式修改，写博文等等</h3><p>大佬的教程中没有提到如何写博文，我的目录：D:\02-blog\hexo\source_posts<br>就是在里面新增md文件，添加完后按hexo“三部曲”同步到github上。</p>
+<ul>
+<li>后续的样式更新如果遇到问题，我会再更新博客文章来记录。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8D%9A%E5%AE%A2%E7%BC%96%E5%86%99/" rel="tag"># 博客编写</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/24/02%20%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E8%85%BE%E8%AE%AF%E4%BA%91cos%E5%AE%9E%E7%8E%B0%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E7%9B%91%E6%8E%A7%E4%BB%A5%E5%8F%8A%E9%85%8D%E5%90%88picgo%E5%AE%9E%E7%8E%B0%E5%9B%BE%E5%BA%8A%E5%8A%9F%E8%83%BD/" rel="next" title="如何使用腾讯云cos实现前端性能监控以及配合picgo实现图床功能">
+      如何使用腾讯云cos实现前端性能监控以及配合picgo实现图床功能 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81ODIzMi8zNDY5NQ=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%89%8D%E9%9D%A2"><span class="nav-number">1.</span> <span class="nav-text">写在最前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B%E5%BB%BA%E7%AB%99%E7%9A%84%E5%BF%83%E5%BE%97"><span class="nav-number">2.</span> <span class="nav-text">总结一下建站的心得</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E8%8A%82%EF%BC%9A%E6%B3%A8%E5%86%8Cgithub"><span class="nav-number">2.1.</span> <span class="nav-text">第一节：注册github</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E8%8A%82%EF%BC%9A%E5%AE%89%E8%A3%85git"><span class="nav-number">2.2.</span> <span class="nav-text">第二节：安装git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E8%8A%82%EF%BC%9A%E7%BB%91%E5%AE%9Agithub%E4%BB%93%E5%BA%93"><span class="nav-number">2.3.</span> <span class="nav-text">第三节：绑定github仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E8%8A%82%EF%BC%9A%E5%9F%9F%E5%90%8D%E7%9A%84%E8%B4%AD%E4%B9%B0"><span class="nav-number">2.4.</span> <span class="nav-text">第四节：域名的购买</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E8%8A%82%EF%BC%9A%E4%B8%8B%E8%BD%BDnode-js%E4%BB%A5%E5%8F%8Ahexo"><span class="nav-number">2.5.</span> <span class="nav-text">第五节：下载node.js以及hexo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E8%8A%82%EF%BC%9A%E8%A7%A3%E6%9E%90%E5%9F%9F%E5%90%8D"><span class="nav-number">2.6.</span> <span class="nav-text">第六节：解析域名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%83%E8%8A%82%EF%BC%9A%E6%A0%B7%E5%BC%8F%E4%BF%AE%E6%94%B9%EF%BC%8C%E5%86%99%E5%8D%9A%E6%96%87%E7%AD%89%E7%AD%89"><span class="nav-number">2.7.</span> <span class="nav-text">第七节：样式修改，写博文等等</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="RickyD"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">RickyD</p>
+  <div class="site-description" itemprop="description">如果站长加班加似了，这个网站就是他留给世界最后的遗产</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/RickyDriver" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;RickyDriver" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1552330861@qq.com" title="E-Mail → 1552330861@qq.com"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RickyD</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">3k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9 分钟</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>
