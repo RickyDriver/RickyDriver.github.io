@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.svg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="背景背景颜色12background-color: red|#000|rgb(0, 0, 0) |rgba(0, 0, 0, 0.1)  |transparent（默认值）;  transparent 不要忘记 背景图任何元素，都可以有背景图背景图的设置要通过background-image:url();其中 url 就是图片路径 背景重复background-repeat  repeat 默">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端开发学习笔记 14 背景与精灵图">
+<meta property="og:url" content="http://example.com/2021/03/20/13%20%E8%83%8C%E6%99%AF%E5%92%8C%E7%B2%BE%E7%81%B5%E5%9B%BE/index.html">
+<meta property="og:site_name" content="Mule and horse">
+<meta property="og:description" content="背景背景颜色12background-color: red|#000|rgb(0, 0, 0) |rgba(0, 0, 0, 0.1)  |transparent（默认值）;  transparent 不要忘记 背景图任何元素，都可以有背景图背景图的设置要通过background-image:url();其中 url 就是图片路径 背景重复background-repeat  repeat 默">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-20T00:00:00.000Z">
+<meta property="article:modified_time" content="2023-03-25T05:13:24.735Z">
+<meta property="article:author" content="RickyD">
+<meta property="article:tag" content="前端开发">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/03/20/13%20%E8%83%8C%E6%99%AF%E5%92%8C%E7%B2%BE%E7%81%B5%E5%9B%BE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>前端开发学习笔记 14 背景与精灵图 | Mule and horse</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mule and horse</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个工地仔的救赎之路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">21</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/20/13%20%E8%83%8C%E6%99%AF%E5%92%8C%E7%B2%BE%E7%81%B5%E5%9B%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="RickyD">
+      <meta itemprop="description" content="如果站长加班加似了，这个网站就是他留给世界最后的遗产">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mule and horse">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          前端开发学习笔记 14 背景与精灵图
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-20 08:00:00" itemprop="dateCreated datePublished" datetime="2021-03-20T08:00:00+08:00">2021-03-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-03-25 13:13:24" itemprop="dateModified" datetime="2023-03-25T13:13:24+08:00">2023-03-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <span id="more"></span>
+
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><h3 id="背景颜色"><a href="#背景颜色" class="headerlink" title="背景颜色"></a>背景颜色</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">background-color</span>: red|<span class="number">#000</span>|<span class="built_in">rgb</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>) |<span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.1</span>)</span><br><span class="line">  |transparent（默认值）;</span><br></pre></td></tr></table></figure>
+
+<p>transparent 不要忘记</p>
+<h3 id="背景图"><a href="#背景图" class="headerlink" title="背景图"></a>背景图</h3><p>任何元素，都可以有背景图<br>背景图的设置要通过<code>background-image:url();</code><br>其中 url 就是图片路径</p>
+<h3 id="背景重复"><a href="#背景重复" class="headerlink" title="背景重复"></a>背景重复</h3><p><code>background-repeat</code></p>
+<ul>
+<li>repeat 默认，背景图将会在 x 轴 y 轴上重复</li>
+<li>no-repeat 不重复，背景图只显示一次</li>
+<li>repeat-y 背景图只在 y 轴重复</li>
+<li>repeat-x 背景图只在 x 轴重复</li>
+</ul>
+<h3 id="背景位置"><a href="#背景位置" class="headerlink" title="背景位置"></a>背景位置</h3><p>控制背景图从哪里开始显示<br><code>background-position:x y;</code><br>常见的是像素值，但是实际上我们更常用的<br>top right left bottom center<br>可以只写一个值，此时另外一个值默认为<code>center</code></p>
+<h3 id="背景固定"><a href="#背景固定" class="headerlink" title="背景固定"></a>背景固定</h3><p><code>background-attachment</code></p>
+<ul>
+<li>scroll 默认值，背景图会跟随页面滚动</li>
+<li>fixed 背景图固定，常常用来做<strong>视差滚动</strong></li>
+</ul>
+<h3 id="背景尺寸"><a href="#背景尺寸" class="headerlink" title="背景尺寸"></a>背景尺寸</h3><p><code>background-size:&lt;length&gt;|%|||</code></p>
+<ul>
+<li>length 第一个值为水平宽度，第二个值为垂直高度，当只写一个值的时候，另一个为 auto</li>
+<li><code>%</code> 也是两个值，是相对于父元素的百分比</li>
+<li>cover 让图片完全覆盖背景，这个属性一般会让背景图显示不全</li>
+<li>contain 会把图片缩放到合适大小，让图片完全显示，一般会让部分区域空白</li>
+</ul>
+<h3 id="复合写法"><a href="#复合写法" class="headerlink" title="复合写法"></a>复合写法</h3><p><code>background: 颜色 路径 重复？ 位置/尺寸</code></p>
+<ul>
+<li>背景尺寸必须紧跟在背景位置的后面，两者之间用一条<code>/</code>分隔</li>
+<li>值的规则仍然适用，横向的值在前，纵向的值在后</li>
+</ul>
+<h3 id="一些注意事项"><a href="#一些注意事项" class="headerlink" title="一些注意事项"></a>一些注意事项</h3><ol>
+<li>背景图和背景颜色，从哪里开始显示?(边框？内边距？)<br>背景颜色从<strong>边框区域</strong>开始渲染,而背景图片从<strong>内边距</strong>开始渲染<br>某些情况下，需要将背景图渲染的位置发生改变，我们就可以用到<br><code>background-origin:border-box|padding-box|content-box</code></li>
+</ol>
+<ul>
+<li>border-box:图像从边框区域开始</li>
+<li>padding-box:图像从内边距开始(默认值)</li>
+<li>content-box:图像从内容区域开始</li>
+</ul>
+<h3 id="2-什么时候用-img？什么时候用-bgi"><a href="#2-什么时候用-img？什么时候用-bgi" class="headerlink" title="2.什么时候用 img？什么时候用 bgi?"></a>2.什么时候用 img？什么时候用 bgi?</h3><ul>
+<li><p>img<br>img 标签虽然不是块级元素，但是他可以设置宽高，占位<br>img 设置宽度以后，高度会自动匹配，如果设置高度那么宽度也一样，如果同时设置宽高，图片可能会变形。</p>
+</li>
+<li><p>bgi<br>他只是一个 css 属性，并不占位，可以结合其他属性来设置背景图的大小，位置，重复与否。她所在的元素必须设置宽高</p>
+</li>
+</ul>
+<p>他们的不同</p>
+<ol>
+<li>img 是标签占位；bgi 不是标签不占位</li>
+<li>img 是 docment 对象中可以操作的，但是 bgi 不行</li>
+<li>在网页的加载过程中，img 是结构的一部分，会在加载结构的时候加载，而 bgi 是样式，它会在结构加载完成以后再加载</li>
+<li>img 标签点击会选中&#x2F;放大图片，bgi 不会</li>
+</ol>
+<p>使用 img</p>
+<ul>
+<li>作为结构</li>
+<li>展示后台传过来的数据</li>
+<li>对图片进行缩放</li>
+<li>seo 搜索引擎优化</li>
+<li>对语义化有明确要求</li>
+<li>图片是作为页面的组成部份而不是修饰部份</li>
+<li>显示图片只给定宽&#x2F;定高 而且不能截断的时候</li>
+</ul>
+<p>使用 bgi</p>
+<ul>
+<li>不是结构的一部分</li>
+<li>图像代替文本使用</li>
+<li>禁止用户缩放时</li>
+<li>允许图片 拉伸 重复平铺 截取</li>
+</ul>
+<h2 id="雪碧图"><a href="#雪碧图" class="headerlink" title="雪碧图"></a>雪碧图</h2><p>雪碧图是一种网页处理图片的方式，它允许将一个页面涉及到的所有零星的图片都整合到一张大图中。当访问该页面的时候，载入的图片就不会像往常那样慢慢显示出来。</p>
+<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><p>简单来说，使用雪碧图的主要目的就是为了<strong>有效的减少 Http 请求数量</strong>和<strong>加速内容的显示</strong></p>
+<h3 id="雪碧图的使用规则"><a href="#雪碧图的使用规则" class="headerlink" title="雪碧图的使用规则"></a>雪碧图的使用规则</h3><p>虽然 css sprite 能够优化网络资源的加载情况，但是并不是每个图片适合用雪碧图，必须满足以下条件</p>
+<ul>
+<li>静态图片，不会因为用户的差异性而发生变化</li>
+<li>小图片，图片的体积比较小，对清晰度要求不高</li>
+</ul>
+<h2 id="git-的使用"><a href="#git-的使用" class="headerlink" title="git 的使用"></a>git 的使用</h2><p>安装<br><a target="_blank" rel="noopener" href="https://git-scm.com/">git 官网</a></p>
+<p>配置环境变量</p>
+<p>clear 清屏<br>git –version 查看版本号<br>git add . 把当前仓库的所有内容添加到提交队列<br>git commit -m ‘提交信息’<br>git push<br>git clone 从远端拉取仓库</p>
+<p>配置用户信息<br>git config –global user.name ‘手机号码’<br>git config –global user.email ‘你的邮箱’<br>git config –global user.password ‘你的 git 密码’</p>
+<p>查看 git 的配置<br>git config -l</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>RickyD
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2021/03/20/13%20%E8%83%8C%E6%99%AF%E5%92%8C%E7%B2%BE%E7%81%B5%E5%9B%BE/" title="前端开发学习笔记 14 背景与精灵图">http://example.com/2021/03/20/13 背景和精灵图/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/" rel="tag"># 前端开发</a>
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/20/14%20%E5%8A%A8%E7%94%BB%EF%BC%8C%E5%BD%A2%E5%8F%98/" rel="prev" title="前端开发学习笔记 15 动画与形变">
+      <i class="fa fa-chevron-left"></i> 前端开发学习笔记 15 动画与形变
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/20/07%20%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/" rel="next" title="前端开发学习笔记 08 盒子模型">
+      前端开发学习笔记 08 盒子模型 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81ODIzMi8zNDY5NQ=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E9%A2%9C%E8%89%B2"><span class="nav-number">1.1.</span> <span class="nav-text">背景颜色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E5%9B%BE"><span class="nav-number">1.2.</span> <span class="nav-text">背景图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E9%87%8D%E5%A4%8D"><span class="nav-number">1.3.</span> <span class="nav-text">背景重复</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E4%BD%8D%E7%BD%AE"><span class="nav-number">1.4.</span> <span class="nav-text">背景位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E5%9B%BA%E5%AE%9A"><span class="nav-number">1.5.</span> <span class="nav-text">背景固定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E5%B0%BA%E5%AF%B8"><span class="nav-number">1.6.</span> <span class="nav-text">背景尺寸</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E5%90%88%E5%86%99%E6%B3%95"><span class="nav-number">1.7.</span> <span class="nav-text">复合写法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">1.8.</span> <span class="nav-text">一些注意事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E7%94%A8-img%EF%BC%9F%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E7%94%A8-bgi"><span class="nav-number">1.9.</span> <span class="nav-text">2.什么时候用 img？什么时候用 bgi?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%AA%E7%A2%A7%E5%9B%BE"><span class="nav-number">2.</span> <span class="nav-text">雪碧图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8"><span class="nav-number">2.1.</span> <span class="nav-text">作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%AA%E7%A2%A7%E5%9B%BE%E7%9A%84%E4%BD%BF%E7%94%A8%E8%A7%84%E5%88%99"><span class="nav-number">2.2.</span> <span class="nav-text">雪碧图的使用规则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git-%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">git 的使用</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="RickyD"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">RickyD</p>
+  <div class="site-description" itemprop="description">如果站长加班加似了，这个网站就是他留给世界最后的遗产</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/RickyDriver" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;RickyDriver" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1552330861@qq.com" title="E-Mail → 1552330861@qq.com"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RickyD</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">22k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:13</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>

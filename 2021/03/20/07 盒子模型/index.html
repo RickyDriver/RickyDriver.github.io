@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.svg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="盒子模型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端开发学习笔记 08 盒子模型">
+<meta property="og:url" content="http://example.com/2021/03/20/07%20%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="Mule and horse">
+<meta property="og:description" content="盒子模型">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-20T00:00:00.000Z">
+<meta property="article:modified_time" content="2023-03-25T05:12:29.594Z">
+<meta property="article:author" content="RickyD">
+<meta property="article:tag" content="前端开发">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/03/20/07%20%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>前端开发学习笔记 08 盒子模型 | Mule and horse</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mule and horse</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个工地仔的救赎之路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">21</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/20/07%20%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="RickyD">
+      <meta itemprop="description" content="如果站长加班加似了，这个网站就是他留给世界最后的遗产">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mule and horse">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          前端开发学习笔记 08 盒子模型
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-20 08:00:00" itemprop="dateCreated datePublished" datetime="2021-03-20T08:00:00+08:00">2021-03-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-03-25 13:12:29" itemprop="dateModified" datetime="2023-03-25T13:12:29+08:00">2023-03-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="盒子模型"><a href="#盒子模型" class="headerlink" title="盒子模型"></a>盒子模型</h2><span id="more"></span>
+
+<ol>
+<li>什么是盒子模型</li>
+<li>盒子模型由哪几部分构成</li>
+<li>边框，边距，统一设置，单边设置的方法</li>
+<li>margin 使块级元素水平居中的原理</li>
+<li>标准盒模型和怪异盒模型的区别</li>
+</ol>
+<h3 id="什么是盒子模型"><a href="#什么是盒子模型" class="headerlink" title="什么是盒子模型"></a>什么是盒子模型</h3><p>在 html 中，每个元素在浏览器中的解析，都可以被看作一个<strong>盒子</strong>，拥有盒子一样的外形和平面空间。完整的盒子模型是由<strong>width,height</strong>（宽度和高度构成的内容区域），<strong>border(边框)</strong>,<strong>padding（内边距</strong>，<strong>margin（外边距)</strong></p>
+<ul>
+<li>margin 外边距 透明的</li>
+<li>border 围绕在内边距和外边距的边框</li>
+<li>padding 围绕在内容周围的区域 透明的</li>
+<li>content 盒子的内容 显示的是文本或者图像</li>
+</ul>
+<h3 id="生活中的盒模型–鱼缸"><a href="#生活中的盒模型–鱼缸" class="headerlink" title="生活中的盒模型–鱼缸"></a>生活中的盒模型–鱼缸</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">  <span class="selector-class">.box</span> &#123;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">width</span>: <span class="number">100px</span>;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">height</span>: <span class="number">100px</span>;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">border</span>: <span class="number">10px</span> solid <span class="number">#000</span>;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">padding</span>: <span class="number">5px</span>;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">margin</span>: <span class="number">20px</span>;</span></span><br><span class="line"><span class="language-css">  &#125;</span></span><br><span class="line"><span class="language-css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>最终的效果：<br>蓝色区域-鱼缸<br>绿色区域-泡沫<br>黑色区域-纸盒厚度<br>橙色-外部间隙</p>
+<h3 id="标准盒模型和怪异盒-ie-模型"><a href="#标准盒模型和怪异盒-ie-模型" class="headerlink" title="标准盒模型和怪异盒(ie)模型"></a>标准盒模型和怪异盒(ie)模型</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">  <span class="selector-class">.box</span> &#123;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">width</span>: <span class="number">100px</span>;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">height</span>: <span class="number">100px</span>;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">border</span>: <span class="number">10px</span> solid <span class="number">#000</span>;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">padding</span>: <span class="number">5px</span>;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">margin</span>: <span class="number">20px</span>;</span></span><br><span class="line"><span class="language-css">  &#125;</span></span><br><span class="line"><span class="language-css">  <span class="selector-class">.border-box</span> &#123;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">box-sizing</span>: border-box;</span></span><br><span class="line"><span class="language-css">  &#125;</span></span><br><span class="line"><span class="language-css">  <span class="selector-class">.content-box</span> &#123;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">box-sizing</span>: content-box;</span></span><br><span class="line"><span class="language-css">  &#125;</span></span><br><span class="line"><span class="language-css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box border-box&quot;</span>&gt;</span>1<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box content-box&quot;</span>&gt;</span>2<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>标准盒模型中 width 指的是内容 content 的宽度；<br>标准盒模型下 盒子大小&#x3D;content+border+padding+margin</li>
+<li>怪异盒模型中 width 指的是<strong>内容，边框，内边距</strong>的总宽度（content+border+padding）；<br>怪异盒模型下 盒子的大小&#x3D;width(content+border+padding)+margin</li>
+</ol>
+<h3 id="尺寸"><a href="#尺寸" class="headerlink" title="尺寸"></a>尺寸</h3><p>css 尺寸属性允许我们控制元素的高度和宽度</p>
+<p>默认情况下，元素的宽度<code>width</code>是指从 左内边界 到 右内边界 的 距离<br>当他的值为百分比时，它是相对于父元素的宽度或者高度</p>
+<h3 id="边框"><a href="#边框" class="headerlink" title="边框"></a>边框</h3><p><code>border</code>是一个复合属性，一个边框包括边框的宽度，边框的颜色，边框的类型<br><code>border:5px solid pink;</code></p>
+<h4 id="边框宽度"><a href="#边框宽度" class="headerlink" title="边框宽度"></a>边框宽度</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">border-width</span>: <span class="number">3px</span>｜<span class="number">3em</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="边框的样式"><a href="#边框的样式" class="headerlink" title="边框的样式"></a>边框的样式</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">border-style</span>: &lt;style&gt;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>none 默认值，无边框</li>
+<li>solid 单实线</li>
+<li>dotted 点划线</li>
+<li>dashed 虚线</li>
+<li>double 双实线</li>
+</ul>
+<h4 id="边框的颜色"><a href="#边框的颜色" class="headerlink" title="边框的颜色"></a>边框的颜色</h4><p>边框的颜色实际上是根据字体颜色来决定的，当然也可以单独设置</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">border</span>: red|<span class="number">#000</span>|<span class="built_in">rgb</span>(<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>) |<span class="built_in">rgba</span>(<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.5</span>)</span><br><span class="line">  |transparent透明|inherit继承;</span><br></pre></td></tr></table></figure>
+
+<p>rbga:和 rbg 概念一样，只是多了一个 alpha 的属性值，它代表了透明度，(0~1),0 是全透明，1 是不透明</p>
+<h4 id="单边框的设置"><a href="#单边框的设置" class="headerlink" title="单边框的设置"></a>单边框的设置</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">  <span class="attribute">border-top-style</span>: dotted;</span><br><span class="line">  <span class="attribute">border-right-style</span>: solid;</span><br><span class="line">  <span class="attribute">border-bottom-style</span>: double;</span><br><span class="line">  <span class="attribute">border-left-style</span>: dashed;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>top 上<br>right 右<br>bottom 下<br>left 左<br>除了边框的样式<code>witdh color</code>都可以单独设置一边的</p>
+<h3 id="外边距"><a href="#外边距" class="headerlink" title="外边距"></a>外边距</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">margin</span>: auto|length|percentage;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>auto:浏览器自动计算外边距</li>
+<li>length:具体单位比如 100px em…</li>
+<li><code>%</code>:基于<strong>父元素宽度</strong>的百分比外边距，如果父元素没有宽度，则寻找祖辈元素的宽度，如果都没有，就会按照屏幕的宽度来作为参考对象.</li>
+</ul>
+<h4 id="margin-分写属性"><a href="#margin-分写属性" class="headerlink" title="margin 分写属性"></a>margin 分写属性</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">margin-top</span>: <span class="number">100px</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这种方式书写起来代码比较多，使用场景相对特殊，通常我们都用合写的写法。</p>
+<h4 id="margin-合写属性"><a href="#margin-合写属性" class="headerlink" title="margin 合写属性"></a>margin 合写属性</h4><p><code>magin</code>属性合写属性一共有 4 个值，值与方向的对应顺序为 从顶部顺时针转下来<br>这种方式书写起来比较常用</p>
+<h5 id="分别设置上下，左右两部分的值"><a href="#分别设置上下，左右两部分的值" class="headerlink" title="分别设置上下，左右两部分的值"></a>分别设置上下，左右两部分的值</h5><p>第一个值是上下外边距，第二个值是左右外边距</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">margin</span>: <span class="number">100px</span> <span class="number">200px</span>;</span><br><span class="line"><span class="comment">/* 等同于下面的设置 */</span></span><br><span class="line"><span class="attribute">margin-top</span>: <span class="number">100px</span>;</span><br><span class="line"><span class="attribute">margin-right</span>: <span class="number">200px</span>;</span><br><span class="line"><span class="attribute">margin-bottom</span>: <span class="number">100px</span>;</span><br><span class="line"><span class="attribute">margin-left</span>: <span class="number">100px</span>;</span><br></pre></td></tr></table></figure>
+
+<h5 id="分别设置上，左右，下三个部分的值"><a href="#分别设置上，左右，下三个部分的值" class="headerlink" title="分别设置上，左右，下三个部分的值"></a>分别设置上，左右，下三个部分的值</h5><p>第一个值 上外边距<br>第二个值 左右外边距<br>第三个值 下外边距</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">margin</span>: <span class="number">100px</span> <span class="number">200px</span> <span class="number">300px</span>;</span><br><span class="line"><span class="comment">/* 等同于下面的设置 */</span></span><br><span class="line"><span class="attribute">margin-top</span>: <span class="number">100px</span>;</span><br><span class="line"><span class="attribute">margin-right</span>: <span class="number">200px</span>;</span><br><span class="line"><span class="attribute">margin-bottom</span>: <span class="number">300px</span>;</span><br><span class="line"><span class="attribute">margin-left</span>: <span class="number">200px</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="margin-的特殊作用"><a href="#margin-的特殊作用" class="headerlink" title="margin 的特殊作用"></a>margin 的特殊作用</h4><p>将元素的水平方向 margin 值 设为<code>auto</code>，可以让块级元素在父级盒子内水平居中.</p>
+<h3 id="内边距"><a href="#内边距" class="headerlink" title="内边距"></a>内边距</h3><p><code>padding</code>内边距，即盒子模型中，边框距离内容区域的距离，这个区域会被盒子的背景色填充。<br>也可以理解为<strong>当前元素与元素的边框之间的距离</strong></p>
+<ul>
+<li>内边距的值与外边距的值类似,都有 4 个值，计算的方式 方向也相同</li>
+<li>内边距也有 padding-left 的设置，也有四个方向的分写写法</li>
+<li>内边距没有负值，设置负值时相当于<code>padding:0px;</code></li>
+<li>内边距为百分比时，也是相对于<strong>父元素的宽度</strong>进行计算</li>
+</ul>
+<p>在没有设置盒子的宽高时，<code>padding</code>值不会影响到盒子大小</p>
+<h3 id="关于盒模型的一些常见的问题"><a href="#关于盒模型的一些常见的问题" class="headerlink" title="关于盒模型的一些常见的问题"></a>关于盒模型的一些常见的问题</h3><h4 id="margin-0-auto-中的auto到底是什么含义？"><a href="#margin-0-auto-中的auto到底是什么含义？" class="headerlink" title="margin:0 auto;中的auto到底是什么含义？"></a><code>margin:0 auto;</code>中的<code>auto</code>到底是什么含义？</h4><p>垂直方向的外边距为 0，水平方向的外边距为<code>auto</code>，此时左右外边距的具体值<br><strong>(父级元素内容区域宽度-含边框内边距的当前元素宽度)&#x2F;2</strong></p>
+<p>auto 这个属性做了一件事:将父元素的剩余空间<strong>平分</strong>给子元素的左右外边距，这样就会实现水平居中。</p>
+<h4 id="如果对行内元素使用margin-0-auto-会怎么样？"><a href="#如果对行内元素使用margin-0-auto-会怎么样？" class="headerlink" title="如果对行内元素使用margin:0 auto;会怎么样？"></a>如果对行内元素使用<code>margin:0 auto;</code>会怎么样？</h4><p>不能居中，而且宽高属性失效了.<br>其实是<strong>行内元素不支持宽高属性，也不支持内外边距的设置</strong></p>
+<h4 id="一定要给元素设置宽度才能水平居中吗？"><a href="#一定要给元素设置宽度才能水平居中吗？" class="headerlink" title="一定要给元素设置宽度才能水平居中吗？"></a>一定要给元素设置宽度才能水平居中吗？</h4><p><code>auto</code>居中的原理是将父元素的剩余空间<strong>平分</strong>给子元素的左右外边距，当你不设置宽度时，<strong>块级元素的宽度默认继承父级元素 100%的宽度</strong>,导致没有剩余空间分配给外边距.</p>
+<h4 id="border-0-和border-none-的区别"><a href="#border-0-和border-none-的区别" class="headerlink" title="border:0;和border:none;的区别"></a><code>border:0;</code>和<code>border:none;</code>的区别</h4><p>当<code>border:0;</code>时，表示设置边框，只是边框的宽度为 0，此时浏览器还是要正常的渲染元素的边框，会占用内存空间.<br>当<code>border:none;</code>时，表示不设置边框，浏览器不会进行任何边框相关的渲染，不会占用内存空间.</p>
+<p>所以取消边框时，尽量用<code>border:none;</code>来实现.</p>
+<h4 id="纵向外边距叠加"><a href="#纵向外边距叠加" class="headerlink" title="纵向外边距叠加"></a>纵向外边距叠加</h4><p>通过后续的<strong>BFC</strong>来解决</p>
+<h4 id="padding-和-margin-的选择"><a href="#padding-和-margin-的选择" class="headerlink" title="padding 和 margin 的选择"></a>padding 和 margin 的选择</h4><p>父子用 padding<br>兄弟用 margin</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=edge&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">      <span class="selector-class">.boxA</span> &#123;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">width</span>: <span class="number">200px</span>;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">border</span>: <span class="number">2px</span> solid <span class="number">#000</span>;</span></span><br><span class="line"><span class="language-css">        <span class="comment">/* padding: 70px 55px; */</span></span></span><br><span class="line"><span class="language-css">      &#125;</span></span><br><span class="line"><span class="language-css"></span></span><br><span class="line"><span class="language-css">      <span class="selector-class">.boxB</span> &#123;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">width</span>: <span class="number">196px</span>;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">height</span>: <span class="number">196px</span>;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">border</span>: <span class="number">2px</span> solid <span class="number">#000</span>;</span></span><br><span class="line"><span class="language-css">        <span class="comment">/* margin-bottom: 40px; */</span></span></span><br><span class="line"><span class="language-css">        <span class="attribute">margin</span>: <span class="number">70px</span> <span class="number">55px</span> <span class="number">40px</span>;</span></span><br><span class="line"><span class="language-css">      &#125;</span></span><br><span class="line"><span class="language-css"></span></span><br><span class="line"><span class="language-css">      <span class="selector-class">.boxC</span> &#123;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">width</span>: <span class="number">196px</span>;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">height</span>: <span class="number">196px</span>;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">margin</span>: <span class="number">0px</span> <span class="number">55px</span> <span class="number">70px</span>;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">border</span>: <span class="number">2px</span> solid <span class="number">#000</span>;</span></span><br><span class="line"><span class="language-css">      &#125;</span></span><br><span class="line"><span class="language-css">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;boxA&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;boxB&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;boxC&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>RickyD
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2021/03/20/07%20%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/" title="前端开发学习笔记 08 盒子模型">http://example.com/2021/03/20/07 盒子模型/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/" rel="tag"># 前端开发</a>
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/20/13%20%E8%83%8C%E6%99%AF%E5%92%8C%E7%B2%BE%E7%81%B5%E5%9B%BE/" rel="prev" title="前端开发学习笔记 14 背景与精灵图">
+      <i class="fa fa-chevron-left"></i> 前端开发学习笔记 14 背景与精灵图
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/20/11%20%E6%B5%AE%E5%8A%A8/" rel="next" title="前端开发学习笔记 12 浮动">
+      前端开发学习笔记 12 浮动 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81ODIzMi8zNDY5NQ=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">盒子模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">什么是盒子模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%B4%BB%E4%B8%AD%E7%9A%84%E7%9B%92%E6%A8%A1%E5%9E%8B%E2%80%93%E9%B1%BC%E7%BC%B8"><span class="nav-number">1.2.</span> <span class="nav-text">生活中的盒模型–鱼缸</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E5%87%86%E7%9B%92%E6%A8%A1%E5%9E%8B%E5%92%8C%E6%80%AA%E5%BC%82%E7%9B%92-ie-%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.3.</span> <span class="nav-text">标准盒模型和怪异盒(ie)模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%BA%E5%AF%B8"><span class="nav-number">1.4.</span> <span class="nav-text">尺寸</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%B9%E6%A1%86"><span class="nav-number">1.5.</span> <span class="nav-text">边框</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%B9%E6%A1%86%E5%AE%BD%E5%BA%A6"><span class="nav-number">1.5.1.</span> <span class="nav-text">边框宽度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%B9%E6%A1%86%E7%9A%84%E6%A0%B7%E5%BC%8F"><span class="nav-number">1.5.2.</span> <span class="nav-text">边框的样式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%B9%E6%A1%86%E7%9A%84%E9%A2%9C%E8%89%B2"><span class="nav-number">1.5.3.</span> <span class="nav-text">边框的颜色</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E8%BE%B9%E6%A1%86%E7%9A%84%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.5.4.</span> <span class="nav-text">单边框的设置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%96%E8%BE%B9%E8%B7%9D"><span class="nav-number">1.6.</span> <span class="nav-text">外边距</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#margin-%E5%88%86%E5%86%99%E5%B1%9E%E6%80%A7"><span class="nav-number">1.6.1.</span> <span class="nav-text">margin 分写属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#margin-%E5%90%88%E5%86%99%E5%B1%9E%E6%80%A7"><span class="nav-number">1.6.2.</span> <span class="nav-text">margin 合写属性</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%86%E5%88%AB%E8%AE%BE%E7%BD%AE%E4%B8%8A%E4%B8%8B%EF%BC%8C%E5%B7%A6%E5%8F%B3%E4%B8%A4%E9%83%A8%E5%88%86%E7%9A%84%E5%80%BC"><span class="nav-number">1.6.2.1.</span> <span class="nav-text">分别设置上下，左右两部分的值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%86%E5%88%AB%E8%AE%BE%E7%BD%AE%E4%B8%8A%EF%BC%8C%E5%B7%A6%E5%8F%B3%EF%BC%8C%E4%B8%8B%E4%B8%89%E4%B8%AA%E9%83%A8%E5%88%86%E7%9A%84%E5%80%BC"><span class="nav-number">1.6.2.2.</span> <span class="nav-text">分别设置上，左右，下三个部分的值</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#margin-%E7%9A%84%E7%89%B9%E6%AE%8A%E4%BD%9C%E7%94%A8"><span class="nav-number">1.6.3.</span> <span class="nav-text">margin 的特殊作用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E8%BE%B9%E8%B7%9D"><span class="nav-number">1.7.</span> <span class="nav-text">内边距</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B8%B8%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.8.</span> <span class="nav-text">关于盒模型的一些常见的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#margin-0-auto-%E4%B8%AD%E7%9A%84auto%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88%E5%90%AB%E4%B9%89%EF%BC%9F"><span class="nav-number">1.8.1.</span> <span class="nav-text">margin:0 auto;中的auto到底是什么含义？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E5%AF%B9%E8%A1%8C%E5%86%85%E5%85%83%E7%B4%A0%E4%BD%BF%E7%94%A8margin-0-auto-%E4%BC%9A%E6%80%8E%E4%B9%88%E6%A0%B7%EF%BC%9F"><span class="nav-number">1.8.2.</span> <span class="nav-text">如果对行内元素使用margin:0 auto;会怎么样？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E5%AE%9A%E8%A6%81%E7%BB%99%E5%85%83%E7%B4%A0%E8%AE%BE%E7%BD%AE%E5%AE%BD%E5%BA%A6%E6%89%8D%E8%83%BD%E6%B0%B4%E5%B9%B3%E5%B1%85%E4%B8%AD%E5%90%97%EF%BC%9F"><span class="nav-number">1.8.3.</span> <span class="nav-text">一定要给元素设置宽度才能水平居中吗？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#border-0-%E5%92%8Cborder-none-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.8.4.</span> <span class="nav-text">border:0;和border:none;的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%B5%E5%90%91%E5%A4%96%E8%BE%B9%E8%B7%9D%E5%8F%A0%E5%8A%A0"><span class="nav-number">1.8.5.</span> <span class="nav-text">纵向外边距叠加</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#padding-%E5%92%8C-margin-%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-number">1.8.6.</span> <span class="nav-text">padding 和 margin 的选择</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="RickyD"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">RickyD</p>
+  <div class="site-description" itemprop="description">如果站长加班加似了，这个网站就是他留给世界最后的遗产</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/RickyDriver" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;RickyDriver" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1552330861@qq.com" title="E-Mail → 1552330861@qq.com"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RickyD</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">22k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:13</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
