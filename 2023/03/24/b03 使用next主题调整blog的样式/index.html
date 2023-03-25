@@ -20,19 +20,24 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="next主题虽然配置简单，但是界面太素了，其实本身自带的配置文件就可以实现一些不错的功能，以下是我从网络上整理copy下来的一些设置技巧。">
+  <meta name="description" content="next主题虽然配置简单，但是界面太素了，其实本身自带的配置文件就可以实现一些不错的功能，以下是我从网络上整理copy的一些设置技巧。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用next主题调整blog的样式【持续更新】">
 <meta property="og:url" content="http://example.com/2023/03/24/b03%20%E4%BD%BF%E7%94%A8next%E4%B8%BB%E9%A2%98%E8%B0%83%E6%95%B4blog%E7%9A%84%E6%A0%B7%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Mule and horse">
-<meta property="og:description" content="next主题虽然配置简单，但是界面太素了，其实本身自带的配置文件就可以实现一些不错的功能，以下是我从网络上整理copy下来的一些设置技巧。">
+<meta property="og:description" content="next主题虽然配置简单，但是界面太素了，其实本身自带的配置文件就可以实现一些不错的功能，以下是我从网络上整理copy的一些设置技巧。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230324201325383.png">
 <meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230324201532414.png">
 <meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230324201821112.png">
 <meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230325103925803.png">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230325232059556.png">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230325233757196.png">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230326001116137.png">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230326001731671.png">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230326002249089.png">
 <meta property="article:published_time" content="2023-03-24T12:09:52.000Z">
-<meta property="article:modified_time" content="2023-03-25T02:40:37.546Z">
+<meta property="article:modified_time" content="2023-03-25T16:53:48.367Z">
 <meta property="article:author" content="RickyD">
 <meta property="article:tag" content="博客编写">
 <meta property="article:tag" content="hexo">
@@ -232,7 +237,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-25 10:40:37" itemprop="dateModified" datetime="2023-03-25T10:40:37+08:00">2023-03-25</time>
+                <time title="修改时间：2023-03-26 00:53:48" itemprop="dateModified" datetime="2023-03-26T00:53:48+08:00">2023-03-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -250,14 +255,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>848</span>
+              <span>2.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
+              <span>8 分钟</span>
             </span>
 
         </div>
@@ -269,10 +274,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>next主题虽然配置简单，但是界面太素了，其实本身自带的配置文件就可以实现一些不错的功能，以下是我从网络上<del>整理</del>copy下来的一些设置技巧。</p>
+        <p>next主题虽然配置简单，但是界面太素了，其实本身自带的配置文件就可以实现一些不错的功能，以下是我从网络上整理<del>copy</del>的一些设置技巧。</p>
 <span id="more"></span>
 
-<h2 id="一、为blog增加字数统计，预计阅读时间的功能"><a href="#一、为blog增加字数统计，预计阅读时间的功能" class="headerlink" title="一、为blog增加字数统计，预计阅读时间的功能"></a>一、为blog增加字数统计，预计阅读时间的功能</h2><h3 id="安装hexo-word-counter"><a href="#安装hexo-word-counter" class="headerlink" title="安装hexo-word-counter"></a>安装hexo-word-counter</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">$</span> <span class="string">npm</span> <span class="string">install</span> <span class="string">hexo-word-counter</span></span><br><span class="line"><span class="string">$</span> <span class="string">hexo</span> <span class="string">clean</span> <span class="comment">#安装完成后要清除一次，不然会出错</span></span><br></pre></td></tr></table></figure>
+<h2 id="为blog增加字数统计，预计阅读时间的功能"><a href="#为blog增加字数统计，预计阅读时间的功能" class="headerlink" title="为blog增加字数统计，预计阅读时间的功能"></a>为blog增加字数统计，预计阅读时间的功能</h2><h3 id="安装hexo-word-counter"><a href="#安装hexo-word-counter" class="headerlink" title="安装hexo-word-counter"></a>安装hexo-word-counter</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">$</span> <span class="string">npm</span> <span class="string">install</span> <span class="string">hexo-word-counter</span></span><br><span class="line"><span class="string">$</span> <span class="string">hexo</span> <span class="string">clean</span> <span class="comment">#安装完成后要清除一次，不然会出错</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="在hexo的配置文件中"><a href="#在hexo的配置文件中" class="headerlink" title="在hexo的配置文件中"></a>在hexo的配置文件中</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">symbols_count_time:</span></span><br><span class="line">  <span class="attr">symbols:</span> <span class="literal">true</span>                <span class="comment"># 文章字数统计</span></span><br><span class="line">  <span class="attr">time:</span> <span class="literal">true</span>                   <span class="comment"># 文章阅读时长</span></span><br><span class="line">  <span class="attr">total_symbols:</span> <span class="literal">true</span>          <span class="comment"># 站点总字数统计</span></span><br><span class="line">  <span class="attr">total_time:</span> <span class="literal">true</span>             <span class="comment"># 站点总阅读时长</span></span><br><span class="line">  <span class="attr">exclude_codeblock:</span> <span class="literal">false</span>     <span class="comment"># 排除代码字数统计</span></span><br><span class="line">  <span class="attr">awl:</span> <span class="number">4</span>                       <span class="comment">#平均字节长度</span></span><br><span class="line">  <span class="attr">wpm:</span> <span class="number">275</span></span><br><span class="line">  <span class="attr">suffix:</span> <span class="string">&quot;mins.&quot;</span></span><br></pre></td></tr></table></figure>
 
@@ -293,7 +298,7 @@
 <li>Fast ≈ 350</li>
 </ul>
 <p><strong>如果文章中大多中文，那么设置awl为2，wpm为300比较合适</strong></p>
-<h2 id="二、为blog添加评论区功能"><a href="#二、为blog添加评论区功能" class="headerlink" title="二、为blog添加评论区功能"></a>二、为blog添加评论区功能</h2><p>使用来必力网站</p>
+<h2 id="为blog添加评论区功能"><a href="#为blog添加评论区功能" class="headerlink" title="为blog添加评论区功能"></a>为blog添加评论区功能</h2><p>使用来必力网站</p>
 <ol>
 <li>首先需要注册账号并登录，有一点点韩文需要使用翻译，登录后选择安装，点击免费版，选择现在安装。</li>
 </ol>
@@ -311,7 +316,7 @@
 <p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230324201821112.png" alt="image-20230324201821112"></p>
 </li>
 </ol>
-<h2 id="三、为blog添加live2d宠物"><a href="#三、为blog添加live2d宠物" class="headerlink" title="三、为blog添加live2d宠物"></a>三、为blog添加live2d宠物</h2><ol>
+<h2 id="为blog添加live2d宠物"><a href="#为blog添加live2d宠物" class="headerlink" title="为blog添加live2d宠物"></a>为blog添加live2d宠物</h2><ol>
 <li><p>在blog根目录下，打开git bash here</p>
 </li>
 <li><p>输入<code>npm install -save hexo-helper-live2d</code></p>
@@ -364,6 +369,51 @@
 <p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230325103925803.png" alt="image-20230325103925803"></p>
 </li>
 </ol>
+<h2 id="修改muse主题的颜色"><a href="#修改muse主题的颜色" class="headerlink" title="修改muse主题的颜色"></a>修改muse主题的颜色</h2><p>网络上这部分内容讲的比较少，这部分内容大部分由本人摸索出来，由于我的基础比较薄弱，可能有一些地方没办法用专业术语表达，如果有不对的地方，请指正。</p>
+<h3 id="建议使用vscode来查看源码"><a href="#建议使用vscode来查看源码" class="headerlink" title="建议使用vscode来查看源码"></a>建议使用vscode来查看源码</h3><p>vscode是微软出的一款功能强大的编辑器，安装部分这里就不细说，可以前往<a target="_blank" rel="noopener" href="https://code.visualstudio.com/">vscode官网下载安装</a>。</p>
+<h3 id="next主题的样式位置"><a href="#next主题的样式位置" class="headerlink" title="next主题的样式位置"></a>next主题的样式位置</h3><p>使用vscode将<code>\themes\next\source\css</code>添加至工作区，可以看到该文件夹底下有<code>_common</code>,<code>_schemes</code>,<code>_variables</code>三个文件夹以及三个.styl文件，以下是这些文件的大概用途：</p>
+<ol>
+<li><code>_common</code>:这个是存放几个主题共用的一些样式，在这里修改了样式，切换主题后也会保留。</li>
+<li><code>_schemes</code>这里是四个主题各自私有的一些样式，包括各个主题不共用的结构的样式，在这里修改了样式，只有切换到这个主题才能看得出来。</li>
+<li><code>_variables</code>这里面主要存放了一些公用的颜色，以及不同主题针对公共颜色、尺寸的一些微调（这里我也没有太明白，只知道这里主要是调颜色用的）</li>
+<li>剩下的三个.styl文件主要是用于复用一些sass写的动画，样式等，如果你不知道什么是sass，那么可以不用理会</li>
+</ol>
+<p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230325232059556.png" alt="image-20230325232059556"></p>
+<h3 id="muse主题添加自己喜欢的颜色"><a href="#muse主题添加自己喜欢的颜色" class="headerlink" title="muse主题添加自己喜欢的颜色"></a>muse主题添加自己喜欢的颜色</h3><p>我们这里打开<code>themes\next\source\css\_variables\base.styl</code>，上一节有提到这里主要是调整公共颜色，那么我们可以去选择一些我们喜欢的颜色添加进去，这里我推荐<a target="_blank" rel="noopener" href="https://tool.chinaz.com/tools/pagecolor.aspx">网页颜色选择器 - 站长工具 (chinaz.com)</a>，这个网站提供了一些常用的颜色并有预览效果。对于一个简约风博客够用了。</p>
+<p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230325233757196.png" alt="image-20230325233757196"></p>
+<p>打开后我们会看到颜色有中文名和代码，例如我想用粉红色（pink），就对应记录下粉红色的代码#FF0CB。</p>
+<p>然后我们回到<code>base.styl</code>,可以看到开头就有一大堆的颜色</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">//</span> <span class="string">Colors</span></span><br><span class="line"><span class="string">//</span> <span class="string">colors</span> <span class="string">for</span> <span class="string">use</span> <span class="string">across</span> <span class="string">theme.</span></span><br><span class="line"><span class="string">//</span> <span class="string">--------------------------------------------------</span></span><br><span class="line"><span class="string">$whitesmoke</span>   <span class="string">=</span> <span class="comment">#f5f5f5;</span></span><br><span class="line"><span class="string">$gainsboro</span>    <span class="string">=</span> <span class="comment">#eee;</span></span><br><span class="line"><span class="string">$grey-lighter</span> <span class="string">=</span> <span class="comment">#ddd;</span></span><br><span class="line"><span class="string">$grey-light</span>   <span class="string">=</span> <span class="comment">#ccc;</span></span><br><span class="line"><span class="string">$grey</span>         <span class="string">=</span> <span class="comment">#bbb;</span></span><br><span class="line"><span class="string">$grey-dark</span>    <span class="string">=</span> <span class="comment">#999;</span></span><br><span class="line"><span class="string">$grey-dim</span>     <span class="string">=</span> <span class="comment">#666;</span></span><br><span class="line"><span class="string">$black-light</span>  <span class="string">=</span> <span class="comment">#555;</span></span><br><span class="line"><span class="string">$black-dim</span>    <span class="string">=</span> <span class="comment">#333;</span></span><br><span class="line"><span class="string">$black-deep</span>   <span class="string">=</span> <span class="comment">#222;</span></span><br><span class="line"><span class="string">$red</span>          <span class="string">=</span> <span class="comment">#ff2a2a;</span></span><br><span class="line"><span class="string">$blue-bright</span>  <span class="string">=</span> <span class="comment">#87daff;</span></span><br><span class="line"><span class="string">$blue</span>         <span class="string">=</span> <span class="comment">#0684bd;</span></span><br><span class="line"><span class="string">$blue-deep</span>    <span class="string">=</span> <span class="comment">#262a30;</span></span><br><span class="line"><span class="string">$orange</span>       <span class="string">=</span> <span class="comment">#fc6423;</span></span><br><span class="line"><span class="string">$royolblue</span>    <span class="string">=</span> <span class="comment">#4169E1; //我在这里增加了三个颜色</span></span><br><span class="line"><span class="string">$aliceblue</span>    <span class="string">=</span> <span class="comment">#F0F8FF;</span></span><br><span class="line"><span class="string">$steelblue</span>    <span class="string">=</span> <span class="comment">#4682B4;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>$whitesmoke</code>这里是sass语法里指定一个参数的命令，添加新的颜色就复制粘贴一下在最后面，如上面我的代码一样。</p>
+<h3 id="muse主题修改各个位置的颜色"><a href="#muse主题修改各个位置的颜色" class="headerlink" title="muse主题修改各个位置的颜色"></a>muse主题修改各个位置的颜色</h3><p>和上节一样，我们在<code>base.styl</code>下面可以看到有作者写的一些注释，这个时候我们就需要拿出<a target="_blank" rel="noopener" href="https://translate.google.com/?hl=zh-CN">Google 翻译</a>，如果您是资深的前端开发工程师，请退出此篇博客。</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Scaffolding //翻译：整体框架</span></span><br><span class="line"><span class="comment">// Settings for some of the most global styles. //翻译：此处是设置一些最全局的样式</span></span><br><span class="line"><span class="comment">// --------------------------------------------------</span></span><br><span class="line"><span class="comment">// Global text color on &lt;body&gt; //翻译：全局&lt;body&gt;标签里的字体颜色</span></span><br><span class="line"><span class="variable">$text-color</span>                   = <span class="variable">$black-light</span>;</span><br><span class="line"><span class="variable">$text-color-dark</span>              = <span class="variable">$grey-light</span>;<span class="comment">//dark是指夜间模式，有同学想做夜间模式适配的可以研究</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Global link color.</span></span><br><span class="line"><span class="variable">$link-color</span>                   = <span class="variable">$black-light</span>;</span><br><span class="line"><span class="variable">$link-color-dark</span>              = <span class="variable">$grey-light</span>;</span><br><span class="line"><span class="variable">$link-hover-color</span>             = <span class="variable">$royolblue</span>;</span><br><span class="line"><span class="variable">$link-hover-color-dark</span>        = <span class="variable">$gainsboro</span>;</span><br><span class="line"><span class="variable">$link-decoration-color</span>        = <span class="variable">$grey-dark</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable">$blockquote-color</span>             = <span class="variable">$grey-dim</span>;</span><br><span class="line"><span class="variable">$blockquote-color-dark</span>        = <span class="variable">$grey</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Global border color.</span></span><br><span class="line"><span class="variable">$border-color</span>                 = <span class="variable">$grey-light</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Background color for &lt;body&gt;</span></span><br><span class="line"><span class="comment">//例如这里我想修改bg-color（background-color),我只需要修改相应的定义就可以了</span></span><br><span class="line"><span class="variable">$body-bg-color</span>                = <span class="variable">$aliceblue</span>; <span class="comment">//这里我已经将原本的颜色改成了我之前添加的aliceblue</span></span><br><span class="line"><span class="variable">$body-bg-color-dark</span>           = <span class="selector-id">#282828</span>;</span><br><span class="line"><span class="variable">$content-bg-color</span>             = white; <span class="comment">//也可以和作者一样直接使用颜色名，或者颜色编号来定义，但是不推荐，不利于整体修改。</span></span><br><span class="line"><span class="variable">$content-bg-color-dark</span>        = <span class="variable">$black-dim</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Tips：原本的主题是黑白灰风格，如果我只是简单的想把黑色换成其他颜色，可以直接ctrl+f搜索对应的颜色定义，直接改成你想要的颜色即可</p>
+<p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230326001116137.png" alt="image-20230326001116137"></p>
+<p>虽然<code>base.styl</code>提供了很多地方可以修改，但是还有一部分页面的构成部分的颜色不是在这里修改的，如果实在找不到，那么先阅读完下面的章节，我会再介绍一个<strong>笨办法</strong></p>
+<h4 id="挑几个经常修改到的样式来举栗子"><a href="#挑几个经常修改到的样式来举栗子" class="headerlink" title="挑几个经常修改到的样式来举栗子"></a>挑几个经常修改到的样式来举栗子</h4><p>我们在修改样式的时候，可以用<code>hexo s</code>命令来本地生成页面动态预览</p>
+<ol>
+<li><p><code>$body-bg-color</code>这个是修改整个页面的底色，我修改成了aliceblue,效果如下</p>
+<p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230326001731671.png" alt="image-20230326001731671"></p>
+</li>
+<li><p><code>$btn-default-bg </code>修改的是按钮默认的颜色,我修改成了蓝色</p>
+<p><code>$btn-default-hover-color</code>修改的是按钮鼠标悬停时默认的颜色,我修改成了蓝色</p>
+<p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230326002249089.png" alt="image-20230326002249089"></p>
+</li>
+</ol>
+<h3 id="muse主题的侧边栏样式修改"><a href="#muse主题的侧边栏样式修改" class="headerlink" title="muse主题的侧边栏样式修改"></a>muse主题的侧边栏样式修改</h3><p>侧边栏的样式比较特殊，他不是在上一节的文件里修改的，他的文件目录在<code>themes\next\source\css\_common\outline\sidebar</code>里面，打开后可以看到里面有不少.styl文件，这些就是构成侧边栏的“组件”的样式，我们可以用谷歌翻译大致翻译出来对应哪个文件。然后就慢慢尝试即可。</p>
+<h4 id="以“修改侧边栏收起展开按钮”举例"><a href="#以“修改侧边栏收起展开按钮”举例" class="headerlink" title="以“修改侧边栏收起展开按钮”举例"></a>以“修改侧边栏收起展开按钮”举例</h4><p>直接打开<code>themes\next\source\css\_common\outline\sidebar\sidebar-toggle.styl</code></p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.sidebar-toggle</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="variable">$royolblue</span>; <span class="comment">//修改他的背景颜色</span></span><br><span class="line">  <span class="attribute">bottom</span>: <span class="number">45px</span>; </span><br><span class="line">  <span class="attribute">cursor</span>: pointer;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">14px</span>;</span><br><span class="line">  <span class="attribute">left</span>: <span class="variable">$b2t-position-right</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">5px</span>;</span><br><span class="line">  <span class="attribute">position</span>: fixed;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">14px</span>;</span><br><span class="line">  <span class="attribute">z-index</span>: <span class="variable">$zindex-3</span>;</span><br><span class="line"></span><br><span class="line">  +<span class="built_in">tablet-mobile</span>() &#123;</span><br><span class="line">    <span class="attribute">left</span>: <span class="variable">$b2t-position-right-mobile</span>;</span><br><span class="line">    <span class="attribute">opacity</span>: <span class="variable">$b2t-opacity-hover</span>;</span><br><span class="line"></span><br><span class="line">    if (!hexo-config(&#x27;sidebar.onmobile&#x27;)) &#123;</span><br><span class="line">      <span class="attribute">display</span>: none;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.sidebar-toggle</span><span class="selector-pseudo">:hover</span> <span class="selector-class">.toggle-line</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="variable">$sidebar-highlight</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="推荐按6-3-1的配色配置blog"><a href="#推荐按6-3-1的配色配置blog" class="headerlink" title="推荐按6:3:1的配色配置blog"></a>推荐按6:3:1的配色配置blog</h3><p>最好遵循6:3:1的原则来配置，即主题色占6成，副颜色占3成，剩下1成作为点睛之笔</p>
+<p>例如我的blog主题色是aliceblue,副颜色是白色，点睛色是Capri blue，合理的色彩搭配可以更方便自己和别人的阅读，也符合next主题简约大方的内核。</p>
+<p>经过修改这些配置文件，我们可以将自己的blog改成自己喜欢的颜色，这里只是基础的依据别人的框架修改，如果想更深度的定制，则需要更多的前端知识，单纯修改背景颜色就只需要看懂background-color这两个单词即可，如果想了解更多css知识，推荐阅读</p>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS">CSS：层叠样式表 | MDN (mozilla.org)</a></p>
 
     </div>
 
@@ -468,7 +518,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E4%B8%BAblog%E5%A2%9E%E5%8A%A0%E5%AD%97%E6%95%B0%E7%BB%9F%E8%AE%A1%EF%BC%8C%E9%A2%84%E8%AE%A1%E9%98%85%E8%AF%BB%E6%97%B6%E9%97%B4%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-number">1.</span> <span class="nav-text">一、为blog增加字数统计，预计阅读时间的功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85hexo-word-counter"><span class="nav-number">1.1.</span> <span class="nav-text">安装hexo-word-counter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8hexo%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B8%AD"><span class="nav-number">1.2.</span> <span class="nav-text">在hexo的配置文件中</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%B8%BAblog%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8C%BA%E5%8A%9F%E8%83%BD"><span class="nav-number">2.</span> <span class="nav-text">二、为blog添加评论区功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E4%B8%BAblog%E6%B7%BB%E5%8A%A0live2d%E5%AE%A0%E7%89%A9"><span class="nav-number">3.</span> <span class="nav-text">三、为blog添加live2d宠物</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BAblog%E5%A2%9E%E5%8A%A0%E5%AD%97%E6%95%B0%E7%BB%9F%E8%AE%A1%EF%BC%8C%E9%A2%84%E8%AE%A1%E9%98%85%E8%AF%BB%E6%97%B6%E9%97%B4%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-number">1.</span> <span class="nav-text">为blog增加字数统计，预计阅读时间的功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85hexo-word-counter"><span class="nav-number">1.1.</span> <span class="nav-text">安装hexo-word-counter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8hexo%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B8%AD"><span class="nav-number">1.2.</span> <span class="nav-text">在hexo的配置文件中</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BAblog%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E5%8C%BA%E5%8A%9F%E8%83%BD"><span class="nav-number">2.</span> <span class="nav-text">为blog添加评论区功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BAblog%E6%B7%BB%E5%8A%A0live2d%E5%AE%A0%E7%89%A9"><span class="nav-number">3.</span> <span class="nav-text">为blog添加live2d宠物</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9muse%E4%B8%BB%E9%A2%98%E7%9A%84%E9%A2%9C%E8%89%B2"><span class="nav-number">4.</span> <span class="nav-text">修改muse主题的颜色</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E8%AE%AE%E4%BD%BF%E7%94%A8vscode%E6%9D%A5%E6%9F%A5%E7%9C%8B%E6%BA%90%E7%A0%81"><span class="nav-number">4.1.</span> <span class="nav-text">建议使用vscode来查看源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#next%E4%B8%BB%E9%A2%98%E7%9A%84%E6%A0%B7%E5%BC%8F%E4%BD%8D%E7%BD%AE"><span class="nav-number">4.2.</span> <span class="nav-text">next主题的样式位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#muse%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%B7%B1%E5%96%9C%E6%AC%A2%E7%9A%84%E9%A2%9C%E8%89%B2"><span class="nav-number">4.3.</span> <span class="nav-text">muse主题添加自己喜欢的颜色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#muse%E4%B8%BB%E9%A2%98%E4%BF%AE%E6%94%B9%E5%90%84%E4%B8%AA%E4%BD%8D%E7%BD%AE%E7%9A%84%E9%A2%9C%E8%89%B2"><span class="nav-number">4.4.</span> <span class="nav-text">muse主题修改各个位置的颜色</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8C%91%E5%87%A0%E4%B8%AA%E7%BB%8F%E5%B8%B8%E4%BF%AE%E6%94%B9%E5%88%B0%E7%9A%84%E6%A0%B7%E5%BC%8F%E6%9D%A5%E4%B8%BE%E6%A0%97%E5%AD%90"><span class="nav-number">4.4.1.</span> <span class="nav-text">挑几个经常修改到的样式来举栗子</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#muse%E4%B8%BB%E9%A2%98%E7%9A%84%E4%BE%A7%E8%BE%B9%E6%A0%8F%E6%A0%B7%E5%BC%8F%E4%BF%AE%E6%94%B9"><span class="nav-number">4.5.</span> <span class="nav-text">muse主题的侧边栏样式修改</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A5%E2%80%9C%E4%BF%AE%E6%94%B9%E4%BE%A7%E8%BE%B9%E6%A0%8F%E6%94%B6%E8%B5%B7%E5%B1%95%E5%BC%80%E6%8C%89%E9%92%AE%E2%80%9D%E4%B8%BE%E4%BE%8B"><span class="nav-number">4.5.1.</span> <span class="nav-text">以“修改侧边栏收起展开按钮”举例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E6%8C%896-3-1%E7%9A%84%E9%85%8D%E8%89%B2%E9%85%8D%E7%BD%AEblog"><span class="nav-number">4.6.</span> <span class="nav-text">推荐按6:3:1的配色配置blog</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -544,12 +594,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">22k</span>
+    <span title="站点总字数">24k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:13</span>
+    <span title="站点阅读时长">1:19</span>
 </div>
 
         
