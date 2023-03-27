@@ -1,5 +1,5 @@
 :root {
-  --body-bg-color: #f0f8ff;
+  --body-bg-color: #fafdff;
   --content-bg-color: #fff;
   --card-bg-color: #f5f5f5;
   --text-color: #555;
@@ -1194,7 +1194,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #ff817e;
+  background: #9cdb8e;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -1284,11 +1284,11 @@ pre .javascript .function {
   color: #f5f5f5;
 }
 .sidebar-nav .sidebar-nav-active {
-  border-bottom-color: #f0f8ff;
-  color: #f0f8ff;
+  border-bottom-color: #fafdff;
+  color: #fafdff;
 }
 .sidebar-nav .sidebar-nav-active:hover {
-  color: #f0f8ff;
+  color: #fafdff;
 }
 .sidebar-panel {
   display: none;
@@ -1317,7 +1317,7 @@ pre .javascript .function {
   }
 }
 .sidebar-toggle:hover .toggle-line {
-  background: #f0f8ff;
+  background: #fafdff;
 }
 .post-toc {
   font-size: 0.875em;
@@ -1356,14 +1356,14 @@ pre .javascript .function {
   display: block;
 }
 .post-toc .nav .active > a {
-  border-bottom-color: #f0f8ff;
-  color: #f0f8ff;
+  border-bottom-color: #fafdff;
+  color: #fafdff;
 }
 .post-toc .nav .active-current > a {
-  color: #f0f8ff;
+  color: #fafdff;
 }
 .post-toc .nav .active-current > a:hover {
-  color: #f0f8ff;
+  color: #fafdff;
 }
 .site-state {
   display: flex;
@@ -1524,7 +1524,7 @@ pre .javascript .function {
   width: initial;
 }
 .back-to-top:hover {
-  color: #f0f8ff;
+  color: #fafdff;
 }
 .back-to-top.back-to-top-on {
   bottom: 19px;

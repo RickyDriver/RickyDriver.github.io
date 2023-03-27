@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.svg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本系列文章是参考JavaScript 教程 | 菜鸟教程 (runoob.com)自学，以及结合课堂学习的一些个人笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript 笔记01-初认识">
+<meta property="og:url" content="http://example.com/2022/04/27/b04%20javascript%E5%85%A5%E9%97%A801/index.html">
+<meta property="og:site_name" content="Mule and horse">
+<meta property="og:description" content="本系列文章是参考JavaScript 教程 | 菜鸟教程 (runoob.com)自学，以及结合课堂学习的一些个人笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230327154300419.png">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230327163741115.png">
+<meta property="article:published_time" content="2022-04-27T07:06:09.000Z">
+<meta property="article:modified_time" content="2023-03-27T12:19:46.636Z">
+<meta property="article:author" content="RickyD">
+<meta property="article:tag" content="前端开发">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="javascript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230327154300419.png">
+
+<link rel="canonical" href="http://example.com/2022/04/27/b04%20javascript%E5%85%A5%E9%97%A801/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>javascript 笔记01-初认识 | Mule and horse</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mule and horse</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个工地仔的救赎之路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">23</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/27/b04%20javascript%E5%85%A5%E9%97%A801/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="RickyD">
+      <meta itemprop="description" content="如果站长加班加似了，这个网站就是他留给世界最后的遗产">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mule and horse">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          javascript 笔记01-初认识
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-27 15:06:09" itemprop="dateCreated datePublished" datetime="2022-04-27T15:06:09+08:00">2022-04-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-03-27 20:19:46" itemprop="dateModified" datetime="2023-03-27T20:19:46+08:00">2023-03-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本系列文章是参考<a target="_blank" rel="noopener" href="https://www.runoob.com/js/js-tutorial.html">JavaScript 教程 | 菜鸟教程 (runoob.com)</a>自学，以及结合课堂学习的一些个人笔记</p>
+<span id="more"></span>
+
+<h3 id="js的常用规范"><a href="#js的常用规范" class="headerlink" title="js的常用规范"></a>js的常用规范</h3><p>js一般使用驼峰命名法命名</p>
+<h4 id="小驼峰法"><a href="#小驼峰法" class="headerlink" title="小驼峰法"></a>小驼峰法</h4><p>变量一般用小驼峰法标识。驼峰法的意思是：除第一个单词之外，其他单词首字母大写。譬如</p>
+<p>int myStudentCount;</p>
+<p>变量myStudentCount第一个单词是全部<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%B0%8F%E5%86%99/1769537?fromModule=lemma_inlink">小写</a>，后面的单词首字母大写。</p>
+<p>常用于函数名。</p>
+<h4 id="大驼峰法"><a href="#大驼峰法" class="headerlink" title="大驼峰法"></a>大驼峰法</h4><p>相比小<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E9%A9%BC%E5%B3%B0/18011182?fromModule=lemma_inlink">驼峰</a>法，大驼峰法（即<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%B8%95%E6%96%AF%E5%8D%A1%E5%91%BD%E5%90%8D%E6%B3%95/9464494?fromModule=lemma_inlink">帕斯卡命名法</a>）把第一个单词的首字母也大写了。常用于类名，属性，<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/2887476?fromModule=lemma_inlink">命名空间</a>等。譬如</p>
+<p>public class DataBaseUser;</p>
+<h2 id="js的输出方式"><a href="#js的输出方式" class="headerlink" title="js的输出方式"></a>js的输出方式</h2><p>js本身没有任何可打印的函数，但是我们可以用几种命令将js运行的结果反应在控制台中或者html中</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用js输出</span></span><br><span class="line"><span class="variable language_">window</span>.<span class="title function_">alert</span>()</span><br><span class="line"><span class="comment">// 弹窗提醒</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>()</span><br><span class="line"><span class="comment">// 打印log到控制台</span></span><br><span class="line"><span class="variable language_">document</span>.<span class="title function_">write</span>()</span><br><span class="line"><span class="comment">// 直接写进HTML里</span></span><br><span class="line">innerhtml</span><br><span class="line"><span class="comment">// 常常配和id选择特定的html标签</span></span><br></pre></td></tr></table></figure>
+<p>另外，还有一种方式用于操纵html元素</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">document</span>.<span class="title function_">getElementById</span>() </span><br></pre></td></tr></table></figure>
+
+<p>这种方式需要html里的标签使用<code>id=&quot;&quot;</code></p>
+<p>举例：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=edge&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">&quot;1&quot;</span>&gt;</span></span><br><span class="line">        p标签里原来要有一点文字</span><br><span class="line">    <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;1&quot;</span>).<span class="property">innerHTML</span> =<span class="string">&quot;页面已修改&quot;</span></span></span><br><span class="line"><span class="language-javascript">        <span class="comment">//document.getElementById(&quot;demo&quot;) 是使用 id 属性来查找 HTML 元素的 JavaScript 代码 。</span></span></span><br><span class="line"><span class="language-javascript">		<span class="comment">//innerHTML = &quot;段落已修改。&quot; 是用于修改元素的 HTML 内容(innerHTML)的 JavaScript 代码。</span></span></span><br><span class="line"><span class="language-javascript">        </span></span><br><span class="line"><span class="language-javascript">        <span class="comment">// 同样的代码，只是大小写不同，运行后只能显示正确的那个</span></span></span><br><span class="line"><span class="language-javascript">        <span class="variable language_">document</span>.<span class="title function_">write</span>(<span class="title function_">date</span>());</span></span><br><span class="line"><span class="language-javascript">        <span class="comment">// 注意js有大小写敏感，要注意大小写！</span></span></span><br><span class="line"><span class="language-javascript">        <span class="variable language_">document</span>.<span class="title function_">write</span>(<span class="title class_">Date</span>());</span></span><br><span class="line"><span class="language-javascript">        <span class="comment">//js同样可以直接将一个值写进html中</span></span></span><br><span class="line"><span class="language-javascript">        </span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>上个例子的script标签放在<strong>body的底部</strong>，这和html的加载顺序有关，要注意代码规范！</p>
+<h3 id="打印到控制台"><a href="#打印到控制台" class="headerlink" title="打印到控制台"></a>打印到控制台</h3><p>举例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Date</span>());</span><br></pre></td></tr></table></figure>
+
+<p>我向控制台输出了Date（）的值，在浏览器开f12可以看到</p>
+<p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230327154300419.png" alt="image-20230327154300419"></p>
+<h2 id="js语法、语句"><a href="#js语法、语句" class="headerlink" title="js语法、语句"></a>js语法、语句</h2><h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>​		字面量，即文本，分为：</p>
+<ul>
+<li><p><strong>数字字面量</strong>（123这类数字），如果其中有使用运算符，即成为表达式字面量</p>
+</li>
+<li><p><strong>字符串字面量</strong>（“123”、“一二三”、’123’这类用单引号或者双引号括起来的文本或者数字，叫字符串</p>
+</li>
+<li><p>数组字面量，[1,2,3,4,5,6],</p>
+</li>
+<li><p>对象(object)字面量<code>&#123;firstName:&quot;John&quot;, lastName:&quot;Doe&quot;, age:50, eyeColor:&quot;blue&quot;&#125;</code></p>
+</li>
+<li><p>函数字面量，即定义函数·<code>function myFunction(a, b) &#123; return a * b;&#125;</code>js的数据类型</p>
+</li>
+</ul>
+<p>在 2015 年以前，我们使用 var 关键字来声明 JavaScript 变量。</p>
+<p>在 2015 后的 JavaScript 版本 (ES6) 允许我们使用 const 关键字来定义一个常量，使用 let 关键字定义的限定范围内作用域的变量。</p>
+<p>更多 const 和 let 内容可以参阅：<a target="_blank" rel="noopener" href="https://www.runoob.com/js/js-let-const.html">JavaScript let 和 const。</a></p>
+<p>Safari 10 和 Edge 14 是第一批支持 ES6 所有特性的浏览器：</p>
+<p>可以通过<code>var</code>或者<code>let</code>来创建一个新的变量，给变量复制</p>
+<p>举例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> length = <span class="number">16</span>;                                  <span class="comment">// Number 通过数字字面量赋值</span></span><br><span class="line"><span class="keyword">var</span> points = x * <span class="number">10</span>;                              <span class="comment">// Number 通过表达式字面量赋值</span></span><br><span class="line"><span class="keyword">var</span> lastName = <span class="string">&quot;Johnson&quot;</span>;                         <span class="comment">// String 通过字符串字面量赋值</span></span><br><span class="line"><span class="keyword">var</span> cars = [<span class="string">&quot;Saab&quot;</span>, <span class="string">&quot;Volvo&quot;</span>, <span class="string">&quot;BMW&quot;</span>];              <span class="comment">// Array  通过数组字面量赋值</span></span><br><span class="line"><span class="keyword">var</span> person = &#123;<span class="attr">firstName</span>:<span class="string">&quot;John&quot;</span>, <span class="attr">lastName</span>:<span class="string">&quot;Doe&quot;</span>&#125;;  <span class="comment">// Object 通过对象字面量赋值</span></span><br></pre></td></tr></table></figure>
+
+<p>数据类型是一个重要的概念，“123”和123的数据类型完全不同</p>
+<h3 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h3><p>浏览器将会按顺序执行js语句</p>
+<p>js的规范比较类似之前的html和css，</p>
+<ul>
+<li>用<code>；</code>结尾</li>
+<li>可以用<code>&#123;&#125;</code>来将不同的js语句结合在一起</li>
+<li>使用<code>\</code>反斜杠对代码进行折行</li>
+<li>使用<code>//</code>添加单行注释</li>
+<li>使用<code>/* */</code>添加多行注释</li>
+</ul>
+<h3 id="js数据类型"><a href="#js数据类型" class="headerlink" title="js数据类型"></a>js数据类型</h3><p>**值类型(基本类型)**：字符串（String）、数字(Number)、布尔(Boolean)、空（Null）、未定义（Undefined）、Symbol。</p>
+<p><strong>引用数据类型（对象类型）</strong>：对象(Object)、数组(Array)、函数(Function)，还有两个特殊的对象：正则（RegExp）和日期（Date）。</p>
+<p>关于各个类型的详细定义，请到<a target="_blank" rel="noopener" href="https://www.runoob.com/js/js-datatypes.html">JavaScript 数据类型 | 菜鸟教程 (runoob.com)</a>查看。</p>
+<p>js拥有动态类型，即给一个对象可以赋多次不同类型的值，会覆盖前一次的赋值。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x;               <span class="comment">// x 为 undefined</span></span><br><span class="line"><span class="keyword">var</span> x = <span class="number">5</span>;           <span class="comment">// 现在 x 为数字</span></span><br><span class="line"><span class="keyword">var</span> x = <span class="string">&quot;John&quot;</span>;      <span class="comment">// 现在 x 为字符串</span></span><br></pre></td></tr></table></figure>
+
+<p>可以用<code>typeof</code>命令查询当前对象的值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> <span class="string">&quot;John&quot;</span>                <span class="comment">// 返回 string</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="number">3.14</span>                  <span class="comment">// 返回 number</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="literal">false</span>                 <span class="comment">// 返回 boolean</span></span><br><span class="line"><span class="keyword">typeof</span> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]             <span class="comment">// 返回 object</span></span><br><span class="line"><span class="keyword">typeof</span> &#123;<span class="attr">name</span>:<span class="string">&#x27;John&#x27;</span>, <span class="attr">age</span>:<span class="number">34</span>&#125; <span class="comment">// 返回 object</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><p>对象是我们对一个物体进行描述</p>
+<p>真实生活中，一辆汽车是一个对象。</p>
+<p>对象有它的属性，如重量和颜色等，方法有启动停止等:</p>
+<p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230327163741115.png" alt="汽车模型"></p>
+<p>对象的定义：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person = &#123;<span class="attr">firstName</span>:<span class="string">&quot;John&quot;</span>, <span class="attr">lastName</span>:<span class="string">&quot;Doe&quot;</span>, <span class="attr">age</span>:<span class="number">50</span>, <span class="attr">eyeColor</span>:<span class="string">&quot;blue&quot;</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>在定义对象的时候要注意里面的<strong>数据类型</strong></p>
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><p><strong>函数是由事件驱动的或者当它被调用时执行的可重复使用的代码块。</strong>汽车是否可以批量生产？因为对象已经定义好了（设计图已经设计好了），接下来只等重复调用（生产）即可</p>
+<p>函数练习：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">&quot;1&quot;</span>&gt;</span></span><br><span class="line">        p标签里原来要有一点文字</span><br><span class="line">    <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">&quot;welcome(&#x27;ricky&#x27;,&#x27;driver&#x27;)&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 点击这个按钮的时候会向welcome这个函数返回两个值 --&gt;</span></span><br><span class="line">        点我试试</span><br><span class="line">    <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">var</span> person = &#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="attr">age</span>:<span class="number">50</span>,<span class="attr">name</span>:<span class="string">&quot;joe&quot;</span>,<span class="attr">lastname</span>:<span class="string">&quot;trump&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">            fullname : <span class="keyword">function</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="language-javascript">            &#123;</span></span><br><span class="line"><span class="language-javascript">                <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">name</span>+<span class="string">&quot;&quot;</span>+<span class="variable language_">this</span>.<span class="property">lastname</span>;</span></span><br><span class="line"><span class="language-javascript">            &#125;</span></span><br><span class="line"><span class="language-javascript">        &#125;;</span></span><br><span class="line"><span class="language-javascript">        <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;1&quot;</span>).<span class="property">innerHTML</span> = person.<span class="title function_">fullname</span>();</span></span><br><span class="line"><span class="language-javascript">        <span class="comment">//注意：引用函数的时候我在fullname后面加了一对括号，才会返回函数的值</span></span></span><br><span class="line"><span class="language-javascript">        <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;1&quot;</span>).<span class="property">innerHTML</span> = person.<span class="property">fullname</span>;</span></span><br><span class="line"><span class="language-javascript">        <span class="comment">//如果我这里不加括号的话，则会直接返回fullname : function()</span></span></span><br><span class="line"><span class="language-javascript">        </span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">function</span> <span class="title function_">welcome</span>(<span class="params">name,job</span>)&#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="title function_">alert</span>(<span class="string">&quot;welcome&quot;</span>+name+<span class="string">&quot;the&quot;</span>+job);</span></span><br><span class="line"><span class="language-javascript">        &#125;</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>注意练习里面的注释，加括号表示是返回对象的”方法”，联想一下汽车的图，汽车的方法是？加油门，刹车等</p>
+</li>
+<li><p>函数可以调用参数，如上面代码框的welcome函数，可以在调用的时候给其赋值，返回不同的结果。</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>RickyD
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2022/04/27/b04%20javascript%E5%85%A5%E9%97%A801/" title="javascript 笔记01-初认识">http://example.com/2022/04/27/b04 javascript入门01/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/" rel="tag"># 前端开发</a>
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/tags/javascript/" rel="tag"># javascript</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/20/00%20md%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" rel="prev" title="前端开发学习笔记 01 md基本语法">
+      <i class="fa fa-chevron-left"></i> 前端开发学习笔记 01 md基本语法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/04/28/b05%20javascript%E5%85%A5%E9%97%A802/" rel="next" title="javascript 笔记02-事件与语句">
+      javascript 笔记02-事件与语句 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81ODIzMi8zNDY5NQ=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#js%E7%9A%84%E5%B8%B8%E7%94%A8%E8%A7%84%E8%8C%83"><span class="nav-number">1.</span> <span class="nav-text">js的常用规范</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%8F%E9%A9%BC%E5%B3%B0%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">小驼峰法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%A7%E9%A9%BC%E5%B3%B0%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">大驼峰法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#js%E7%9A%84%E8%BE%93%E5%87%BA%E6%96%B9%E5%BC%8F"><span class="nav-number"></span> <span class="nav-text">js的输出方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%93%E5%8D%B0%E5%88%B0%E6%8E%A7%E5%88%B6%E5%8F%B0"><span class="nav-number">1.</span> <span class="nav-text">打印到控制台</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#js%E8%AF%AD%E6%B3%95%E3%80%81%E8%AF%AD%E5%8F%A5"><span class="nav-number"></span> <span class="nav-text">js语法、语句</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AD%E5%8F%A5"><span class="nav-number">2.</span> <span class="nav-text">语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#js%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">js数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1"><span class="nav-number">4.</span> <span class="nav-text">对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0"><span class="nav-number">5.</span> <span class="nav-text">函数</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="RickyD"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">RickyD</p>
+  <div class="site-description" itemprop="description">如果站长加班加似了，这个网站就是他留给世界最后的遗产</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/RickyDriver" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;RickyDriver" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1552330861@qq.com" title="E-Mail → 1552330861@qq.com"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RickyD</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">26k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:27</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
