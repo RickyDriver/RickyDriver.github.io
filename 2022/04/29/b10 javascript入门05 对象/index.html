@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.svg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="对象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript 笔记05-对象">
+<meta property="og:url" content="http://example.com/2022/04/29/b10%20javascript%E5%85%A5%E9%97%A805%20%E5%AF%B9%E8%B1%A1/index.html">
+<meta property="og:site_name" content="Mule and horse">
+<meta property="og:description" content="对象">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-29T08:06:09.000Z">
+<meta property="article:modified_time" content="2023-04-15T05:09:18.264Z">
+<meta property="article:author" content="RickyD">
+<meta property="article:tag" content="前端开发">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="javascript">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/04/29/b10%20javascript%E5%85%A5%E9%97%A805%20%E5%AF%B9%E8%B1%A1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>javascript 笔记05-对象 | Mule and horse</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mule and horse</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个工地仔的救赎之路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">29</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">10</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/29/b10%20javascript%E5%85%A5%E9%97%A805%20%E5%AF%B9%E8%B1%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="RickyD">
+      <meta itemprop="description" content="如果站长加班加似了，这个网站就是他留给世界最后的遗产">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mule and horse">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          javascript 笔记05-对象
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-29 16:06:09" itemprop="dateCreated datePublished" datetime="2022-04-29T16:06:09+08:00">2022-04-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-04-15 13:09:18" itemprop="dateModified" datetime="2023-04-15T13:09:18+08:00">2023-04-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="对象"><a href="#对象" class="headerlink" title="对象 "></a>对象 <span id="more"></span></h2><h3 id="认识对象"><a href="#认识对象" class="headerlink" title="认识对象"></a>认识对象</h3><ul>
+<li>在数据类型中一种特别的类型：对象类型<ul>
+<li>对象类型是一种存储键值对(key-value)的更复杂的数据类型</li>
+<li>键值对可以是属性也可以是方法(key 是字符串，value 可以是任意数据类型)</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num = &#123;</span><br><span class="line">  <span class="attr">key</span>: value,</span><br><span class="line">  属性名: 属性值,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment">      两个术语：函数/方法</span></span><br><span class="line"><span class="comment">        函数（function）:在js 代码中通过function默认定义的一个结构，称为函数.</span></span><br><span class="line"><span class="comment">        方法(method):如果把一个函数放到对象中，作为对象的一个属性，那么将这个函数称为方法.</span></span><br><span class="line"><span class="comment">      */</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>) &#123;&#125;</span><br><span class="line"><span class="title function_">foo</span>();</span><br><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">  <span class="comment">//key:value</span></span><br><span class="line">  <span class="comment">//key是字符串，但是在定义对象的属性名的时候，大部份情况下可以省略</span></span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;alex&#x27;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">99</span>,</span><br><span class="line">  <span class="attr">isSingle</span>: <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">hobby</span>: [<span class="string">&#x27;唱&#x27;</span>, <span class="string">&#x27;跳&#x27;</span>, <span class="string">&#x27;rap&#x27;</span>],</span><br><span class="line">  <span class="comment">//key比较复杂一点，&quot;&quot;是不能省略的</span></span><br><span class="line">  <span class="string">&#x27;my friend&#x27;</span>: &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;tom&#x27;</span>,</span><br><span class="line">    <span class="attr">age</span>: <span class="number">30</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">eat</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;嘎嘎香～&#x27;</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建和使用对象"><a href="#创建和使用对象" class="headerlink" title="创建和使用对象"></a>创建和使用对象</h3><p>有三种</p>
+<ol>
+<li>对象字面量(Object Literal)</li>
+<li>new Object+动态添加属性</li>
+<li>new 其他类</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;alex&#x27;</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//2.new Object()</span></span><br><span class="line"><span class="keyword">var</span> obj1 = <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line">obj1.<span class="property">name</span> = <span class="string">&#x27;tom&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//3.new 其他类</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">Person</span>(<span class="params"></span>) &#123;&#125;</span><br><span class="line"><span class="keyword">var</span> obj2 = <span class="keyword">new</span> <span class="title class_">Person</span>();</span><br></pre></td></tr></table></figure>
+
+<h3 id="对象的常见操作"><a href="#对象的常见操作" class="headerlink" title="对象的常见操作"></a>对象的常见操作</h3><ul>
+<li>访问对象的属性 Read</li>
+<li>修改对象的属性 Update</li>
+<li>添加对象的属性 Create</li>
+<li>删除对象的属性 Delete</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1.定义一个对象</span></span><br><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;alex&#x27;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">18</span>,</span><br><span class="line">  <span class="attr">friend</span>: &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;chicken&#x27;</span>,</span><br><span class="line">    <span class="attr">age</span>: <span class="number">30</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">eat</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;嘎嘎香&#x27;</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// console.log(person);</span></span><br><span class="line"><span class="comment">//2.访问对象的属性</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(person.<span class="property">name</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(person.<span class="property">friend</span>.<span class="property">name</span>);</span><br><span class="line">person.<span class="title function_">eat</span>();</span><br><span class="line"><span class="comment">//3.修改对象中的属性</span></span><br><span class="line"><span class="comment">//一旦你在浏览器的控制台打印整个复杂类型的变量</span></span><br><span class="line"><span class="comment">//你点了展开的小三角，就会显示成这个变量最终的样子</span></span><br><span class="line">person.<span class="property">age</span> = <span class="number">81</span>;</span><br><span class="line"><span class="comment">// console.log(person);</span></span><br><span class="line">person.<span class="property">eat</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;滂臭&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line">person.<span class="title function_">eat</span>();</span><br><span class="line"><span class="comment">//4.添加对象中的属性</span></span><br><span class="line">person.<span class="property">study</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;没日没夜的卷&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(person);</span><br><span class="line"><span class="comment">//5.删除对象中的属性</span></span><br><span class="line"><span class="comment">// delete 操作符</span></span><br><span class="line"><span class="keyword">delete</span> person.<span class="property">study</span>;</span><br><span class="line"><span class="keyword">delete</span> person.<span class="property">age</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(person);</span><br></pre></td></tr></table></figure>
+
+<h3 id="数组关联语法"><a href="#数组关联语法" class="headerlink" title="数组关联语法"></a>数组关联语法</h3><p>当对象的 key 是无效的变量标识符时，可以使用这种语法来获取键值<br><strong>不能包含空格、不能以数字开头，不能包含特殊字符</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;jack&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;my friend&#x27;</span>: &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;alex&#x27;</span>,</span><br><span class="line">    <span class="attr">sing</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;嘉宾～&#x27;</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">&#x27;eat something&#x27;</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;嘎嘎炫～&#x27;</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//点访问符就不行啦</span></span><br><span class="line"><span class="comment">// console.log(obj.my friend)</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(obj[<span class="string">&#x27;my friend&#x27;</span>]);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(obj.<span class="property">name</span>, obj[<span class="string">&#x27;name&#x27;</span>]);</span><br><span class="line"><span class="comment">//名字太长 单独拿一个变量装起来</span></span><br><span class="line"><span class="keyword">var</span> eatKey = <span class="string">&#x27;eat something&#x27;</span>;</span><br><span class="line"><span class="comment">// obj[&#x27;eat something&#x27;]();</span></span><br><span class="line"><span class="comment">//千万不要写成 obj.eatKey ，因为这样是访问obj的eatKey属性</span></span><br><span class="line"><span class="comment">// obj.eatKey();</span></span><br><span class="line"><span class="comment">//访问对象不存在的属性</span></span><br><span class="line"><span class="comment">// console.log(obj.age);</span></span><br><span class="line">obj[eatKey]();</span><br></pre></td></tr></table></figure>
+
+<h3 id="对象的遍历-for…in"><a href="#对象的遍历-for…in" class="headerlink" title="对象的遍历(for…in)"></a>对象的遍历(for…in)</h3><ul>
+<li>获取对象中所有的属性和方法</li>
+<li>Object.keys()</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//我们在开发的时候，可能会要去挨个的拿到里面的每个key以及对应的value</span></span><br><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;alex&#x27;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">18</span>,</span><br><span class="line">  <span class="attr">height</span>: <span class="number">2.88</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// console.log(`key:$&#123;&#x27;name&#x27;&#125;,value:$&#123;person.name&#125;`);</span></span><br><span class="line"><span class="comment">// console.log(`key:$&#123;&#x27;age&#x27;&#125;,value:$&#123;person.age&#125;`);</span></span><br><span class="line"><span class="comment">//Object.keys(person)返回对象的自己的可枚举属性组成的数组</span></span><br><span class="line"><span class="comment">//Object.definePorperty Proxy</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Object</span>.<span class="title function_">keys</span>(person));</span><br><span class="line"><span class="comment">//对对象进行遍历</span></span><br><span class="line"><span class="keyword">var</span> personKeys = <span class="title class_">Object</span>.<span class="title function_">keys</span>(person);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; personKeys.<span class="property">length</span>; i++) &#123;</span><br><span class="line">  <span class="comment">//personKeys[i]通过索引去拿数组里面的东西</span></span><br><span class="line">  <span class="keyword">var</span> key = personKeys[i];</span><br><span class="line">  <span class="comment">//通过数组关联语法去拿对象的东西</span></span><br><span class="line">  <span class="keyword">var</span> value = person[key];</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`key:<span class="subst">$&#123;key&#125;</span>,value:<span class="subst">$&#123;value&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//2.for...in遍历对象</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> k <span class="keyword">in</span> person) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(k);</span><br><span class="line">  <span class="comment">//key是键名</span></span><br><span class="line">  <span class="comment">// console.log(key);</span></span><br><span class="line">  <span class="comment">// console.log(`key:$&#123;key&#125;,value:$&#123;person[key]&#125;`);</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//对象无序    数组有序</span></span><br><span class="line"><span class="comment">//for...of... 默认是不能遍历对象的</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> foo <span class="keyword">of</span> person) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(foo);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="js-的内存分配-important"><a href="#js-的内存分配-important" class="headerlink" title="js 的内存分配(!important)"></a>js 的内存分配(!important)</h3><ul>
+<li><p>程序是需要加载到内存中来执行的，内存就可以划分为两个区域:栈内存，堆内存</p>
+<ul>
+<li><strong>原始类型</strong>占据的空间是在<strong>栈内存</strong>中分配的</li>
+<li><strong>对象类型</strong>占据的空间是在<strong>堆内存</strong>中分配的</li>
+</ul>
+</li>
+<li><p>原始类型的保存方式:保存的是值本身</p>
+</li>
+<li><p>对象类型的保存方式:保存的是对象的”引用”</p>
+</li>
+</ul>
+<blockquote>
+<p>函数本身是放到堆内存的，但是函数的执行是放到栈里面的。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">&#x27;jack&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> age = <span class="number">18</span>;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  <span class="attr">foo</span>: <span class="string">&#x27;foo&#x27;</span>,</span><br><span class="line">  <span class="attr">bar</span>: <span class="number">123</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> message = <span class="string">&#x27;hello&#x27;</span> + name;</span><br><span class="line"><span class="keyword">var</span> info = obj;</span><br><span class="line">info.<span class="property">bar</span> = <span class="number">456</span>;</span><br><span class="line"><span class="comment">//我们想要修改的是info的bar属性</span></span><br><span class="line"><span class="comment">//结果发现obj的bar也变了</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(obj);</span><br></pre></td></tr></table></figure>
+
+<h4 id="思考如下现象"><a href="#思考如下现象" class="headerlink" title="思考如下现象"></a>思考如下现象</h4><ol>
+<li>两个对象的比较</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num1 = <span class="number">123</span>;</span><br><span class="line"><span class="keyword">var</span> num2 = <span class="number">123</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(num1 === num2); <span class="comment">//true</span></span><br><span class="line"><span class="comment">//两个对象的比较</span></span><br><span class="line"><span class="keyword">var</span> obj1 = &#123;&#125;;</span><br><span class="line"><span class="keyword">var</span> obj2 = &#123;&#125;;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(obj1 === obj2); <span class="comment">//false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(obj1 == obj2); <span class="comment">//false</span></span><br><span class="line"><span class="comment">//从内存的角度去解释</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>引用传递的内存表现</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//2.引用的赋值</span></span><br><span class="line"><span class="keyword">var</span> info = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;jack&#x27;</span>,</span><br><span class="line">  <span class="attr">friend</span>: &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;alex&#x27;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> friend = info.<span class="property">friend</span>; <span class="comment">//&#123;name:&#x27;alex&#x27;&#125;</span></span><br><span class="line">friend.<span class="property">name</span> = <span class="string">&#x27;dog&#x27;</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(info.<span class="property">friend</span>.<span class="property">name</span>); <span class="comment">//</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>值传递</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//3.值传递</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params">a</span>) &#123;</span><br><span class="line">  a = <span class="number">200</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> num = <span class="number">100</span>;</span><br><span class="line"><span class="title function_">foo</span>(num);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(num); <span class="comment">//100</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// function sum(a, b) &#123;</span></span><br><span class="line"><span class="comment">//   console.log(a + b);</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"><span class="comment">// sum(10, 20);</span></span><br><span class="line"><span class="comment">// sum(100, 200);</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>引用传递</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//4.引用传递,在函数中创建了一个新对象，没有对传入的对象进行修改</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params">a</span>) &#123;</span><br><span class="line">  a = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;jack&#x27;</span>,</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(a); <span class="comment">//&#x27;jack&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;alex&#x27;</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="title function_">foo</span>(obj);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(obj); <span class="comment">//&#x27;alex&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>引用传递</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//5. 引用传递,但是对传入的对象进行了修改</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params">a</span>) &#123;</span><br><span class="line">  a.<span class="property">name</span> = <span class="string">&#x27;dog&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;alex&#x27;</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="title function_">foo</span>(obj);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(obj); <span class="comment">//dog</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="this"><a href="#this" class="headerlink" title="this"></a>this</h3><p>目前掌握两个 this 的判断方法:</p>
+<ul>
+<li>默认的方式调用，this 指向 window</li>
+<li>通过对象调用，this 指向对象</li>
+</ul>
+<blockquote>
+<p>this 不看函数定义，只看函数调用</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//情况一:如果普通的函数被默认调用，this-&gt;window</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params">name, age</span>) &#123;</span><br><span class="line">  <span class="comment">// console.log(arguments);</span></span><br><span class="line">  <span class="comment">// console.log(this);</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">foo</span>(<span class="string">&#x27;alex&#x27;</span>, <span class="number">18</span>); <span class="comment">//window</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sayHello</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="comment">// console.log(this);</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">sayHello</span>(); <span class="comment">//window</span></span><br><span class="line"><span class="comment">//情况二:如果函数被某一个对象引用，并且调用它，this-&gt;对象</span></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;alex&#x27;</span>,</span><br><span class="line">  <span class="attr">friend</span>: &#123;</span><br><span class="line">    <span class="attr">running</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">running</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>);</span><br><span class="line">    <span class="comment">// console.log(this == obj);</span></span><br><span class="line">    <span class="comment">// console.log(this === obj);//true</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// obj.friend.running(); //friend</span></span><br><span class="line"><span class="comment">// obj[&#x27;friend&#x27;][&#x27;running&#x27;]()</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//题目一</span></span><br><span class="line"><span class="keyword">var</span> fn = obj.<span class="property">running</span>;</span><br><span class="line"><span class="title function_">fn</span>(); <span class="comment">//window</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//题目二</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">bar</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;jack&#x27;</span>,</span><br><span class="line">  <span class="attr">bar</span>: bar,</span><br><span class="line">&#125;;</span><br><span class="line">obj.<span class="title function_">bar</span>(); <span class="comment">//obj</span></span><br><span class="line"><span class="title function_">bar</span>(); <span class="comment">//window</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="this-的作用"><a href="#this-的作用" class="headerlink" title="this 的作用"></a>this 的作用</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//需要有一个类，类中的方法，实例的方法中，this指向当前的调用对象 new 类()-&gt;对象 this</span></span><br><span class="line"><span class="keyword">var</span> info = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;alex&#x27;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">18</span>,</span><br><span class="line">  <span class="comment">//1.传递参数</span></span><br><span class="line">  <span class="attr">running</span>: <span class="keyword">function</span> (<span class="params">name</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(name, <span class="string">&#x27;在疯狂的跑&#x27;</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">//2.不传递参数，直接写一个info.name</span></span><br><span class="line">  <span class="attr">eating</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(info.<span class="property">name</span>, <span class="string">&#x27;在疯狂的吃&#x27;</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">//3.对象中的函数中的this永远指向该对象</span></span><br><span class="line">  <span class="attr">jumpping</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">name</span>, <span class="string">&#x27;疯狂的跳&#x27;</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="类和对象的思维方式-（如何创建一系列的对象）"><a href="#类和对象的思维方式-（如何创建一系列的对象）" class="headerlink" title="类和对象的思维方式 （如何创建一系列的对象）"></a>类和对象的思维方式 （如何创建一系列的对象）</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建一系列对象的方法一:</span></span><br><span class="line"><span class="comment">//手动书写很多对象... ❌</span></span><br><span class="line"><span class="keyword">var</span> p1 = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;张三&#x27;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">18</span>,</span><br><span class="line">  <span class="attr">height</span>: <span class="number">0.5</span>,</span><br><span class="line">  <span class="attr">address</span>: <span class="string">&#x27;北京&#x27;</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//创建一系列对象的方法二:工厂函数</span></span><br><span class="line"><span class="comment">//for可以创建多个对象，但是这些对象都是tom，不够灵活</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">var</span> stu = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;tom&#x27;</span>,</span><br><span class="line">    <span class="attr">age</span>: <span class="number">18</span>,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//工厂函数(工厂生产stu对象)-&gt;设计模式</span></span><br><span class="line"><span class="comment">// function createStudent(name, age) &#123;</span></span><br><span class="line"><span class="comment">//   //虽然我只写了一个stu = &#123;&#125;但是每次调用这个函数</span></span><br><span class="line"><span class="comment">//   //都会开辟一块新的内存空间</span></span><br><span class="line"><span class="comment">//   var stu = &#123;&#125;;</span></span><br><span class="line"><span class="comment">//   stu.name = name;</span></span><br><span class="line"><span class="comment">//   stu.age = age;</span></span><br><span class="line"><span class="comment">//   return stu;</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"><span class="comment">// var stu1 = createStudent(&#x27;张三&#x27;, 18);</span></span><br><span class="line"><span class="comment">// var stu2 = createStudent(&#x27;李四&#x27;, 28);</span></span><br><span class="line"><span class="comment">// var stu3 = createStudent(&#x27;王五&#x27;, 12);</span></span><br><span class="line"><span class="comment">//方式三:构造函数创建对象</span></span><br><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment">      js默认提供给我们的，更加符合js思维方式，</span></span><br><span class="line"><span class="comment">      在函数中this一般指向某个对象</span></span><br><span class="line"><span class="comment">      new做了那四件事？</span></span><br><span class="line"><span class="comment">        如果一个函数被new操作符 调用</span></span><br><span class="line"><span class="comment">          1. 创建出一个新的空的对象</span></span><br><span class="line"><span class="comment">          2. 让this指向这个新的空对象</span></span><br><span class="line"><span class="comment">          3. 执行函数体</span></span><br><span class="line"><span class="comment">          4. 返回该对象</span></span><br><span class="line"><span class="comment">      */</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">coder</span>(<span class="params">name, age</span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">age</span> = age;</span><br><span class="line">  <span class="comment">// return &#123;&#125;;</span></span><br><span class="line">  <span class="comment">//return是原始数据类型 没用</span></span><br><span class="line">  <span class="comment">//return 是Object类型 返回值就变成你return的数据</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//new是keyword 也是operator</span></span><br><span class="line"><span class="keyword">var</span> stu1 = <span class="keyword">new</span> <span class="title function_">coder</span>(<span class="string">&#x27;张三&#x27;</span>, <span class="number">123</span>); <span class="comment">//this-&gt;张三</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(stu1);</span><br><span class="line"><span class="keyword">var</span> stu2 = <span class="keyword">new</span> <span class="title function_">coder</span>(<span class="string">&#x27;李四&#x27;</span>, <span class="number">19</span>); <span class="comment">//this-&gt;李四</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(stu2);</span><br><span class="line"></span><br><span class="line"><span class="comment">//补充</span></span><br><span class="line"><span class="comment">//构造函数的名称：使用大驼峰</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">Coder</span>(<span class="params"></span>) &#123;&#125;</span><br><span class="line"><span class="comment">//平时创建普通对象</span></span><br><span class="line"><span class="keyword">var</span> person = &#123;&#125;;</span><br><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">//普通函数:使用小驼峰</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sayHello</span>(<span class="params"></span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment">      eat   gaga</span></span><br><span class="line"><span class="comment">      大驼峰:EatGaga</span></span><br><span class="line"><span class="comment">      小驼峰:eatGaga</span></span><br><span class="line"><span class="comment">      */</span></span><br></pre></td></tr></table></figure>
+
+<p>&#x2F;&#x2F;TODO 类和对象什么关系？</p>
+<p>&#x2F;&#x2F;作业<br>&#x2F;&#x2F;1. 画 思考如下现象 的堆栈内存图<br>&#x2F;&#x2F;2. <code>作用域练习.html</code>的作用域图</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>RickyD
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2022/04/29/b10%20javascript%E5%85%A5%E9%97%A805%20%E5%AF%B9%E8%B1%A1/" title="javascript 笔记05-对象">http://example.com/2022/04/29/b10 javascript入门05 对象/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/" rel="tag"># 前端开发</a>
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/tags/javascript/" rel="tag"># javascript</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/29/b11%20javascript%E5%85%A5%E9%97%A806%20%E6%95%B0%E7%BB%84/" rel="prev" title="javascript 笔记06-数组">
+      <i class="fa fa-chevron-left"></i> javascript 笔记06-数组
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/06/28/b02%20%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E8%85%BE%E8%AE%AF%E4%BA%91cos%E5%AE%9E%E7%8E%B0%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E7%9B%91%E6%8E%A7%E4%BB%A5%E5%8F%8A%E9%85%8D%E5%90%88picgo%E5%AE%9E%E7%8E%B0%E5%9B%BE%E5%BA%8A%E5%8A%9F%E8%83%BD/" rel="next" title="如何使用腾讯云cos实现前端性能监控以及配合picgo实现图床功能">
+      如何使用腾讯云cos实现前端性能监控以及配合picgo实现图床功能 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81ODIzMi8zNDY5NQ=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.</span> <span class="nav-text">对象 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.1.</span> <span class="nav-text">认识对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.2.</span> <span class="nav-text">创建和使用对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C"><span class="nav-number">1.3.</span> <span class="nav-text">对象的常见操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E5%85%B3%E8%81%94%E8%AF%AD%E6%B3%95"><span class="nav-number">1.4.</span> <span class="nav-text">数组关联语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E9%81%8D%E5%8E%86-for%E2%80%A6in"><span class="nav-number">1.5.</span> <span class="nav-text">对象的遍历(for…in)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#js-%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D-important"><span class="nav-number">1.6.</span> <span class="nav-text">js 的内存分配(!important)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%9D%E8%80%83%E5%A6%82%E4%B8%8B%E7%8E%B0%E8%B1%A1"><span class="nav-number">1.6.1.</span> <span class="nav-text">思考如下现象</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#this"><span class="nav-number">1.7.</span> <span class="nav-text">this</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#this-%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">1.7.1.</span> <span class="nav-text">this 的作用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%80%9D%E7%BB%B4%E6%96%B9%E5%BC%8F-%EF%BC%88%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E4%B8%80%E7%B3%BB%E5%88%97%E7%9A%84%E5%AF%B9%E8%B1%A1%EF%BC%89"><span class="nav-number">1.8.</span> <span class="nav-text">类和对象的思维方式 （如何创建一系列的对象）</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="RickyD"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">RickyD</p>
+  <div class="site-description" itemprop="description">如果站长加班加似了，这个网站就是他留给世界最后的遗产</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/RickyDriver" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;RickyDriver" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1552330861@qq.com" title="E-Mail → 1552330861@qq.com"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RickyD</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">38k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:05</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
