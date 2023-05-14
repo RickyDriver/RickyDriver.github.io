@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.svg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"muleandhorse.icu","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="正则">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript 笔记14-正则表达式">
+<meta property="og:url" content="http://muleandhorse.icu/2022/05/03/b19%20%E6%AD%A3%E5%88%99/index.html">
+<meta property="og:site_name" content="Mule and horse">
+<meta property="og:description" content="正则">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-03T06:06:09.000Z">
+<meta property="article:modified_time" content="2023-05-14T03:25:45.940Z">
+<meta property="article:author" content="RickyD">
+<meta property="article:tag" content="前端开发">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="javascript">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://muleandhorse.icu/2022/05/03/b19%20%E6%AD%A3%E5%88%99/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>javascript 笔记14-正则表达式 | Mule and horse</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mule and horse</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个工地仔的救赎之路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">41</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">10</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://muleandhorse.icu/2022/05/03/b19%20%E6%AD%A3%E5%88%99/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="RickyD">
+      <meta itemprop="description" content="如果站长加班加似了，这个网站就是他留给世界最后的遗产">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mule and horse">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          javascript 笔记14-正则表达式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-03 14:06:09" itemprop="dateCreated datePublished" datetime="2022-05-03T14:06:09+08:00">2022-05-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-14 11:25:45" itemprop="dateModified" datetime="2023-05-14T11:25:45+08:00">2023-05-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>10 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="正则"><a href="#正则" class="headerlink" title="正则 "></a>正则 <span id="more"></span></h2><h3 id="认识正则"><a href="#认识正则" class="headerlink" title="认识正则"></a>认识正则</h3><p>正则表达式，“规则表达式”<br>由我们来书写规则，专门用来检测字符串是否符合规则<br>最主要的应用场景 – 表单校验</p>
+<p>如何创建正则<br>把一些字母和符号写在<code>//</code>中间的东西，叫正则，比如<code>/abcdefg/</code></p>
+<p>创建正则分为两种方式: 字面量和构造函数</p>
+<ol>
+<li>字面量</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/abcdefg/</span>;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>构造函数</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> reg = <span class="keyword">new</span> <span class="title class_">RegExp</span>(<span class="string">&#x27;abcddefg&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>&#x2F;&#x2F;TODO 两种创建方式的区别 欠着</p>
+<h3 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h3><p>用来检测和捕获字符串中的内容</p>
+<p>test<br>test() 匹配<br>语法:正则.test(“要检测的字符串”)<br>返回值:一个布尔值<br>如果该字符串符合规则，那就是 true<br>否则 false</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/abcd/</span>;</span><br><span class="line"><span class="comment">//字符串内必须包含abcd字符片段</span></span><br><span class="line"><span class="keyword">let</span> res1 = reg.<span class="title function_">test</span>(<span class="string">&#x27;hduiashfdiuahbdfbniaudabcd&#x27;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(res1); <span class="comment">//true</span></span><br><span class="line"><span class="keyword">let</span> res2 = reg.<span class="title function_">test</span>(<span class="string">&#x27;123&#x27;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(res2); <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<p>exec<br>&#x2F;&#x2F;TODO 欠着</p>
+<h3 id="元字符–基本字符"><a href="#元字符–基本字符" class="headerlink" title="元字符–基本字符"></a>元字符–基本字符</h3><ol>
+<li>元字符<br>所有的文本内容<br>特殊符号，用符号来表示一类内容</li>
+<li>标识符<br>书写在正则外面，用来修饰正则表达式</li>
+</ol>
+<h4 id="基本的元字符"><a href="#基本的元字符" class="headerlink" title="基本的元字符"></a>基本的元字符</h4><ol>
+<li><code>\d</code>表示一位数字</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//表示该字符串中至少包含了一位数字(0-9)</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/\d/</span>;</span><br><span class="line"><span class="keyword">let</span> res = reg.<span class="title function_">test</span>(<span class="string">&#x27;das!@#@$#@%$#(1)^&#x27;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(res); <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><code>\D</code>表示一位 非数字</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//表示该字符串中至少包含了一位 非数字 的内容</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/\D/</span>;</span><br><span class="line"><span class="keyword">let</span> res = reg.<span class="title function_">test</span>(<span class="string">&#x27;123(2423424)&#x27;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(res); <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><code>\s</code> 表示一位 空白内容</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/\s/</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;a b&#x27;</span>)); <span class="comment">//true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;ab&#x27;</span>)); <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><code>\S</code> 表示一位 非空白内容</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/\S/</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;             1       &#x27;</span>)); <span class="comment">//true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;              &#x27;</span>)); <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li><code>\w</code> 表示 一位数字(0-9)字母(a-zA-Z)或者下划线<code>_</code>中的任意一个</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/\w/</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;~!@#$%^&amp;*()-+&gt;?&lt;&#x27;</span>)); <span class="comment">//false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;_&#x27;</span>)); <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li><code>\W</code>表示一位 非数字字母下划线</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/\w/</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;~!@#$%^&amp;*()-+&gt;?&lt;&#x27;</span>)); <span class="comment">//true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;_&#x27;</span>)); <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li><code>.</code>表示一位不是\n 的字符</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//字符串中至少包含一位 非换行的内容</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/./</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27; \n&#x27;</span>)); <span class="comment">//true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;\n\n\n\n\n\n\n&#x27;</span>)); <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<ol start="8">
+<li><code>\</code>转义字符</li>
+</ol>
+<ul>
+<li>把有意义的符号转成没有意义的普通文本</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//检测有一位小数 8.9  5.6</span></span><br><span class="line"><span class="comment">//数字 非\n 数字</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/\d\.\d/</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;1.5&#x27;</span>)); <span class="comment">//true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;1&amp;5&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;1$5&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;1 5&#x27;</span>));</span><br><span class="line"><span class="comment">//本身 . 有特殊意义，表示一位非\n</span></span><br><span class="line"><span class="comment">//但是和\ 一起写 \就可以把.转成普通的文本</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>把没有意义的文本转成有意义的符号<br>w 没有意义表示字符 w 但是你和\一起写 <code>\w</code>表示一位数字字母下划线</li>
+</ul>
+<h3 id="元字符–边界符号"><a href="#元字符–边界符号" class="headerlink" title="元字符–边界符号"></a>元字符–边界符号</h3><ul>
+<li><code>^</code>表示开头</li>
+<li><code>$</code>表示结尾</li>
+</ul>
+<p>注意:当^和$一起使用的时候，表示的是从开头到结尾</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/\d/</span>; <span class="comment">//至少一位数字</span></span><br><span class="line"><span class="keyword">let</span> reg2 = <span class="regexp">/^\d/</span>; <span class="comment">//必须以一位数字开头</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;abcd1&#x27;</span>)); <span class="comment">//true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg2.<span class="title function_">test</span>(<span class="string">&#x27;abcd1&#x27;</span>)); <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/\d/</span>; <span class="comment">//至少一位数字</span></span><br><span class="line"><span class="keyword">let</span> reg2 = <span class="regexp">/\d$/</span>; <span class="comment">//必须以一位数字结尾</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;abc1d&#x27;</span>)); <span class="comment">//true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg2.<span class="title function_">test</span>(<span class="string">&#x27;abcd1&#x27;</span>)); <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/^\d$/</span>; <span class="comment">//从开头到结尾只能有一位数字</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;1&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;1a2&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;12&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;123&#x27;</span>));</span><br></pre></td></tr></table></figure>
+
+<h3 id="元字符–限定符号"><a href="#元字符–限定符号" class="headerlink" title="元字符–限定符号"></a>元字符–限定符号</h3><p>限定内容出现的次数</p>
+<p>注意:一个限定符只能修饰限定符前面的一个内容出现的次数<br><code>*</code>表示 0 ～多次<br>前面的内容重复至少 0 次，0 ～+∞ 次</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//表示字符串 从开头到结尾 数字出现0,无穷次</span></span><br><span class="line"><span class="comment">//空字符串 0次</span></span><br><span class="line"><span class="comment">//只要有字符串，就必须从开头到结尾是数字而且要0～无穷次</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/^\d*$/</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27; &#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;$&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;1&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;!&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;123&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;1234&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;12345&#x27;</span>));</span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/\d*/</span>;</span><br><span class="line"><span class="comment">//只要有0～无穷次数字即可</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;abc&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;abc1&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;abc123&#x27;</span>));</span><br></pre></td></tr></table></figure>
+
+<p><code>+</code>表示 1 ～无穷次</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//字符串从开头到结尾 数字至少出现1次</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/^\d+$/</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;&#x27;</span>)); <span class="comment">//false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;1&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;12&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;123&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;1234&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;12345&#x27;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">//数字至少一次</span></span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/\d+/</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;abc&#x27;</span>)); <span class="comment">//false</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;abc1&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;abc123&#x27;</span>));</span><br></pre></td></tr></table></figure>
+
+<p><code>?</code>表示出现 0 ～ 1 次</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//字符串从开头到结尾 数字0～1次</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/^\d?$/</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;1&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;12&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;123&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;1234&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;12345&#x27;</span>));</span><br><span class="line"><span class="comment">//有一位是数字0～1</span></span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/\d?/</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;abc&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;abc1&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;abc123&#x27;</span>)); <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<p><code>&#123;n&#125;</code>表示指定出现 n 次</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//字符串从开头到结尾 数字出现两次</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/^\d&#123;2&#125;$/</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;1&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;12&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;123&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;1234&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;12345&#x27;</span>));</span><br><span class="line"><span class="comment">//表示字符串 数字出现三次</span></span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/\d&#123;3&#125;/</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;abc&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;abc1&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;abc123&#x27;</span>));</span><br></pre></td></tr></table></figure>
+
+<p><code>&#123;n,&#125;</code>表示至少出现 n 次<br>{0,} 等价于<code>*</code><br>{1,} 等价于<code>+</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//字符串从开头到结尾 数字至少出现两次</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/^\d&#123;2,&#125;$/</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;1&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;12&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;123&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;1234&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;12345&#x27;</span>));</span><br><span class="line"><span class="comment">//表示字符串 数字至少出现三次</span></span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/\d&#123;3,&#125;/</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;abc&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;abc1&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;abc123&#x27;</span>));</span><br></pre></td></tr></table></figure>
+
+<p><code>&#123;n,m&#125;</code>出现 n~m 次<br>{0,1}等价于<code>?</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//字符串从开头到结尾 数字出现2~5次</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/^\d&#123;2,5&#125;$/</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;1&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;12&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;123&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;1234&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;12345&#x27;</span>));</span><br><span class="line"><span class="comment">//表示字符串 数字出现3~5次</span></span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/\d&#123;3,5&#125;/</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;abc&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;abc1&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;abc123&#x27;</span>));</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//小坑</span></span><br><span class="line"><span class="comment">//从开始到结束 a两次 b两次 c两次</span></span><br><span class="line"><span class="comment">// aabbcc</span></span><br><span class="line"><span class="comment">//一个限定符号 只能修饰前面的一个内容</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/^a&#123;2&#125;b&#123;2&#125;c&#123;2&#125;$/</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;aabbcc&#x27;</span>)); <span class="comment">//true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;abcc&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;acbabc&#x27;</span>)); <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="元字符–特殊符号"><a href="#元字符–特殊符号" class="headerlink" title="元字符–特殊符号"></a>元字符–特殊符号</h3><p><code>()</code></p>
+<ol>
+<li>一个整体</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//abc要出现两次</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/^(abc)&#123;2&#125;$/</span>;</span><br><span class="line">reg.<span class="title function_">test</span>(<span class="string">&#x27;abcabc&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>单独捕获<br>&#x2F;&#x2F;TODO 再说</li>
+</ol>
+<p><code>|</code> 或者的意思<br>注意：或的边界，要么是<code>()</code>要么是正则的边界</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//字符串从开头到结尾</span></span><br><span class="line"><span class="comment">//要么是abd 要么是acd</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/^a(b|c)d$/</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;abd&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;abd&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;abcd&#x27;</span>));</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ab开头或者cd结尾都可</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/^ab|cd$/</span>;</span><br><span class="line"><span class="comment">// ^abxxxxxx</span></span><br><span class="line"><span class="comment">// xxxxxcd$</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;abcd&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;ababc&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;1234cd&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;ab&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;cd&#x27;</span>));</span><br></pre></td></tr></table></figure>
+
+<p>小练习</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//正则:汽车&#123;2&#125;</span></span><br><span class="line"><span class="comment">//汽车可以是 布加迪 也可以是 阿斯顿马丁</span></span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/^(布加迪|阿斯顿马丁)&#123;2&#125;$/</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;布加迪布加迪&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;布加迪阿斯顿马丁&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;阿斯顿马丁布加迪&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg1.<span class="title function_">test</span>(<span class="string">&#x27;阿斯顿马丁阿斯顿马丁&#x27;</span>));</span><br><span class="line"><span class="comment">//字母abc/def 出现两次</span></span><br><span class="line"><span class="keyword">let</span> reg2 = <span class="regexp">/^(abc|def)&#123;2&#125;$/</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg2.<span class="title function_">test</span>(<span class="string">&#x27;abcabc&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg2.<span class="title function_">test</span>(<span class="string">&#x27;abcdef&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg2.<span class="title function_">test</span>(<span class="string">&#x27;defabc&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg2.<span class="title function_">test</span>(<span class="string">&#x27;defdef&#x27;</span>));</span><br></pre></td></tr></table></figure>
+
+<p><code>[]</code><br>包含<br>一个<code>[]</code>可以写多个内容，但是一个<code>[]</code>只占一个字符的位置,表示<code>[]</code>内的任意一个内容都可以<br><code>[0-9]</code>等价于<code>\d</code><br><code>[0-9a-zA-Z_]</code>等价于<code>\w</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//从开始到结束 只有一位字符</span></span><br><span class="line"><span class="comment">//这个字符可以是a 可以是b 可以是c 也可以是d</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/^[abcd]$/</span>;</span><br><span class="line"><span class="comment">//(a|b|c|d)</span></span><br></pre></td></tr></table></figure>
+
+<p><code>[^]</code>非<br>一个<code>[^]</code>可以写多个内容，但是一个<code>[^]</code>只占一个字符的位置,表示<code>[^]</code>内的任意一个内容都不可以</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//表示字符串从开始到结束只有一位字符</span></span><br><span class="line"><span class="comment">//这个字符除了 a b c d之外都可以</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/^[^abcd]$/</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;a&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;b&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;c&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;d&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;&#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27; &#x27;</span>));</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg.<span class="title function_">test</span>(<span class="string">&#x27;1&#x27;</span>));</span><br></pre></td></tr></table></figure>
+
+<p><code>-</code> 到 至<br>需要和<code>[]</code>或者<code>[^]</code>连用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//0～9的数字均可</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/^[0-9]$/</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h3><p>书写在正则表达式外面，专门用来修饰整个正则的符号</p>
+<ol>
+<li>i(ignore)<br>表示忽略大小写</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/abcd/</span>;</span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/abcd/i</span>;</span><br><span class="line">reg.<span class="title function_">test</span>(<span class="string">&#x27;ABCD&#x27;</span>); <span class="comment">//false</span></span><br><span class="line">reg1.<span class="title function_">test</span>(<span class="string">&#x27;ABCD&#x27;</span>); <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>g(global)<br>&#x2F;&#x2F;TODO 再说</li>
+</ol>
+<p>练习 四个小正则</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment">      1. 身份证</span></span><br><span class="line"><span class="comment">        18位数字</span></span><br><span class="line"><span class="comment">        17位数字+x</span></span><br><span class="line"><span class="comment">      */</span></span><br><span class="line"><span class="keyword">let</span> regIdCard = <span class="regexp">/^\d&#123;17&#125;(\d|x)$/</span>;</span><br><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment">      2. 手机号码</span></span><br><span class="line"><span class="comment">        可以有+86也可以没有</span></span><br><span class="line"><span class="comment">        只接受133 135 138其他均不接受</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"><span class="keyword">let</span> regPhone = <span class="regexp">/^(\+86)?(133|135|138)\d&#123;8&#125;$/</span>;</span><br><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment">      3. 邮箱</span></span><br><span class="line"><span class="comment">      @前面:数字字母下划线6~16位</span></span><br><span class="line"><span class="comment">      @后面:qq 163 sina都可以</span></span><br><span class="line"><span class="comment">      后缀只能是com或者cn</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"><span class="keyword">let</span> regEmail = <span class="regexp">/^\w&#123;6,16&#125;@(qq|163|sina)\.(com|cn)$/</span>;</span><br><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment">      4. 用户名</span></span><br><span class="line"><span class="comment">        6～12位 只能由数字字母下划线组成</span></span><br><span class="line"><span class="comment">        不能以下划线开头</span></span><br><span class="line"><span class="comment">        [^_] 不光数字字母可以 @#$%^&amp;*()</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"><span class="comment">//经典错误</span></span><br><span class="line"><span class="comment">// let regUserName = /^[^_]\w&#123;5,11&#125;$/;</span></span><br><span class="line"><span class="keyword">let</span> regUserName = <span class="regexp">/^[0-9a-zA-Z]\w&#123;5,11&#125;$/</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="还债"><a href="#还债" class="headerlink" title="还债"></a>还债</h3><h4 id="exec"><a href="#exec" class="headerlink" title="exec"></a>exec</h4><p>捕获<br>语法:reg.exec(字符串)<br>作用:从字符串中 把满足正则条件的部份 取出来<br>返回值:</p>
+<ol>
+<li>原始字符串中没有满足的<br>null</li>
+<li>原始字符串中有满足的<ol>
+<li>正则没有()也没有 g<br>它的返回值是一个数组<br>索引 0 是第一个满足条件的内容<br>不管捕获多少次，每次都是从原始字符串的索引 0 开始捕获</li>
+<li>有 g<br>它的返回值是一个数组<br>索引 0 是第一个满足条件的内容<br>第二次捕获是从第一次捕获的结束位置开始向后查询，知道最后没有为止，再下一次又从头开始</li>
+<li>有()<br>它的返回值是一个数组<br>索引 0 是第一个满足条件的内容<br>从索引 1 开始，依次是每个小括号的单独内容<br>()有两个意义:整体，单独捕获 如果不想使用单独捕获，只想作为整体来用需要写成<code>(?:)</code></li>
+</ol>
+</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//exec</span></span><br><span class="line"><span class="comment">//1.没有符合的片段 null</span></span><br><span class="line"><span class="comment">// let str = &#x27;asjhdaksjdhuoandjlna&#x27;;</span></span><br><span class="line"><span class="comment">// let reg = /\d&#123;3&#125;/;</span></span><br><span class="line"><span class="comment">// let res = reg.exec(str);</span></span><br><span class="line"><span class="comment">// console.log(res);//null</span></span><br><span class="line"><span class="comment">//2. 有符合规则的片段</span></span><br><span class="line"><span class="comment">//2-1 没有() 没有g</span></span><br><span class="line"><span class="comment">// let str = &#x27;asjhda123ks456jdhuoandjlna&#x27;;</span></span><br><span class="line"><span class="comment">// let reg = /\d&#123;3&#125;/;</span></span><br><span class="line"><span class="comment">// let res = reg.exec(str);</span></span><br><span class="line"><span class="comment">// console.log(res); //[&#x27;123&#x27;]</span></span><br><span class="line"><span class="comment">// let res2 = reg.exec(str);</span></span><br><span class="line"><span class="comment">// console.log(res2); //[&#x27;123&#x27;]</span></span><br><span class="line"><span class="comment">// //2-2 有g</span></span><br><span class="line"><span class="comment">// let str = &#x27;asjhda123ks456jdhuoandjlna&#x27;;</span></span><br><span class="line"><span class="comment">// let reg = /\d&#123;3&#125;/g;</span></span><br><span class="line"><span class="comment">// let res = reg.exec(str);</span></span><br><span class="line"><span class="comment">// console.log(res); //[&#x27;123&#x27;]</span></span><br><span class="line"><span class="comment">// let res2 = reg.exec(str);</span></span><br><span class="line"><span class="comment">// console.log(res2); //[&#x27;456&#x27;]</span></span><br><span class="line"><span class="comment">// let res3 = reg.exec(str);</span></span><br><span class="line"><span class="comment">// console.log(res3); //null</span></span><br><span class="line"><span class="comment">// let res4 = reg.exec(str);</span></span><br><span class="line"><span class="comment">// console.log(res4); //[&#x27;123&#x27;]</span></span><br><span class="line"><span class="comment">// 2-3 有()</span></span><br><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;11010820030223001x&#x27;</span>;</span><br><span class="line"><span class="comment">//返回值是数组，</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/(\d&#123;2&#125;)(\d&#123;2&#125;)(\d&#123;2&#125;)((\d&#123;4&#125;)(\d&#123;2&#125;)(\d&#123;2&#125;)(\d&#123;3&#125;)(?:\d|x))/</span>;</span><br><span class="line"><span class="keyword">let</span> res = reg.<span class="title function_">exec</span>(str);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(res);</span><br></pre></td></tr></table></figure>
+
+<h4 id="两种方式创建的区别"><a href="#两种方式创建的区别" class="headerlink" title="两种方式创建的区别"></a>两种方式创建的区别</h4><ol>
+<li>语法不一样</li>
+<li>书写标识符的区别</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//字面量直接书写在正则后面</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/123/gi</span>;</span><br><span class="line"><span class="comment">//构造函数 以第二个参数的形式书写</span></span><br><span class="line"><span class="keyword">let</span> reg2 = <span class="keyword">new</span> <span class="title class_">RegExp</span>(<span class="string">&#x27;123&#x27;</span>, <span class="string">&#x27;gi&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>拼接字符串<br>字面量不接受拼接字符串<br>构造函数可以</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> s = <span class="string">&#x27;HH&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> s2 = <span class="string">&#x27;MM&#x27;</span>;</span><br><span class="line"><span class="comment">//(HH|MM)</span></span><br><span class="line"><span class="comment">//不可以 识别不了变量</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/(s|s2)/</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg);</span><br><span class="line"><span class="keyword">let</span> reg2 = <span class="keyword">new</span> <span class="title class_">RegExp</span>(<span class="string">`(<span class="subst">$&#123;s&#125;</span>|<span class="subst">$&#123;s2&#125;</span>)`</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg2);</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>基本元字符的书写</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/\s\d\w/</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg);</span><br><span class="line"><span class="keyword">let</span> reg2 = <span class="keyword">new</span> <span class="title class_">RegExp</span>(<span class="string">&#x27;\\s\\d\\w&#x27;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(reg2);</span><br><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment">      为什么构造函数要写两个\\</span></span><br><span class="line"><span class="comment">      字符串</span></span><br><span class="line"><span class="comment">      被引号包裹的内容叫字符串</span></span><br><span class="line"><span class="comment">      当你在字符串内书写\的时候，表示转义符号</span></span><br><span class="line"><span class="comment">      把紧贴着他的字符 转换</span></span><br><span class="line"><span class="comment">      - 有意义-&gt;没意义</span></span><br><span class="line"><span class="comment">      - 没意义-&gt;有意义</span></span><br><span class="line"><span class="comment">      n</span></span><br><span class="line"><span class="comment">      \n换行</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">      new RegExp()</span></span><br><span class="line"><span class="comment">      第一个参数需要一个字符串</span></span><br><span class="line"><span class="comment">      你写的字符串就是正则里面的内容</span></span><br><span class="line"><span class="comment">      想要得到/\d\w/</span></span><br><span class="line"><span class="comment">      写的是\d\w</span></span><br><span class="line"><span class="comment">      但是，在字符串内 \ 转义符</span></span><br><span class="line"><span class="comment">      书写 \w 的时候 就会把w转成有意义的特殊内容</span></span><br><span class="line"><span class="comment">      </span></span><br><span class="line"><span class="comment">      可以使用\把\转义掉</span></span><br><span class="line"><span class="comment">      当你书写\\w 的时候 实际得到的是\w</span></span><br><span class="line"><span class="comment">      */</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;dw&#x27;</span>); <span class="comment">//dw</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;\\d&#x27;</span>); <span class="comment">// \d</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="正则的两个特性"><a href="#正则的两个特性" class="headerlink" title="正则的两个特性"></a>正则的两个特性</h4><ol>
+<li>懒惰性<br>每一次捕获都是从 0 开始<br>解决：全局标识符 g</li>
+<li>贪婪性<br>贪婪匹配:能拿多少拿多少 尽可能多的匹配内容<br>非贪婪匹配:能拿多少拿多少 尽可能少的匹配内容<br>使用非贪婪的限定符号<br>在原先的限定符后面再写一个?<br><code>*?</code> 0 ～多次 但是 0 次能解决的问题，就不再多<br><code>+?</code>1 ～多次<br><code>?</code>0~1 次<br><code>&#123;n,&#125;?</code><br><code>&#123;n,m&#125;?</code></li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;&lt;p class=&quot;box&quot;&gt;你好世界&lt;/p&gt;&lt;span&gt;hello world&lt;/span&gt;&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/&lt;.+&gt;/</span>;</span><br><span class="line"><span class="comment">//贪婪</span></span><br><span class="line"><span class="keyword">let</span> res = reg.<span class="title function_">exec</span>(str);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(res);</span><br><span class="line"><span class="comment">//非贪婪</span></span><br><span class="line"><span class="keyword">let</span> reg2 = <span class="regexp">/&lt;.+?&gt;/</span>;</span><br><span class="line"><span class="keyword">let</span> res2 = reg2.<span class="title function_">exec</span>(str);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(res2);</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>RickyD
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://muleandhorse.icu/2022/05/03/b19%20%E6%AD%A3%E5%88%99/" title="javascript 笔记14-正则表达式">http://muleandhorse.icu/2022/05/03/b19 正则/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/" rel="tag"># 前端开发</a>
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/tags/javascript/" rel="tag"># javascript</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/02/b16%20BOM/" rel="prev" title="javascript 笔记11-BOM">
+      <i class="fa fa-chevron-left"></i> javascript 笔记11-BOM
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/04/b20%20%E5%87%BD%E6%95%B0%E7%9A%84this%E6%8C%87%E5%90%91/" rel="next" title="javascript 笔记15-函数的this指向">
+      javascript 笔记15-函数的this指向 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81ODIzMi8zNDY5NQ=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A3%E5%88%99"><span class="nav-number">1.</span> <span class="nav-text">正则 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86%E6%AD%A3%E5%88%99"><span class="nav-number">1.1.</span> <span class="nav-text">认识正则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">常用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%83%E5%AD%97%E7%AC%A6%E2%80%93%E5%9F%BA%E6%9C%AC%E5%AD%97%E7%AC%A6"><span class="nav-number">1.3.</span> <span class="nav-text">元字符–基本字符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%9A%84%E5%85%83%E5%AD%97%E7%AC%A6"><span class="nav-number">1.3.1.</span> <span class="nav-text">基本的元字符</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%83%E5%AD%97%E7%AC%A6%E2%80%93%E8%BE%B9%E7%95%8C%E7%AC%A6%E5%8F%B7"><span class="nav-number">1.4.</span> <span class="nav-text">元字符–边界符号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%83%E5%AD%97%E7%AC%A6%E2%80%93%E9%99%90%E5%AE%9A%E7%AC%A6%E5%8F%B7"><span class="nav-number">1.5.</span> <span class="nav-text">元字符–限定符号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%83%E5%AD%97%E7%AC%A6%E2%80%93%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7"><span class="nav-number">1.6.</span> <span class="nav-text">元字符–特殊符号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E8%AF%86%E7%AC%A6"><span class="nav-number">1.7.</span> <span class="nav-text">标识符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%98%E5%80%BA"><span class="nav-number">1.8.</span> <span class="nav-text">还债</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#exec"><span class="nav-number">1.8.1.</span> <span class="nav-text">exec</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F%E5%88%9B%E5%BB%BA%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.8.2.</span> <span class="nav-text">两种方式创建的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E7%9A%84%E4%B8%A4%E4%B8%AA%E7%89%B9%E6%80%A7"><span class="nav-number">1.8.3.</span> <span class="nav-text">正则的两个特性</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="RickyD"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">RickyD</p>
+  <div class="site-description" itemprop="description">如果站长加班加似了，这个网站就是他留给世界最后的遗产</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/RickyDriver" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;RickyDriver" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1552330861@qq.com" title="E-Mail → 1552330861@qq.com"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RickyD</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">61k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:25</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>

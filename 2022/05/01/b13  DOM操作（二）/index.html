@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.svg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"muleandhorse.icu","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="DOM 操作(二)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript 笔记08-DOM操作（二）">
+<meta property="og:url" content="http://muleandhorse.icu/2022/05/01/b13%20%20DOM%E6%93%8D%E4%BD%9C%EF%BC%88%E4%BA%8C%EF%BC%89/index.html">
+<meta property="og:site_name" content="Mule and horse">
+<meta property="og:description" content="DOM 操作(二)">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-01T08:06:09.000Z">
+<meta property="article:modified_time" content="2023-05-14T03:25:23.525Z">
+<meta property="article:author" content="RickyD">
+<meta property="article:tag" content="前端开发">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="javascript">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://muleandhorse.icu/2022/05/01/b13%20%20DOM%E6%93%8D%E4%BD%9C%EF%BC%88%E4%BA%8C%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>javascript 笔记08-DOM操作（二） | Mule and horse</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mule and horse</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个工地仔的救赎之路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">41</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">10</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://muleandhorse.icu/2022/05/01/b13%20%20DOM%E6%93%8D%E4%BD%9C%EF%BC%88%E4%BA%8C%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="RickyD">
+      <meta itemprop="description" content="如果站长加班加似了，这个网站就是他留给世界最后的遗产">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mule and horse">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          javascript 笔记08-DOM操作（二）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-01 16:06:09" itemprop="dateCreated datePublished" datetime="2022-05-01T16:06:09+08:00">2022-05-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-14 11:25:23" itemprop="dateModified" datetime="2023-05-14T11:25:23+08:00">2023-05-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="DOM-操作-二"><a href="#DOM-操作-二" class="headerlink" title="DOM 操作(二) "></a>DOM 操作(二) <span id="more"></span></h2><h3 id="1-元素的特性-attribute"><a href="#1-元素的特性-attribute" class="headerlink" title="1. 元素的特性 attribute"></a>1. 元素的特性 attribute</h3><p>浏览器在解析 html 元素时，会将对应的 attribute 也创建出来放在相应的对象上<br>比如 id、class 是全局的 attribute，会有对应的 id、class</p>
+<h4 id="1-1-attribute-的分类"><a href="#1-1-attribute-的分类" class="headerlink" title="1.1 attribute 的分类"></a>1.1 attribute 的分类</h4><ul>
+<li>标准的 attribute 比如 id class title href value</li>
+<li>非标准的 attribute 开发者自定义的 比如 age kfc abc</li>
+</ul>
+<blockquote>
+<p>age&#x3D;”18”</p>
+<p>age &#x3D; attribute</p>
+<p>“18”&#x3D;property</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;box&quot;</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span> <span class="attr">age</span>=<span class="string">&quot;18&quot;</span> <span class="attr">height</span>=<span class="string">&quot;160&quot;</span> <span class="attr">kfc</span>=<span class="string">&quot;50&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="1-2-attribute-的操作"><a href="#1-2-attribute-的操作" class="headerlink" title="1.2 attribute 的操作"></a>1.2 attribute 的操作</h4><p>所有的 attribute 都可以支持如下方法:<br>ele.hasAttribute(name)- 检查某个特性是否存在<br>ele.getAttribute(name)- 获取这个特性值<br>ele.setAttribute(name,value) - 设置某个特性值<br>ele.removeAttribute(name) - 移除某个特性 值<br>ele.attributes attr 的对象集合，具有 name、value 属性</p>
+<p>attribute 的特征<br>大小写不敏感(id 和 ID 相同)<br>他们的值总是字符串类型</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- get --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;box&quot;</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span> <span class="attr">AGE</span>=<span class="string">&quot;18&quot;</span> <span class="attr">height</span>=<span class="string">&quot;160&quot;</span> <span class="attr">kfc</span>=<span class="string">&quot;50&quot;</span>&gt;</span>v我50<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">checked</span>=<span class="string">&quot;checked&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> box = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.box&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//1. 所有的属性都支持的操作</span></span></span><br><span class="line"><span class="language-javascript">  <span class="variable language_">console</span>.<span class="title function_">log</span>(</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">//检查某一个属性是否存在</span></span></span><br><span class="line"><span class="language-javascript">    box.<span class="title function_">hasAttribute</span>(<span class="string">&#x27;class&#x27;</span>), <span class="comment">//true</span></span></span><br><span class="line"><span class="language-javascript">    box.<span class="title function_">hasAttribute</span>(<span class="string">&#x27;name&#x27;</span>), <span class="comment">//false</span></span></span><br><span class="line"><span class="language-javascript">    box.<span class="title function_">hasAttribute</span>(<span class="string">&#x27;age&#x27;</span>) <span class="comment">//true</span></span></span><br><span class="line"><span class="language-javascript">  );</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//获取某个属性</span></span></span><br><span class="line"><span class="language-javascript">  <span class="variable language_">console</span>.<span class="title function_">log</span>(box.<span class="title function_">getAttribute</span>(<span class="string">&#x27;age&#x27;</span>), box.<span class="title function_">getAttribute</span>(<span class="string">&#x27;id&#x27;</span>));</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//设置某个属性</span></span></span><br><span class="line"><span class="language-javascript">  box.<span class="title function_">setAttribute</span>(<span class="string">&#x27;id&#x27;</span>, <span class="string">&#x27;abc&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  box.<span class="title function_">setAttribute</span>(<span class="string">&#x27;age&#x27;</span>, <span class="string">&#x27;99999&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//移除某个特性</span></span></span><br><span class="line"><span class="language-javascript">  box.<span class="title function_">removeAttribute</span>(<span class="string">&#x27;id&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//attributes 属性 所有属性的集合</span></span></span><br><span class="line"><span class="language-javascript">  <span class="variable language_">console</span>.<span class="title function_">log</span>(box.<span class="property">attributes</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">for</span> (<span class="keyword">var</span> attr <span class="keyword">of</span> box.<span class="property">attributes</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;属性-------属性值&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">console</span>.<span class="title function_">log</span>(attr.<span class="property">name</span>, attr.<span class="property">value</span>);</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//通过getAttribute拿到的一定是字符串类型</span></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> ipt = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;input&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="variable language_">console</span>.<span class="title function_">log</span>(ipt.<span class="title function_">getAttribute</span>(<span class="string">&#x27;checked&#x27;</span>));</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-元素的属性-property"><a href="#2-元素的属性-property" class="headerlink" title="2. 元素的属性 property"></a>2. 元素的属性 property</h3><h4 id="2-1-元素-property-的操作"><a href="#2-1-元素-property-的操作" class="headerlink" title="2.1 元素 property 的操作"></a>2.1 元素 property 的操作</h4><ul>
+<li><p>对于标准的 attribute,会在 DOM 对象上创建其对应的 property 属性</p>
+</li>
+<li><p>大多数情况下，他们都是相互作用的</p>
+<ul>
+<li>改变 property，通过 attribute 获取的值，会随着改变</li>
+<li>通过 setAttribute 设置值，property 的值会随着改变<br>但是 input 的 value 修改只能走 attribute</li>
+</ul>
+</li>
+<li><p>除非特别情况，大多数情况下推荐使用 property 方式，因为他默认情况下是有类型的.</p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  <span class="comment">//name就是obj的property</span></span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;alex&#x27;</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 元素之中的属性称为attribute --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 标准的attribute在对应的对象中都有对应的property--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;box&quot;</span> <span class="attr">title</span>=<span class="string">&quot;我是盒子&quot;</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span> <span class="attr">AGE</span>=<span class="string">&quot;18&quot;</span> <span class="attr">height</span>=<span class="string">&quot;160&quot;</span> <span class="attr">kfc</span>=<span class="string">&quot;50&quot;</span>&gt;</span></span><br><span class="line">  v我50</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">checked</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">class</span>=<span class="string">&quot;account&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;btn&quot;</span>&gt;</span>设置ipt的值<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//对象中的属性称之为property</span></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> box = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.box&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// console.dir(box);</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//对于非标准的 都是undefined</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//对于标准的 能拿到（class相对特殊）</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// console.log(box.id, box.class, box.AGE, box.title);</span></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> ipt = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;input&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//判断ipt是否选中</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// if (ipt.getAttribute(&#x27;checked&#x27;)) &#123;</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//   console.log(&#x27;checkbox属于选中&#x27;);</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// &#125;</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// console.log(ipt.checked);</span></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">if</span> (ipt.<span class="property">checked</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// console.log(&#x27;checkbox属于选中&#x27;);</span></span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//attribute和property 是相互影响的</span></span></span><br><span class="line"><span class="language-javascript">  box.<span class="property">id</span> = <span class="string">&#x27;aaaaa&#x27;</span>; <span class="comment">//改动porperty 有</span></span></span><br><span class="line"><span class="language-javascript">  <span class="variable language_">console</span>.<span class="title function_">log</span>(box.<span class="title function_">getAttribute</span>(<span class="string">&#x27;id&#x27;</span>));</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//改attribute</span></span></span><br><span class="line"><span class="language-javascript">  box.<span class="title function_">setAttribute</span>(<span class="string">&#x27;title&#x27;</span>, <span class="string">&#x27;V我50&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="variable language_">console</span>.<span class="title function_">log</span>(box.<span class="property">title</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//3. 特殊情况,input设置值（了解即可）</span></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> acc = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.account&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> btn = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.btn&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  btn.<span class="property">onclick</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">//设置元素的attribute中的value为juanjie attribute优先级更高</span></span></span><br><span class="line"><span class="language-javascript">    acc.<span class="title function_">setAttribute</span>(<span class="string">&#x27;value&#x27;</span>, <span class="string">&#x27;juanjie&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">//设置对应的property value为student</span></span></span><br><span class="line"><span class="language-javascript">    acc.<span class="property">value</span> = <span class="string">&#x27;student&#x27;</span>;</span></span><br><span class="line"><span class="language-javascript">  &#125;;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-HTML5-的data-自定义属性"><a href="#2-2-HTML5-的data-自定义属性" class="headerlink" title="2.2 HTML5 的data-* 自定义属性"></a>2.2 HTML5 的<code>data-*</code> 自定义属性</h4><p>h5 的自定义属性</p>
+<ul>
+<li>在元素节点上有一个 dataset 的成员</li>
+<li>是一个类似 对象 的数据类型</li>
+<li>里面存储着所有 data-开头的自定义属性</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span></span></span><br><span class="line"><span class="tag">  <span class="attr">id</span>=<span class="string">&quot;box&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">title</span>=<span class="string">&quot;我是盒子&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">class</span>=<span class="string">&quot;box&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">AGE</span>=<span class="string">&quot;18&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">height</span>=<span class="string">&quot;160&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">kfc</span>=<span class="string">&quot;50&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">data-age</span>=<span class="string">&quot;18&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">data-kfc</span>=<span class="string">&quot;50&quot;</span></span></span><br><span class="line"><span class="tag">&gt;</span></span><br><span class="line">  v我50</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> box = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;div&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="variable language_">console</span>.<span class="title function_">log</span>(box.<span class="property">dataset</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="variable language_">console</span>.<span class="title function_">log</span>(box.<span class="property">dataset</span>.<span class="property">age</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="variable language_">console</span>.<span class="title function_">log</span>(box.<span class="property">dataset</span>.<span class="property">kfc</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//修改？</span></span></span><br><span class="line"><span class="language-javascript">  box.<span class="property">dataset</span>.<span class="property">age</span> = <span class="number">9999</span>;</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//增加</span></span></span><br><span class="line"><span class="language-javascript">  box.<span class="property">dataset</span>.<span class="property">a</span> = <span class="number">200</span>;</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//删除</span></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">delete</span> box.<span class="property">dataset</span>.<span class="property">a</span>;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-元素的-class、style"><a href="#3-元素的-class、style" class="headerlink" title="3.元素的 class、style"></a>3.元素的 class、style</h3><p>动态修改样式的两个选择</p>
+<ol>
+<li>在 css 中写好对应的样式，然后动态操作元素的类名</li>
+<li>动态的修改 style 属性</li>
+</ol>
+<p>开发？更推荐用 class，不得不用 style(精准修改某一个的 css 属性的值)</p>
+<h4 id="3-1-初体验"><a href="#3-1-初体验" class="headerlink" title="3.1 初体验"></a>3.1 初体验</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">  <span class="selector-class">.active</span> &#123;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">color</span>: red;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">font-size</span>: <span class="number">24px</span>;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">background-color</span>: green;</span></span><br><span class="line"><span class="language-css">  &#125;</span></span><br><span class="line"><span class="language-css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 结构与样式分离，行为(js)与表现(html css)分离 --&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 假如买了一套汤臣一品  </span></span><br><span class="line"><span class="comment">    html 告诉你有几室几厅 </span></span><br><span class="line"><span class="comment">    css  这个客厅多大 地板什么颜色 墙什么颜色</span></span><br><span class="line"><span class="comment">    js  这里有个门 我一推 他就开了  哪里有个开关 我一按 就开灯</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span>&gt;</span>我是box<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="comment">//获取box</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> box = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.box&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> count = <span class="number">1</span>;</span></span><br><span class="line"><span class="language-javascript">    box.<span class="property">onclick</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="variable language_">console</span>.<span class="title function_">log</span>(box.<span class="property">style</span>);</span></span><br><span class="line"><span class="language-javascript">      <span class="comment">//字体变红 大小改为24px 背景色改成绿色</span></span></span><br><span class="line"><span class="language-javascript">      <span class="comment">//1.直接修改style</span></span></span><br><span class="line"><span class="language-javascript">      <span class="comment">// box.style.color = &#x27;red&#x27;;</span></span></span><br><span class="line"><span class="language-javascript">      <span class="comment">// box.style.fontSize = &#x27;24px&#x27;;</span></span></span><br><span class="line"><span class="language-javascript">      <span class="comment">// box.style.backgroundColor = &#x27;green&#x27;;</span></span></span><br><span class="line"><span class="language-javascript">      <span class="comment">//2.动态添加某一个class</span></span></span><br><span class="line"><span class="language-javascript">      box.<span class="property">className</span> += <span class="string">&#x27; active&#x27;</span>;</span></span><br><span class="line"><span class="language-javascript">      <span class="comment">//3. 动态修改box的宽度</span></span></span><br><span class="line"><span class="language-javascript">      box.<span class="property">style</span>.<span class="property">width</span> = <span class="number">100</span> * count + <span class="string">&#x27;px&#x27;</span>;</span></span><br><span class="line"><span class="language-javascript">      count++;</span></span><br><span class="line"><span class="language-javascript">    &#125;;</span></span><br><span class="line"><span class="language-javascript">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2-Element-class-用法"><a href="#3-2-Element-class-用法" class="headerlink" title="3.2 Element-class 用法"></a>3.2 Element-class 用法</h4><ul>
+<li>元素的 class attribute 对应的 property 并不叫 class 而是 className；<br>因为 js 早期(现代的所有高级编程语言里面)不允许使用 class 关键字来作为对象的属性，所以 DOM 的规范就使用了 className</li>
+<li>我们可以直接对 className 赋值，但是他会替换整个类名</li>
+<li>如果需要添加&#x2F;移除 单个 class 推荐使用 classList</li>
+<li>ele.classList 是一个特殊的对象<br>ele.classList.add(class) 添加类名<br>ele.classList.remove(class) 移除类名<br>ele.classList.contains(class) 检查是否有类名<br>ele.classList.toggle(class) 切换类名</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">  <span class="selector-class">.active</span> &#123;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">color</span>: <span class="number">#fff</span>;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">background-color</span>: <span class="number">#f80</span>;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">font-size</span>: <span class="number">24px</span>;</span></span><br><span class="line"><span class="language-css">  &#125;</span></span><br><span class="line"><span class="language-css">  <span class="selector-class">.bbb</span> &#123;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#000</span>;</span></span><br><span class="line"><span class="language-css">  &#125;</span></span><br><span class="line"><span class="language-css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span>&gt;</span>1123<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;btn&quot;</span>&gt;</span>切换<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> box = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.box&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// //1.方法一 className</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// box.className += &#x27; active bbb&#x27;;</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// //移除bbb</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// box.className = &#x27;box active&#x27;;</span></span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//2.方法二 classList操作</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//添加类名</span></span></span><br><span class="line"><span class="language-javascript">  box.<span class="property">classList</span>.<span class="title function_">add</span>(<span class="string">&#x27;active&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  box.<span class="property">classList</span>.<span class="title function_">add</span>(<span class="string">&#x27;bbb&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//删除类名</span></span></span><br><span class="line"><span class="language-javascript">  box.<span class="property">classList</span>.<span class="title function_">remove</span>(<span class="string">&#x27;bbb&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//contains检查是否包含某个类名 有就true 没有就false</span></span></span><br><span class="line"><span class="language-javascript">  <span class="variable language_">console</span>.<span class="title function_">log</span>(box.<span class="property">classList</span>.<span class="title function_">contains</span>(<span class="string">&#x27;aaa&#x27;</span>));</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//box在active之间切换</span></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> btn = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.btn&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  btn.<span class="property">onclick</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// if (box.classList.contains(&#x27;active&#x27;)) &#123;</span></span></span><br><span class="line"><span class="language-javascript">    <span class="comment">//   box.classList.remove(&#x27;active&#x27;);</span></span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// &#125; else &#123;</span></span></span><br><span class="line"><span class="language-javascript">    <span class="comment">//   box.classList.add(&#x27;active&#x27;);</span></span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// &#125;</span></span></span><br><span class="line"><span class="language-javascript">    <span class="comment">//toggle有该类名 就移除 没有就添加</span></span></span><br><span class="line"><span class="language-javascript">    box.<span class="property">classList</span>.<span class="title function_">toggle</span>(<span class="string">&#x27;active&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  &#125;;</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// // 回顾</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// //构造函数 类</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// function P()&#123;</span></span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// &#125;</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// //类方法 P.eat()</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// //实例方法</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// var p = new P()</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// p.jump()</span></span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3-Element-style-用法"><a href="#3-3-Element-style-用法" class="headerlink" title="3.3 Element-style 用法"></a>3.3 Element-style 用法</h4><ul>
+<li>如果要单独修改某一个 css 属性，可以通过 style 来操作，对于多词(multi-word)属性，使用 camelCase(小驼峰)</li>
+<li>如果将值设为空字符串,那么会使用默认样式</li>
+<li>多个样式的写法要用到 cssText 但是不推荐</li>
+<li>如果要读取非行内样式要通过<strong>getComputedStyle(ele).width</strong></li>
+<li>兼容ie低版本 ele.currentStyle</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">  <span class="selector-class">.active</span> &#123;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">width</span>: <span class="number">300px</span>;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">height</span>: <span class="number">300px</span>;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">background-image</span>: <span class="built_in">linear-gradient</span>(pink, skyblue);</span></span><br><span class="line"><span class="language-css">  &#125;</span></span><br><span class="line"><span class="language-css">  <span class="selector-class">.bbb</span> &#123;</span></span><br><span class="line"><span class="language-css">    <span class="attribute">border</span>: <span class="number">3px</span> solid <span class="number">#000</span>;</span></span><br><span class="line"><span class="language-css">  &#125;</span></span><br><span class="line"><span class="language-css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box active bbb&quot;</span> <span class="attr">style</span>=<span class="string">&quot;color: #fff&quot;</span>&gt;</span>box<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//获取</span></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> box = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;div&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//获取到它的property</span></span></span><br><span class="line"><span class="language-javascript">  <span class="variable language_">console</span>.<span class="title function_">log</span>(box.<span class="property">style</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// console.log(box.style.backgroundColor);</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//如果设置为空字符串，那么使用默认值</span></span></span><br><span class="line"><span class="language-javascript">  box.<span class="property">style</span>.<span class="property">fontSize</span> = <span class="string">&#x27;&#x27;</span>;</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//设置多个样式</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// box.style.color = &#x27;lightgreen&#x27;;</span></span></span><br><span class="line"><span class="language-javascript">  box.<span class="property">style</span>.<span class="property">fontSize</span> = <span class="string">&#x27;50px&#x27;</span>;</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//不推荐</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// box.style.cssText = &#x27;font-size:50px;color:lightgreen;&#x27;;</span></span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//style 这种方式 设置也好 读取也好 只能访问到行内样式</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//对于css文件，style标签内的样式 ele.style拿不到</span></span></span><br><span class="line"><span class="language-javascript">  <span class="variable language_">console</span>.<span class="title function_">log</span>(box.<span class="property">style</span>.<span class="property">width</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//想要拿到所有的样式？</span></span></span><br><span class="line"><span class="language-javascript">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">getComputedStyle</span>(box).<span class="property">width</span>);</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-元素的常见操作"><a href="#4-元素的常见操作" class="headerlink" title="4.元素的常见操作"></a>4.元素的常见操作</h3><h4 id="4-1-创建，插入，克隆，删除"><a href="#4-1-创建，插入，克隆，删除" class="headerlink" title="4.1 创建，插入，克隆，删除"></a>4.1 创建，插入，克隆，删除</h4><ol>
+<li>创建，插入，<br>创建元素:document.createElement(tagName),innerHTML,document.write;后两种不推荐<br>插入:</li>
+<li>创建文本节点doc.createTextNode()</li>
+</ol>
+<p>​		</p>
+<ol>
+<li>node.append(node&#x2F;string)–在节点内部末尾 插入节点&#x2F;字符串<br>node.prepend(node&#x2F;string)–在节点内部开头 插入节点&#x2F;字符串<br>node.before(node&#x2F;string)– 在节点前面 插入节点&#x2F;字符串<br>node.after(node&#x2F;string)– 在节点后面 插入节点&#x2F;字符串<br>node.replaceWith(node&#x2F;string)– 将节点替换为 节点&#x2F;字符串</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span>&gt;</span> 11111 <span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;box-first&quot;</span>&gt;</span>啊哈哈哈哈哈<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>嘿嘿嘿<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> box = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.box&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//1.通过innerHTML(不正规的做法)</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// box.innerHTML = `</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// &lt;h2 class=&#x27;title&#x27;&gt;我是标题&lt;/h2&gt;</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// `;</span></span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//2.创建一个DOM对象</span></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> h2El = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;h2&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  h2El.<span class="property">className</span> = <span class="string">&#x27;title&#x27;</span>;</span></span><br><span class="line"><span class="language-javascript">  h2El.<span class="property">textContent</span> = <span class="string">&#x27;我是标题&#x27;</span>;</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//将元素插入</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// box.append(h2El); //添加到box内到最后面</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// var box_first = document.querySelector(&#x27;.box-first&#x27;);</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// box.append(box_first);</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// box.prepend(h2El); //添加到box内的最前面</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// box.after(h2El);//添加到box的后面</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// box.before(h2El)//添加到box的前面</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// box.replaceWith(&#x27;123&#x27;); //替换可以是元素节点也可以是纯文本</span></span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>克隆，删除</li>
+</ol>
+<ul>
+<li>移除元素我们可以调用元素本身的 remove 方法</li>
+<li>克隆元素 cloneNode 方法，可以传入一个布尔值，来决定是否要克隆对应的后代元素</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;remove-btn&quot;</span>&gt;</span>移除box<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;clone-btn&quot;</span>&gt;</span>克隆box<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h2</span>&gt;</span>我是标题<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>我是文本<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//获取元素</span></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> box = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.box&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> removeBtn = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.remove-btn&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> cloneBtn = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.clone-btn&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//移除</span></span></span><br><span class="line"><span class="language-javascript">  removeBtn.<span class="property">onclick</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    box.<span class="title function_">remove</span>();</span></span><br><span class="line"><span class="language-javascript">  &#125;;</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">//克隆</span></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> count = <span class="number">0</span>;</span></span><br><span class="line"><span class="language-javascript">  cloneBtn.<span class="property">onclick</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">//深度克隆</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> newNode = box.<span class="title function_">cloneNode</span>(<span class="literal">true</span>);</span></span><br><span class="line"><span class="language-javascript">    newNode.<span class="property">children</span>[<span class="number">0</span>].<span class="property">textContent</span> = <span class="string">&#x27;我是标题&#x27;</span> + count;</span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">append</span>(newNode);</span></span><br><span class="line"><span class="language-javascript">    count++;</span></span><br><span class="line"><span class="language-javascript">  &#125;;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="4-2-旧的元素操作方法"><a href="#4-2-旧的元素操作方法" class="headerlink" title="4.2 旧的元素操作方法"></a>4.2 旧的元素操作方法</h4><p>parentEle.appendChild(node) 在 parentEle 后面添加一个子节点<br>parentEle.insertBefore(node,nextsibling) 在 parentEle 内的 nextsibling 前面插入一个 node</p>
+<p>parentEle.replaceChild(node,oldChild) 在 parentEle 中，用 node 替换掉 oldChild</p>
+<p>parentEle.removeChild(node) 在 parentEle 中，移除某个元素</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>RickyD
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://muleandhorse.icu/2022/05/01/b13%20%20DOM%E6%93%8D%E4%BD%9C%EF%BC%88%E4%BA%8C%EF%BC%89/" title="javascript 笔记08-DOM操作（二）">http://muleandhorse.icu/2022/05/01/b13  DOM操作（二）/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/" rel="tag"># 前端开发</a>
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/tags/javascript/" rel="tag"># javascript</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/29/b10%20javascript%E5%85%A5%E9%97%A805%20%E5%AF%B9%E8%B1%A1/" rel="prev" title="javascript 笔记05-对象">
+      <i class="fa fa-chevron-left"></i> javascript 笔记05-对象
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/01/b12%20DOM%E6%93%8D%E4%BD%9C(%E4%B8%80)/" rel="next" title="javascript 笔记07-DOM操作（一）">
+      javascript 笔记07-DOM操作（一） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81ODIzMi8zNDY5NQ=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DOM-%E6%93%8D%E4%BD%9C-%E4%BA%8C"><span class="nav-number">1.</span> <span class="nav-text">DOM 操作(二) </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%85%83%E7%B4%A0%E7%9A%84%E7%89%B9%E6%80%A7-attribute"><span class="nav-number">1.1.</span> <span class="nav-text">1. 元素的特性 attribute</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-attribute-%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 attribute 的分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-attribute-%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 attribute 的操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%85%83%E7%B4%A0%E7%9A%84%E5%B1%9E%E6%80%A7-property"><span class="nav-number">1.2.</span> <span class="nav-text">2. 元素的属性 property</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-%E5%85%83%E7%B4%A0-property-%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 元素 property 的操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-HTML5-%E7%9A%84data-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%9E%E6%80%A7"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 HTML5 的data-* 自定义属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%85%83%E7%B4%A0%E7%9A%84-class%E3%80%81style"><span class="nav-number">1.3.</span> <span class="nav-text">3.元素的 class、style</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-%E5%88%9D%E4%BD%93%E9%AA%8C"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 初体验</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-Element-class-%E7%94%A8%E6%B3%95"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 Element-class 用法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-Element-style-%E7%94%A8%E6%B3%95"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 Element-style 用法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%85%83%E7%B4%A0%E7%9A%84%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C"><span class="nav-number">1.4.</span> <span class="nav-text">4.元素的常见操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-%E5%88%9B%E5%BB%BA%EF%BC%8C%E6%8F%92%E5%85%A5%EF%BC%8C%E5%85%8B%E9%9A%86%EF%BC%8C%E5%88%A0%E9%99%A4"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 创建，插入，克隆，删除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-%E6%97%A7%E7%9A%84%E5%85%83%E7%B4%A0%E6%93%8D%E4%BD%9C%E6%96%B9%E6%B3%95"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 旧的元素操作方法</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="RickyD"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">RickyD</p>
+  <div class="site-description" itemprop="description">如果站长加班加似了，这个网站就是他留给世界最后的遗产</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/RickyDriver" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;RickyDriver" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1552330861@qq.com" title="E-Mail → 1552330861@qq.com"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RickyD</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">61k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:25</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
