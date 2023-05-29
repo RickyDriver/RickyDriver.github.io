@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.svg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"muleandhorse.icu","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Promise">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript 笔记24-promise详解">
+<meta property="og:url" content="http://muleandhorse.icu/2022/05/17/b30%20promise/index.html">
+<meta property="og:site_name" content="Mule and Horse">
+<meta property="og:description" content="Promise">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-17T06:06:09.000Z">
+<meta property="article:modified_time" content="2023-05-29T11:34:30.815Z">
+<meta property="article:author" content="RickyD">
+<meta property="article:tag" content="前端开发">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="javascript">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://muleandhorse.icu/2022/05/17/b30%20promise/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>javascript 笔记24-promise详解 | Mule and Horse</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mule and Horse</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个工地仔的救赎之路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">48</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://muleandhorse.icu/2022/05/17/b30%20promise/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="RickyD">
+      <meta itemprop="description" content="如果站长加班加似了，这个网站就是他留给世界最后的遗产">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mule and Horse">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          javascript 笔记24-promise详解
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-17 14:06:09" itemprop="dateCreated datePublished" datetime="2022-05-17T14:06:09+08:00">2022-05-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-29 19:34:30" itemprop="dateModified" datetime="2023-05-29T19:34:30+08:00">2023-05-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise<span id="more"></span></h1><h2 id="Promise-的概念"><a href="#Promise-的概念" class="headerlink" title="Promise 的概念"></a>Promise 的概念</h2><p>Promise 是一个类，承诺，许诺<br>当我们需要的时候，给予调用者一个承诺，待会给你回调的数据，就可以来创建一个 promise 的实例<br>通过 new 创建 Promise 对象的时候，传入了一个回调函数，称为<strong>executor</strong></p>
+<ul>
+<li>这个回调函数会被立即执行，并且接受另外的两个回调函数 resolve，reject</li>
+<li>当我们调用 resolve 时，会<strong>执行</strong> promise 对象的 then 方法传入的<strong>回调函数</strong></li>
+<li>当我们调用 reject 时,会<strong>执行</strong> promise 对象的 catch 方法传入的<strong>回调函数</strong></li>
+</ul>
+<h3 id="异步代码的困境"><a href="#异步代码的困境" class="headerlink" title="异步代码的困境"></a>异步代码的困境</h3><p>没用promise之前，我们需要给一个异步函数传入成功后的回调函数以及失败后的回调函数。</p>
+<p>那么，每个人的编码习惯不同，有的时候回调函数并不是自己写的,没有一个统一的规范，设计和调用的时候都需要小心翼翼</p>
+<p>在异步函数传参的时候就需要小心翼翼，不然就会出错：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">order</span>(<span class="params">money, good, bad</span>) &#123;</span><br><span class="line">                <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> (money &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                        <span class="title function_">bad</span>(<span class="string">&#x27;请付款后再食用&#x27;</span>);</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;餐好了&#x27;</span>);</span><br><span class="line">                        <span class="comment">//积分</span></span><br><span class="line">                        <span class="keyword">let</span> total = <span class="number">0</span>;</span><br><span class="line">                        <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; money; i++) &#123;</span><br><span class="line">                            total += i;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="comment">//只需要在某个时刻调用你的函数即可</span></span><br><span class="line">                        <span class="title function_">good</span>(total);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, <span class="number">3000</span>);</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+
+<p>而且，异步函数调用时，代码数量非常多，不利于阅读和维护</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">order</span>(</span><br><span class="line">    <span class="number">10</span>,</span><br><span class="line">    <span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(</span><br><span class="line">            <span class="string">&#x27;alex的🍗好了&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;本次消费获得了&#x27;</span> + value + <span class="string">&#x27;积分&#x27;</span></span><br><span class="line">        );</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;下单失败，原因是:&#x27;</span> + err);</span><br><span class="line">    &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用promise来解决异步的回调问题"><a href="#使用promise来解决异步的回调问题" class="headerlink" title="使用promise来解决异步的回调问题"></a>使用promise来解决异步的回调问题</h3><blockquote>
+<p>一个标准的promise结构，所谓 Promise，就是一个对象，用来传递异步操作的消息。它代表了某个未来才会知道结果的事件（通常是一个异步操作），并且这个事件提供统一的 API，可供进一步处理。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">order</span>(<span class="params">value</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">                    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                        <span class="keyword">if</span> (value &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                            <span class="keyword">let</span> total = <span class="number">0</span>;</span><br><span class="line">                            <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt;= value; i++) &#123;</span><br><span class="line">                                total = i;</span><br><span class="line">                            &#125;</span><br><span class="line">                            <span class="title function_">resolve</span>(<span class="string">&#x27;点餐成功，你还有&#x27;</span> + total + <span class="string">&#x27;分&#x27;</span>);</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            <span class="title function_">reject</span>(<span class="string">&#x27;点餐失败，你的钱不够&#x27;</span>);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;, <span class="number">1000</span>);</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="title function_">order</span>(<span class="number">100</span>)</span><br><span class="line">                .<span class="title function_">then</span>(<span class="function">(<span class="params">ele</span>) =&gt;</span> &#123;</span><br><span class="line">                    <span class="variable language_">console</span>.<span class="title function_">log</span>(ele);</span><br><span class="line">                &#125;)</span><br><span class="line">                .<span class="title function_">catch</span>(<span class="function">(<span class="params">msg</span>) =&gt;</span> &#123;</span><br><span class="line">                    <span class="variable language_">console</span>.<span class="title function_">log</span>(msg);</span><br><span class="line">                &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>promise接受两个参数，一个是操作完成（已兑现<code>resolve</code>）的时候将会执行的回调函数，一个是操作失败（已失败<code>reject</code>）的时候将会执行的回调函数。</p>
+<p>创建promise实例对象后，要使用它的时候，可以在后面<code>.then(resolve)</code>代表接受函数兑现后返回的参数，再做进一步操作。<code>.catch（reject）</code>则是接受失败时传来的参数，再做进一步操作。</p>
+<h2 id="promise-的三个状态"><a href="#promise-的三个状态" class="headerlink" title="promise 的三个状态"></a>promise 的三个状态</h2><ul>
+<li>待定(pending):初始状态，即没有被兑现，也没有被拒绝；当执行 executor 中的代码时，处于该状态。</li>
+<li>已兑现(fulfilled):意味着操作完成，执行了 resolve，处于该状态的话 promise 已经被兑现了</li>
+<li>已拒绝(rejected):意味着操作失败，执行了 reject，处于该状态的话 promise 已经被拒绝了</li>
+</ul>
+<h3 id="executor"><a href="#executor" class="headerlink" title="executor"></a>executor</h3><p>我们往往会在 executor 中确定 promise 的状态-叫已决议<br>注意：<strong>一旦状态被确定下来，Promise 状态就会被锁死 🔒，该 Promise 的状态就不可变</strong>，在我们调用 resolve 的时候，如果 resolve 的值不是一个 Promise，那么会将该 Promise 的状态变成成功。resolve 调用之后再 reject 调用，reject 的代码会执行，但是不会改变 Promise 的状态，并不是不执行代码.</p>
+<p>promise的状态一旦被确定下来，就不会再更改，也不能再执行某一个回调函数来改变状态</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//细节</span></span><br><span class="line">      <span class="comment">// //创建一个promise对象</span></span><br><span class="line">      <span class="comment">// const promise = new Promise((resolve, reject) =&gt; &#123;</span></span><br><span class="line">      <span class="comment">//   //细节一:多次resolve会怎么样 只走一次then</span></span><br><span class="line">      <span class="comment">//   // resolve();</span></span><br><span class="line">      <span class="comment">//   // resolve();</span></span><br><span class="line">      <span class="comment">//   // resolve();</span></span><br><span class="line">      <span class="comment">//   // reject();</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">//   //细节二:resolve以后我再reject 先走那个状态就已经确定了</span></span><br><span class="line">      <span class="comment">//   reject();</span></span><br><span class="line">      <span class="comment">//   // resolve();</span></span><br><span class="line">      <span class="comment">//   // console.log(&#x27;123123123&#x27;);</span></span><br><span class="line">      <span class="comment">// &#125;);</span></span><br><span class="line">      <span class="comment">// //调用对象里面方法,只不过这个方法比较特殊，是一个回调函数</span></span><br><span class="line">      <span class="comment">// promise</span></span><br><span class="line">      <span class="comment">//   .then((value) =&gt; &#123;</span></span><br><span class="line">      <span class="comment">//     console.log(&#x27;成功&#x27;);</span></span><br><span class="line">      <span class="comment">//   &#125;)</span></span><br><span class="line">      <span class="comment">//   .catch(() =&gt; &#123;</span></span><br><span class="line">      <span class="comment">//     console.log(&#x27;失败&#x27;);</span></span><br><span class="line">      <span class="comment">//   &#125;);</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="resolve-参数的三种情况"><a href="#resolve-参数的三种情况" class="headerlink" title="resolve 参数的三种情况"></a>resolve 参数的三种情况</h2><p>resolve里的值会有三种情况，分别是普通值、<code>promise</code>以及thenable对象</p>
+<ol>
+<li>promise对象，如果你resolve中回调是一个promise对象，当前的promise的状态就由回调的<code>promise</code>的状态来决定</li>
+<li>thenable对象，传入的是一个对象，只不过这个对象自己有then方法,promise状态就根据then里面的操作来决定</li>
+</ol>
+<h2 id="promise的then方法"><a href="#promise的then方法" class="headerlink" title="promise的then方法"></a>promise的then方法</h2><ol>
+<li><p>then 方法是返回一个<strong>全新的 promise</strong>，这个 promise 他的状态是等到 then 传入的回调函数有返回值时，再进行决议。</p>
+</li>
+<li><p>由于then是返回一个promise，所以then又可以接收<code>resolve</code>, 又可以接收<code>reject</code></p>
+</li>
+</ol>
+<blockquote>
+<p>一个promise要接收两个回调函数（resolve和reject）</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">promise.<span class="title function_">then</span>(</span><br><span class="line">  <span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;成功&#x27;</span>, res);</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;失败&#x27;</span>, err);</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+
+
+<ol start="3">
+<li><p>当一个<code>promise</code>的状态发生改变，then设置的回调函数就会同步执行（如果采用的是链式调用,即<code>.then(a).then(b)</code>那当然后一个then要等前一个then执行后返回的参数过来，他才开始执行，如果前一个then里的promise的状态是<code>rejected</code>那么后面的then则都不会执行。</p>
+</li>
+<li><p>如果在一堆的then的链式调用后跟了一个catch，即<code>.then(a).then(b).catch(c)</code>这个catch则会响应最早返回<code>reject</code>的then或者初始的<code>promise</code></p>
+</li>
+<li><p>then 方法是返回一个<strong>全新的 promise</strong>，这个新的promise resolve后<code>return</code>的值的会传递给下一个then的回调</p>
+</li>
+</ol>
+<h2 id="promise的catch方法"><a href="#promise的catch方法" class="headerlink" title="promise的catch方法"></a>promise的catch方法</h2><ol>
+<li>和then方法一样，catch也会返回一个全新的promise</li>
+<li>catch方法的执行时机 catch会找最先reject的promise 捕获他</li>
+</ol>
+<h2 id="finally"><a href="#finally" class="headerlink" title="finally"></a>finally</h2><p>ES9(ES2018)中新增的一个特性，无论你的 promise 对象是 fulfilled 还是 rejected 状态，最终都要执行的代码。finally 不接收参数。</p>
+<h2 id="Promise-resolve"><a href="#Promise-resolve" class="headerlink" title="Promise.resolve"></a>Promise.resolve</h2><p>最大的作用，就是把一个<strong>现成的内容转成 Promise</strong>来使用,就可以使用 Promise.resolve。<br>作为 resolve 来说，他的参数是有三种情况 04.html 讲过</p>
+<h2 id="Promise-reject"><a href="#Promise-reject" class="headerlink" title="Promise.reject"></a>Promise.reject</h2><p>reject 方法类似于 resolve<br><strong>注意:不管传入 Promise.reject 的参数是何种形式，都会直接作为 rejected 状态给到 catch 的回调</strong></p>
+<h2 id="all"><a href="#all" class="headerlink" title="all"></a>all</h2><p>它的作用是将多个 promise 包裹在一起，形成一个新的 promise；新的 Promise 状态由包裹所有 promise 的状态共同决定；<br>所有的 promise fulfilled -&gt;all fulfilled 并且会将所有 promise 的返回值组成一个数组<br>当有一个 reject -&gt; all rejected,并且会将第一个 reject 的当作参数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Promise</span>.<span class="title function_">all</span>([p1, p2, p3])</span><br><span class="line">        .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;所有的promise 都成功&#x27;</span>, res);</span><br><span class="line">        &#125;)</span><br><span class="line">        .<span class="title function_">catch</span>(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;有一个失败了，原因&#x27;</span> + err);</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="allSettled"><a href="#allSettled" class="headerlink" title="allSettled"></a>allSettled</h2><p>all 的缺陷，多个 promise 只要有一个失败，整个 all 的 promise 就会 rejected。那么对于其他可能 resolved 请求或者仍然处于 pending 状态的请求，拿不到结果了。</p>
+<p>ES11 出现的,该方法会在所有的 promise 都有结果(settled)，无论你是失败还是成功，才会有最终的状态，并且这个状态一定是成功 fulfilled 的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> xp = <span class="title class_">Promise</span>.<span class="title function_">allSettled</span>([p1, p2, p3])</span><br><span class="line">        .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;所有的promise 都成功&#x27;</span>, res);</span><br><span class="line">        &#125;)</span><br><span class="line">        .<span class="title function_">catch</span>(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;有一个失败了，原因&#x27;</span> + err);</span><br><span class="line">        &#125;);</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(xp);</span><br><span class="line">    &lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="race"><a href="#race" class="headerlink" title="race"></a>race</h2><p>如果多个 promise 中，有一个有了结果，我们就希望用这个来决定最终的 promise 的状态，那就用 race。<br>谁的结果先出来，我就用谁的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Promise</span>.<span class="title function_">race</span>([p1, p2, p3])</span><br><span class="line">        .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;then&#x27;</span>, res);</span><br><span class="line">        &#125;)</span><br><span class="line">        .<span class="title function_">catch</span>(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;catch&#x27;</span>, err);</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="any"><a href="#any" class="headerlink" title="any"></a>any</h2><p>race 永远拿最先的，可能是好的也可能是坏的。有些时候我们想要只拿好的<br>ES12,any 方法会等到一个 fulfilled 状态，才来决定新的 promise 的状态<br>如果所有的 promise 都是坏的，那他也会等所有的都 rejected</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Promise</span>.<span class="title function_">any</span>([p1, p2, p3])</span><br><span class="line">        .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;then&#x27;</span>, res);</span><br><span class="line">        &#125;)</span><br><span class="line">        .<span class="title function_">catch</span>(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="comment">//内部报一个错误</span></span><br><span class="line">          <span class="comment">//AggregateError: All promises were rejected</span></span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;catch&#x27;</span>, err);</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>RickyD
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://muleandhorse.icu/2022/05/17/b30%20promise/" title="javascript 笔记24-promise详解">http://muleandhorse.icu/2022/05/17/b30 promise/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/" rel="tag"># 前端开发</a>
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/tags/javascript/" rel="tag"># javascript</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/15/b28%20ES7-ES13/" rel="prev" title="javascript 笔记22-ES7~ES13的功能">
+      <i class="fa fa-chevron-left"></i> javascript 笔记22-ES7~ES13的功能
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/19/b31%20%E7%94%9F%E6%88%90%E5%99%A8%E5%92%8C%E8%BF%AD%E4%BB%A3%E5%99%A8%20/" rel="next" title="javascript 笔记25-迭代器与生成器">
+      javascript 笔记25-迭代器与生成器 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81ODIzMi8zNDY5NQ=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Promise"><span class="nav-number">1.</span> <span class="nav-text">Promise</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise-%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-number">1.1.</span> <span class="nav-text">Promise 的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E4%BB%A3%E7%A0%81%E7%9A%84%E5%9B%B0%E5%A2%83"><span class="nav-number">1.1.1.</span> <span class="nav-text">异步代码的困境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8promise%E6%9D%A5%E8%A7%A3%E5%86%B3%E5%BC%82%E6%AD%A5%E7%9A%84%E5%9B%9E%E8%B0%83%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.2.</span> <span class="nav-text">使用promise来解决异步的回调问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#promise-%E7%9A%84%E4%B8%89%E4%B8%AA%E7%8A%B6%E6%80%81"><span class="nav-number">1.2.</span> <span class="nav-text">promise 的三个状态</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#executor"><span class="nav-number">1.2.1.</span> <span class="nav-text">executor</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#resolve-%E5%8F%82%E6%95%B0%E7%9A%84%E4%B8%89%E7%A7%8D%E6%83%85%E5%86%B5"><span class="nav-number">1.3.</span> <span class="nav-text">resolve 参数的三种情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#promise%E7%9A%84then%E6%96%B9%E6%B3%95"><span class="nav-number">1.4.</span> <span class="nav-text">promise的then方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#promise%E7%9A%84catch%E6%96%B9%E6%B3%95"><span class="nav-number">1.5.</span> <span class="nav-text">promise的catch方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#finally"><span class="nav-number">1.6.</span> <span class="nav-text">finally</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise-resolve"><span class="nav-number">1.7.</span> <span class="nav-text">Promise.resolve</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise-reject"><span class="nav-number">1.8.</span> <span class="nav-text">Promise.reject</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#all"><span class="nav-number">1.9.</span> <span class="nav-text">all</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#allSettled"><span class="nav-number">1.10.</span> <span class="nav-text">allSettled</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#race"><span class="nav-number">1.11.</span> <span class="nav-text">race</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#any"><span class="nav-number">1.12.</span> <span class="nav-text">any</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="RickyD"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">RickyD</p>
+  <div class="site-description" itemprop="description">如果站长加班加似了，这个网站就是他留给世界最后的遗产</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/RickyDriver" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;RickyDriver" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1552330861@qq.com" title="E-Mail → 1552330861@qq.com"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RickyD</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">76k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">4:15</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>

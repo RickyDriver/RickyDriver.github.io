@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.svg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"muleandhorse.icu","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Proxy-Reflect">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript 笔记23-Proxy与Reflect">
+<meta property="og:url" content="http://muleandhorse.icu/2022/05/15/b29%20proxy_reflect/index.html">
+<meta property="og:site_name" content="Mule and Horse">
+<meta property="og:description" content="Proxy-Reflect">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-15T06:06:09.000Z">
+<meta property="article:modified_time" content="2023-05-29T11:34:28.262Z">
+<meta property="article:author" content="RickyD">
+<meta property="article:tag" content="前端开发">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="javascript">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://muleandhorse.icu/2022/05/15/b29%20proxy_reflect/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>javascript 笔记23-Proxy与Reflect | Mule and Horse</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mule and Horse</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个工地仔的救赎之路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">48</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://muleandhorse.icu/2022/05/15/b29%20proxy_reflect/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="RickyD">
+      <meta itemprop="description" content="如果站长加班加似了，这个网站就是他留给世界最后的遗产">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mule and Horse">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          javascript 笔记23-Proxy与Reflect
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-15 14:06:09" itemprop="dateCreated datePublished" datetime="2022-05-15T14:06:09+08:00">2022-05-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-29 19:34:28" itemprop="dateModified" datetime="2023-05-29T19:34:28+08:00">2023-05-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Proxy-Reflect"><a href="#Proxy-Reflect" class="headerlink" title="Proxy-Reflect"></a>Proxy-Reflect<span id="more"></span></h1><h2 id="监听对象的操作-ES5"><a href="#监听对象的操作-ES5" class="headerlink" title="监听对象的操作 ES5"></a>监听对象的操作 ES5</h2><p>首先<code>Object.defineProperty</code>设计的初衷，不是为了数据劫持和数据代理，也就是不是为了监听对象中所有的属性，详细地定义对象的属性，只不过我们的操作强行让它能够监听而已。其次我们想监听一些更加丰富的操作的时候，没办法。所以 ES6 给我们提供了 proxy</p>
+<h3 id="ES5的操作"><a href="#ES5的操作" class="headerlink" title="ES5的操作"></a>ES5的操作</h3><p>使用<code>Object.defineProperty</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> objProxy = <span class="keyword">new</span> <span class="title class_">Proxy</span>(obj, &#123;</span><br><span class="line">      <span class="comment">//给那个对象，设置那个属性，什么值</span></span><br><span class="line">      <span class="title function_">set</span>(<span class="params">target, key, newValue</span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`监听:监听<span class="subst">$&#123;key&#125;</span>的设置值`</span>, newValue);</span><br><span class="line">        target[key] = newValue;</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="comment">//我要获取那个的对象的 那个属性</span></span><br><span class="line">      <span class="title function_">get</span>(<span class="params">target, key</span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`监听:监听<span class="subst">$&#123;key&#125;</span>的获取`</span>);</span><br><span class="line">        <span class="keyword">return</span> target[key];</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="comment">//监听对象删除某个属性</span></span><br><span class="line">      <span class="title function_">deleteProperty</span>(<span class="params">target, key</span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`监听:删除了<span class="subst">$&#123;key&#125;</span>属性`</span>);</span><br><span class="line">        <span class="keyword">delete</span> target[key];</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="comment">//监听对象属性in的判断</span></span><br><span class="line">      <span class="title function_">has</span>(<span class="params">target, key</span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`监听:监听<span class="subst">$&#123;key&#125;</span>，in的判断`</span>);</span><br><span class="line">        <span class="keyword">return</span> key <span class="keyword">in</span> target;</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>但是这样的方法无法进行复杂的操作，例如监听对象删除或者修改的话，就无法实时更新了</p>
+<h2 id="监听对象的操作-ES6"><a href="#监听对象的操作-ES6" class="headerlink" title="监听对象的操作 ES6"></a>监听对象的操作 ES6</h2><p>Proxy 类，用于帮助我们创建一个代理，监听对象的时候，我们可以先创建一个代理对象(proxy)，之后所有对该对象的操作都通过代理对象来完成。<br><code>const p = new Proxy(target,handler)</code></p>
+<h4 id="proxy相关知识"><a href="#proxy相关知识" class="headerlink" title="proxy相关知识"></a>proxy相关知识</h4><p>传入的参数</p>
+<ul>
+<li>target:你要代理的目标对象</li>
+<li>hanlder:你需要做那些处理（事件处理函数的回调）</li>
+</ul>
+<p><strong>handler常用的事件处理函数的方法</strong></p>
+<ol>
+<li><p><code>set()</code>: 在监听对象内的属性被定义时执行，可以传入四个参数<br>target 目标对象<br>property 属性<br>value 值<br>receiver 调用的代理对象</p>
+</li>
+<li><p><code>get()</code>:在外部函数访问监听对象的属性时执行, 三个参数<br>target 目标对象<br>property 属性<br>receiver 调用的代理对象</p>
+</li>
+<li><p><code>apply()</code></p>
+</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">apply</span>(<span class="params">target, thisArg, otherArgs</span>) &#123;</span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;监听了apply操作&#x27;</span>);</span><br><span class="line">          target.<span class="title function_">apply</span>(thisArg, otherArgs);</span><br><span class="line">        &#125;,</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><code>construct()</code></li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">construct</span>(<span class="params">target, otherArgs</span>) &#123;</span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;执行了new操作&#x27;</span>);</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">new</span> <span class="title function_">target</span>(...otherArgs);</span><br><span class="line">        &#125;,</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="Reflect-和-Object"><a href="#Reflect-和-Object" class="headerlink" title="Reflect 和 Object"></a>Reflect 和 Object</h2><p>Reflect(反射)也是 ES6 新增的 API，它是一个对象。提供了操作对象的方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;&#125;;</span><br><span class="line"><span class="comment">//确实可以这样做，但是不符合ecma标准</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(obj.<span class="property">__proto__</span>);</span><br><span class="line"><span class="comment">//按照ecma的标准</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Object</span>.<span class="title function_">getPrototypeOf</span>(obj));</span><br><span class="line"></span><br><span class="line"><span class="comment">//还可以用reflect</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Reflect</span>.<span class="title function_">getPrototypeOf</span>(obj));</span><br></pre></td></tr></table></figure>
+
+<p>明明已经有 Object 可以做这些操作，为什么还要有 Reflect？这是因为早期 ECMA 规范没有考虑到对对象本身的操作如何设计 更加好。Object 在 js 内属于顶级的类，Array,Function,Number,String…都继承于他，从语言设计层面来说，作为所有类的父类，你本身不应该包含太多东西。</p>
+<p>ES6 新增的 Reflect 就把一些操作集中到了 Reflect 对象上。Reflect 就是专门来做对象的操作用的,Proxy 也可以不操作原对象</p>
+<h4 id="reflect与Object的区别"><a href="#reflect与Object的区别" class="headerlink" title="reflect与Object的区别"></a>reflect与Object的区别</h4><p>使用Object的对象方法，如果要判断删除一个属性删除成功没有，像这样判断就会报错</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&#x27;use strict&#x27;</span>;</span><br><span class="line">     <span class="keyword">const</span> obj = &#123;</span><br><span class="line">       <span class="attr">name</span>: <span class="string">&#x27;alex&#x27;</span>,</span><br><span class="line">       <span class="attr">age</span>: <span class="number">18</span>,</span><br><span class="line">     &#125;;</span><br><span class="line">     <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(obj, <span class="string">&#x27;name&#x27;</span>, &#123;</span><br><span class="line">       <span class="attr">configurable</span>: <span class="literal">false</span>,</span><br><span class="line">     &#125;);</span><br><span class="line">     <span class="comment">//删除obj的name，判断删除的操作有没有成功</span></span><br><span class="line">     <span class="keyword">delete</span> obj.<span class="property">name</span>;</span><br><span class="line">     <span class="keyword">if</span> (obj.<span class="property">name</span>) &#123;</span><br><span class="line">       <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;没有权限,请联系开发大哥&#x27;</span>);</span><br><span class="line">     &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">       <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;alex忘记了自己的姓名&#x27;</span>);</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+
+<p>reflect相当于是Object的一个小替身，他上面放了一些Object的方法，使用他的方法不会影响原对象，自然也不会报错</p>
+<p><strong>使用reflect的对象方法</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="title class_">Reflect</span>.<span class="title function_">deleteProperty</span>(obj, <span class="string">&#x27;name&#x27;</span>)) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;alex忘记了自己的姓名&#x27;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;没有权限,请联系开发大哥&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>使用relfect和proxy共同完成代理</strong></p>
+<p>使用proxy的目的就是不再操作原对象，通过代理拦截</p>
+<p>再使用reflect对对象进行一些验证的操作</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;alex&#x27;</span>,</span><br><span class="line">        <span class="attr">age</span>: <span class="number">18</span>,</span><br><span class="line">      &#125;;</span><br><span class="line">      <span class="keyword">const</span> nameH2 = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.name&#x27;</span>);</span><br><span class="line">      nameH2.<span class="property">textContent</span> = obj.<span class="property">name</span>;</span><br><span class="line">      <span class="comment">//1.创建代理对象</span></span><br><span class="line">      <span class="keyword">const</span> objProxy = <span class="keyword">new</span> <span class="title class_">Proxy</span>(obj, &#123;</span><br><span class="line">        <span class="title function_">set</span>(<span class="params">target, key, newValue, receiver</span>) &#123;</span><br><span class="line">          <span class="title class_">Reflect</span>.<span class="title function_">set</span>(target, key, newValue, receiver);</span><br><span class="line">          nameH2.<span class="property">textContent</span> = obj.<span class="property">name</span>;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="title function_">get</span>(<span class="params">target, key, receiver</span>) &#123;</span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">123</span>);</span><br><span class="line">          <span class="keyword">return</span> <span class="title class_">Reflect</span>.<span class="title function_">get</span>(target, key, receiver);</span><br><span class="line">          <span class="comment">// return target[key];</span></span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(objProxy.<span class="property">name</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="作业"><a href="#作业" class="headerlink" title="作业"></a>作业</h1><h2 id="1-说出-Proxy-和-Object-defineProperty-的区别"><a href="#1-说出-Proxy-和-Object-defineProperty-的区别" class="headerlink" title="1. 说出 Proxy 和 Object.defineProperty 的区别"></a>1. 说出 Proxy 和 Object.defineProperty 的区别</h2><p>Object.defineProperty的使用初衷并不是用来监听对象，只是在es5中用了特殊的方法让他能够监听到对象，但是想通过他执行一些特殊的操作，就没有办法了。虽然<code>Object.defineProperty</code>能够劫持对象的属性，但是需要对对象的每一个属性进行遍历劫持；如果对象上有新增的属性，则需要对新增的属性再次进行劫持；如果属性是对象，还需要深度遍历。</p>
+<p>proxy是对整个对象进行劫持，可以理解成外界要对这个对象进行读取或者更改，都被这个代理拦截，处理后返回一整个新的对象。</p>
+<blockquote>
+<p>Proxy 设计的初衷就是监听对象的改变，并且提供了 13 种监听的操作</p>
+<ul>
+<li>监听和拦截外部对于对象的访问</li>
+<li>可以直接监听数组的变化</li>
+</ul>
+<p>Object.defineProperty</p>
+<ul>
+<li>设计的初衷是定义对象的属性，所以有些操作监听不了，新增删除属性…</li>
+<li>对于复杂的对象，层级很深的，需要采用递归</li>
+<li>不能监听数组的变化</li>
+</ul>
+</blockquote>
+<h2 id="2-说出-Reflect-的作用和为什么需要他"><a href="#2-说出-Reflect-的作用和为什么需要他" class="headerlink" title="2. 说出 Reflect 的作用和为什么需要他"></a>2. 说出 Reflect 的作用和为什么需要他</h2><p>一句话，Reflect没什么用，除了装装逼，让人看起来高大上以外，并不具有什么牛逼之处。</p>
+<p>准确讲应该是这样的，Reflect更像是一种语法变体，其挂在的所有方法都能找到对应的原始语法，也就是Reflect的替代性非常强。</p>
+<p>其实从Reflect这个单词本身字面意思就能体会出Reflect的神韵，Reflect的中文意思是“反射”，阳光照在镜子上反射，其实光子还是那些光子，只是变化了方向。</p>
+<p>如果Reflect仅仅是换了种语法，存在的意义并不大，很显然，Reflect对象的出现必然有其他的考量。</p>
+<p>对于某个对象，赋值并不总是成功的。</p>
+<p>例如，我们把 <code>input</code> 的<code>type</code>属性设置为只读，如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Object.defineProperty(input, <span class="string">&#x27;type&#x27;</span>, &#123;</span><br><span class="line">    <span class="keyword">get</span> () &#123;</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">this</span>.getAttribute(<span class="string">&#x27;type&#x27;</span>) || <span class="string">&#x27;text&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>传统的使用等于号进行的属性赋值并不能知道最后是否执行成功，需要自己进行进一步的检测。</p>
+<p>例如：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">console.<span class="built_in">log</span>(<span class="built_in">input</span>.<span class="built_in">type</span> = <span class="string">&#x27;number&#x27;</span>);</span><br><span class="line"></span><br><span class="line">// 输出 <span class="literal">false</span></span><br><span class="line">console.<span class="built_in">log</span>(Reflect.set(<span class="built_in">input</span>, <span class="string">&#x27;type&#x27;</span>, <span class="string">&#x27;number&#x27;</span>));</span><br></pre></td></tr></table></figure>
+
+<p>上面一行赋值返回值是<code>&#39;number&#39;</code>，至于改变输入框的<code>type</code>属性值是否成功，不得而知。</p>
+<p>但是下面一行语句使用的<code>Reflect.set()</code>方法，就可以知道是否设置成功，因为<code>Reflect.set()</code>的返回值是<code>true</code>或者<code>false</code>（只要参数类型准确）。</p>
+<p>除了知道执行结果外，Reflect方法还有个好处，不会因为报错而中断正常的代码逻辑执行。</p>
+<blockquote>
+<p>Reflect 是一个对象，提供了多种方法方便我们更规范的统一的去操作对象；而且在操作的时候会有对应的返回值。Object 作为顶级的构造函数并不应该放很多方法上去，这是早期设计不规范导致的。在 Proxy 监听对象的时候，使用 Reflect 避免了对原对象的操作。</p>
+</blockquote>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>RickyD
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://muleandhorse.icu/2022/05/15/b29%20proxy_reflect/" title="javascript 笔记23-Proxy与Reflect">http://muleandhorse.icu/2022/05/15/b29 proxy_reflect/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/" rel="tag"># 前端开发</a>
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/tags/javascript/" rel="tag"># javascript</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/13/b26%20%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%A2%9E%E5%BC%BA%E7%9F%A5%E8%AF%86/" rel="prev" title="javascript 笔记20-对象的增强知识">
+      <i class="fa fa-chevron-left"></i> javascript 笔记20-对象的增强知识
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/15/b28%20ES7-ES13/" rel="next" title="javascript 笔记22-ES7~ES13的功能">
+      javascript 笔记22-ES7~ES13的功能 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81ODIzMi8zNDY5NQ=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Proxy-Reflect"><span class="nav-number">1.</span> <span class="nav-text">Proxy-Reflect</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%91%E5%90%AC%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%93%8D%E4%BD%9C-ES5"><span class="nav-number">1.1.</span> <span class="nav-text">监听对象的操作 ES5</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ES5%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-number">1.1.1.</span> <span class="nav-text">ES5的操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%91%E5%90%AC%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%93%8D%E4%BD%9C-ES6"><span class="nav-number">1.2.</span> <span class="nav-text">监听对象的操作 ES6</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#proxy%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">proxy相关知识</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reflect-%E5%92%8C-Object"><span class="nav-number">1.3.</span> <span class="nav-text">Reflect 和 Object</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#reflect%E4%B8%8EObject%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">reflect与Object的区别</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%9C%E4%B8%9A"><span class="nav-number">2.</span> <span class="nav-text">作业</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AF%B4%E5%87%BA-Proxy-%E5%92%8C-Object-defineProperty-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.1.</span> <span class="nav-text">1. 说出 Proxy 和 Object.defineProperty 的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%AF%B4%E5%87%BA-Reflect-%E7%9A%84%E4%BD%9C%E7%94%A8%E5%92%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E4%BB%96"><span class="nav-number">2.2.</span> <span class="nav-text">2. 说出 Reflect 的作用和为什么需要他</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">2.3.</span> <span class="nav-text"></span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="RickyD"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">RickyD</p>
+  <div class="site-description" itemprop="description">如果站长加班加似了，这个网站就是他留给世界最后的遗产</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/RickyDriver" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;RickyDriver" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1552330861@qq.com" title="E-Mail → 1552330861@qq.com"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RickyD</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">76k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">4:15</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>

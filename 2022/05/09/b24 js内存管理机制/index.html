@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.svg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"muleandhorse.icu","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="js的内存管理机制">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript 笔记18-js的内存管理机制">
+<meta property="og:url" content="http://muleandhorse.icu/2022/05/09/b24%20js%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6/index.html">
+<meta property="og:site_name" content="Mule and Horse">
+<meta property="og:description" content="js的内存管理机制">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230515171603798.png">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/2023-05-16-11-56-33.png">
+<meta property="article:published_time" content="2022-05-09T06:06:09.000Z">
+<meta property="article:modified_time" content="2023-05-29T11:34:11.360Z">
+<meta property="article:author" content="RickyD">
+<meta property="article:tag" content="前端开发">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="javascript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230515171603798.png">
+
+<link rel="canonical" href="http://muleandhorse.icu/2022/05/09/b24%20js%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>javascript 笔记18-js的内存管理机制 | Mule and Horse</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mule and Horse</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个工地仔的救赎之路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">48</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://muleandhorse.icu/2022/05/09/b24%20js%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="RickyD">
+      <meta itemprop="description" content="如果站长加班加似了，这个网站就是他留给世界最后的遗产">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mule and Horse">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          javascript 笔记18-js的内存管理机制
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-09 14:06:09" itemprop="dateCreated datePublished" datetime="2022-05-09T14:06:09+08:00">2022-05-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-29 19:34:11" itemprop="dateModified" datetime="2023-05-29T19:34:11+08:00">2023-05-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="js的内存管理机制"><a href="#js的内存管理机制" class="headerlink" title="js的内存管理机制"></a>js的内存管理机制<span id="more"></span></h1><h2 id="1-JavaScript的内存管理"><a href="#1-JavaScript的内存管理" class="headerlink" title="1.JavaScript的内存管理"></a>1.JavaScript的内存管理</h2><p>js运行原理里面讲的<code>AO,VO,GO...</code>等一些知识，明明只是访问一个变量而已，却要做如此多的操作，这样设计的目的都是为了一个目的–<strong>闭包</strong></p>
+<h3 id="1-1-认识内存管理"><a href="#1-1-认识内存管理" class="headerlink" title="1.1 认识内存管理"></a>1.1 认识内存管理</h3><p>不管是什么样的编程语言，在代码执行的过程中都是需要给他<strong>分配内存</strong>，不同的是有些编程语言需要我们自己手动管理内存，有些编程语言可以自动管理内存。</p>
+<p><code>var obj = null</code></p>
+<p>不管何种方式来管理内存，内存的管理都会有如下的<strong>生命周期</strong>“</p>
+<ol>
+<li>分配申请你需要的内存（申请）</li>
+<li>使用分配的内存</li>
+<li>不需要使用的时候，对其进行释放</li>
+</ol>
+<h3 id="1-2-js的内存管理"><a href="#1-2-js的内存管理" class="headerlink" title="1.2 js的内存管理"></a>1.2 js的内存管理</h3><p>对于原始数据类型，直接在栈里面分配。</p>
+<p>对于复杂数据类型，在堆里分配，并将这块空间的指针返回给你的变量名引用</p>
+<h2 id="2-垃圾回收机制算法"><a href="#2-垃圾回收机制算法" class="headerlink" title="2.垃圾回收机制算法"></a>2.垃圾回收机制算法</h2><h3 id="2-1-js的垃圾回收"><a href="#2-1-js的垃圾回收" class="headerlink" title="2.1 js的垃圾回收"></a>2.1 js的垃圾回收</h3><p>内存的大小是有限的，当内存不再需要时，我们就要对他进行释放，以便腾出空间。</p>
+<p><code>Garbage collection</code>,简称GC。</p>
+<h3 id="2-2-引用计数（reference-counting）！important"><a href="#2-2-引用计数（reference-counting）！important" class="headerlink" title="2.2 引用计数（reference counting）！important"></a>2.2 引用计数（reference counting）！important</h3><p>当一个对象有一个引用指向他时，这个对象的引用就+1；当一个对象的引用为0，这个对象可以被销毁掉。</p>
+<p>这个方法虽然看起来合理，但是会存在明显的漏洞–<strong>循环引用</strong></p>
+<h3 id="2-3-标记清除（mark-Sweep-！important"><a href="#2-3-标记清除（mark-Sweep-！important" class="headerlink" title="2.3 标记清除（mark-Sweep) ！important"></a>2.3 标记清除（mark-Sweep) ！important</h3><p>核心思路是可达性，这个算法是设置一个根对象（root object&#x3D;&#x3D;&#x3D;GO），垃圾回收器会定期从根开始，找到所有从根开始引用的对象，对于那些没有的对象，认为是后续不再用的，就给他销毁，这个算法可以很好地解决循环引用的问题</p>
+<h3 id="2-4-其他常见的GC算法"><a href="#2-4-其他常见的GC算法" class="headerlink" title="2.4 其他常见的GC算法"></a>2.4 其他常见的GC算法</h3><ol>
+<li>标记整理（Mark- compact）</li>
+<li>分代收集（generation collection)<ul>
+<li>对象被划分成”新的”和 ”旧的“</li>
+<li>减少对老旧对象扫描的频率</li>
+</ul>
+</li>
+<li>增量收集（incremental collection）<ul>
+<li>将一个大的-&gt;多个小的</li>
+</ul>
+</li>
+<li>闲时收集（idle-time collection）</li>
+</ol>
+<h3 id="2-5-v8引擎详细内存"><a href="#2-5-v8引擎详细内存" class="headerlink" title="2.5 v8引擎详细内存"></a>2.5 v8引擎详细内存</h3><p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230515171603798.png" alt="image-20230515171603798"></p>
+<h2 id="3-闭包概念的理解"><a href="#3-闭包概念的理解" class="headerlink" title="3. 闭包概念的理解"></a>3. 闭包概念的理解</h2><h3 id="3-1-js-的函数式编程"><a href="#3-1-js-的函数式编程" class="headerlink" title="3.1 js 的函数式编程"></a>3.1 js 的函数式编程</h3><p>js 中函数非常重要，而且是一等公民。函数可以作为另一个函数的参数，也可以作为函数的返回值。<br>vue:optionsAPI-&gt;compositionAPI-&gt;函数 hook<br>react:class-&gt;function-&gt;hooks</p>
+<h3 id="3-2-闭包"><a href="#3-2-闭包" class="headerlink" title="3.2 闭包"></a>3.2 闭包</h3><p>在计算机科学:Closure,又叫词法闭包(Lexical Closure)或者函数闭包,是在<strong>头等函数</strong>的编程语言中，实现词法绑定的一种技术，闭包在实现上是一个结构体，他存储了一个函数和一个关联的环境。闭包跟函数最大的区别在于，当捕获闭包的时候，他的<strong>自由变量</strong>会在被捕捉时确定。这样即使脱离了上下文，他也能照常运行。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">&#x27;alex&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> age = <span class="number">18</span>;</span><br><span class="line"><span class="keyword">var</span> info = <span class="string">&#x27;唱跳rap&#x27;</span>;</span><br><span class="line"><span class="comment">//有闭包</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">foo</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> msg = <span class="string">&#x27;hello world&#x27;</span>;</span><br><span class="line">  <span class="comment">//js底层帮你做了一件事--闭包</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(msg, name, age, info);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//没有闭包</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">bar</span>(<span class="params">name, age, info, address, hobby, height</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> msg = <span class="string">&#x27;hello world&#x27;</span>;</span><br><span class="line">  <span class="comment">//js底层帮你做了一件事--闭包</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(msg, name, age, info);</span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">baz</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(msg, name, age, info);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//这里 既有外面的变量 也有我自己的</span></span><br><span class="line"><span class="comment">//全部混淆在一起 --- 希望一个函数只做一件事</span></span><br><span class="line"><span class="title function_">bar</span>(name, age, info, address, hobby, height);</span><br><span class="line"><span class="title function_">foo</span>();</span><br><span class="line"><span class="comment">//作用域链的存在，就是为了方便你去外面找东西，也就是为了闭包</span></span><br></pre></td></tr></table></figure>
+
+<p>私人:<br>广义上来说，js 中的函数都是闭包。<br>狭义说：js 中的函数，访问了外层作用域的变量，才叫做闭包。</p>
+<h2 id="4-闭包的形成过程"><a href="#4-闭包的形成过程" class="headerlink" title="4. 闭包的形成过程"></a>4. 闭包的形成过程</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//新手</span></span><br><span class="line"><span class="comment">// function adder(num,count) &#123;</span></span><br><span class="line"><span class="comment">//   return num + count;</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"><span class="comment">// adder(100,5); //105</span></span><br><span class="line"><span class="comment">// adder(5,5); //10</span></span><br><span class="line"><span class="comment">// adder(55,5); //60</span></span><br><span class="line"><span class="comment">// //我要 后三次调用+8</span></span><br><span class="line"><span class="comment">// adder(22,8)</span></span><br><span class="line"><span class="comment">// adder(12,8)</span></span><br><span class="line"><span class="comment">// adder(2,8)</span></span><br><span class="line"><span class="comment">//nest.js 全栈</span></span><br><span class="line"><span class="comment">//老手</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">createAdder</span>(<span class="params">count</span>) &#123;</span><br><span class="line">  <span class="comment">// function adder(num) &#123;</span></span><br><span class="line">  <span class="comment">//   return count + num;</span></span><br><span class="line">  <span class="comment">// &#125;</span></span><br><span class="line">  <span class="comment">// return adder;</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">num</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> count + num;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// let createAdder1 = count=&gt; num =&gt; count + num;</span></span><br><span class="line"><span class="comment">// let adder4= createAdder1(4)</span></span><br><span class="line"><span class="comment">// let res = adder4(16)</span></span><br><span class="line"><span class="comment">// console.log(res);</span></span><br><span class="line"><span class="keyword">let</span> adder5 = <span class="title function_">createAdder</span>(<span class="number">5</span>);</span><br><span class="line"><span class="title function_">adder5</span>(<span class="number">15</span>); <span class="comment">//20</span></span><br><span class="line"><span class="title function_">adder5</span>(<span class="number">25</span>);</span><br><span class="line"><span class="title function_">adder5</span>(<span class="number">35</span>);</span><br><span class="line"><span class="keyword">let</span> adder8 = <span class="title function_">createAdder</span>(<span class="number">8</span>);</span><br><span class="line"><span class="title function_">adder8</span>(<span class="number">2</span>);</span><br><span class="line"><span class="title function_">adder8</span>(<span class="number">12</span>);</span><br><span class="line"><span class="title function_">adder8</span>(<span class="number">22</span>);</span><br></pre></td></tr></table></figure>
+
+<p>看图</p>
+<h2 id="5-闭包的内存泄漏"><a href="#5-闭包的内存泄漏" class="headerlink" title="5. 闭包的内存泄漏"></a>5. 闭包的内存泄漏</h2><p>我们图里 adder5 adder8 以及对应的 AO 对象，存在引用而且也是根可达的所以即使后续不再使用也不会释放。我们经常说的闭包的内存泄漏，其实就是这些引用链上的对象无法释放。</p>
+<h3 id="5-1-如何释放"><a href="#5-1-如何释放" class="headerlink" title="5.1 如何释放"></a>5.1 如何释放</h3><p>比如说我们要释放 adder5,<code>adder5=null</code></p>
+<h3 id="5-2-内存泄漏的测试"><a href="#5-2-内存泄漏的测试" class="headerlink" title="5.2 内存泄漏的测试"></a>5.2 内存泄漏的测试</h3><p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/2023-05-16-11-56-33.png" alt="2023-05-16-11-56-33.png"></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;create&quot;</span>&gt;</span>创建很多对象<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;destory&quot;</span>&gt;</span>销毁很多对象<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">function</span> <span class="title function_">createArray</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">//4 1024 -&gt;4kb *1024 -&gt;4M</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="title class_">Array</span>(<span class="number">1024</span> * <span class="number">1024</span>).<span class="title function_">fill</span>(<span class="number">1</span>);</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">function</span> <span class="title function_">test</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="variable language_">console</span>.<span class="title function_">log</span>(arr);</span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">return</span> test;</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> totalArr = [];</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">let</span> createBtn = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.create&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">let</span> destoryBtn = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.destory&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  createBtn.<span class="property">onclick</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span></span><br><span class="line"><span class="language-javascript">      totalArr.<span class="title function_">push</span>(<span class="title function_">createArray</span>());</span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">console</span>.<span class="title function_">log</span>(totalArr.<span class="property">length</span>);</span></span><br><span class="line"><span class="language-javascript">  &#125;;</span></span><br><span class="line"><span class="language-javascript">  destoryBtn.<span class="property">onclick</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    totalArr = [];</span></span><br><span class="line"><span class="language-javascript">  &#125;;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-3-AO-不使用的属性优化"><a href="#5-3-AO-不使用的属性优化" class="headerlink" title="5.3 AO 不使用的属性优化"></a>5.3 AO 不使用的属性优化</h3><p>不被销毁的 AO 对象，里面所有的属性都一直保留吗？<br>结论：不使用的不会保留–浏览器自己的优化</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>RickyD
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://muleandhorse.icu/2022/05/09/b24%20js%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6/" title="javascript 笔记18-js的内存管理机制">http://muleandhorse.icu/2022/05/09/b24 js内存管理机制/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/" rel="tag"># 前端开发</a>
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/tags/javascript/" rel="tag"># javascript</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/07/b23%20%E7%BB%A7%E6%89%BF/" rel="prev" title="javascript 笔记17-继承">
+      <i class="fa fa-chevron-left"></i> javascript 笔记17-继承
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/11/b25%20%E5%87%BD%E6%95%B0%E7%9A%84%E5%A2%9E%E5%BC%BA%E7%9F%A5%E8%AF%86/" rel="next" title="javascript 笔记19-函数的增强知识">
+      javascript 笔记19-函数的增强知识 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81ODIzMi8zNDY5NQ=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#js%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">js的内存管理机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-JavaScript%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">1.1.</span> <span class="nav-text">1.JavaScript的内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E8%AE%A4%E8%AF%86%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 认识内存管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-js%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 js的内存管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">2.垃圾回收机制算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-js%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 js的垃圾回收</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%EF%BC%88reference-counting%EF%BC%89%EF%BC%81important"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 引用计数（reference counting）！important</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%EF%BC%88mark-Sweep-%EF%BC%81important"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 标记清除（mark-Sweep) ！important</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E5%85%B6%E4%BB%96%E5%B8%B8%E8%A7%81%E7%9A%84GC%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.4 其他常见的GC算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-v8%E5%BC%95%E6%93%8E%E8%AF%A6%E7%BB%86%E5%86%85%E5%AD%98"><span class="nav-number">1.2.5.</span> <span class="nav-text">2.5 v8引擎详细内存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E9%97%AD%E5%8C%85%E6%A6%82%E5%BF%B5%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">1.3.</span> <span class="nav-text">3. 闭包概念的理解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-js-%E7%9A%84%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 js 的函数式编程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E9%97%AD%E5%8C%85"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 闭包</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E9%97%AD%E5%8C%85%E7%9A%84%E5%BD%A2%E6%88%90%E8%BF%87%E7%A8%8B"><span class="nav-number">1.4.</span> <span class="nav-text">4. 闭包的形成过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E9%97%AD%E5%8C%85%E7%9A%84%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F"><span class="nav-number">1.5.</span> <span class="nav-text">5. 闭包的内存泄漏</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E5%A6%82%E4%BD%95%E9%87%8A%E6%94%BE"><span class="nav-number">1.5.1.</span> <span class="nav-text">5.1 如何释放</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E7%9A%84%E6%B5%8B%E8%AF%95"><span class="nav-number">1.5.2.</span> <span class="nav-text">5.2 内存泄漏的测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-AO-%E4%B8%8D%E4%BD%BF%E7%94%A8%E7%9A%84%E5%B1%9E%E6%80%A7%E4%BC%98%E5%8C%96"><span class="nav-number">1.5.3.</span> <span class="nav-text">5.3 AO 不使用的属性优化</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="RickyD"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">RickyD</p>
+  <div class="site-description" itemprop="description">如果站长加班加似了，这个网站就是他留给世界最后的遗产</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/RickyDriver" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;RickyDriver" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1552330861@qq.com" title="E-Mail → 1552330861@qq.com"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RickyD</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">76k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">4:15</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
