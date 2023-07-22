@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"muleandhorse.icu","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="初识 Node.js1.Node.js 是什么Node.js is an open-source, cross-platform JavaScript runtime environment.Node 是一个开源的，跨平台的 js 运行环境 2.Node.js 的应用场景应用一：目前前端开发的库都是以 node 包的形式进行管理应用二：npm,yarn,pnpm 都是前端开发使用的很高频率的工具应">
+  <meta name="description" content="初识 Node.js">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Node.js浅尝">
 <meta property="og:url" content="http://muleandhorse.icu/2022/05/30/b33%20%E5%88%9D%E8%AF%86node.js/index.html">
 <meta property="og:site_name" content="Mule and Horse">
-<meta property="og:description" content="初识 Node.js1.Node.js 是什么Node.js is an open-source, cross-platform JavaScript runtime environment.Node 是一个开源的，跨平台的 js 运行环境 2.Node.js 的应用场景应用一：目前前端开发的库都是以 node 包的形式进行管理应用二：npm,yarn,pnpm 都是前端开发使用的很高频率的工具应">
+<meta property="og:description" content="初识 Node.js">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-05-30T06:06:09.000Z">
-<meta property="article:modified_time" content="2023-07-22T13:02:00.955Z">
+<meta property="article:modified_time" content="2023-07-22T13:25:01.236Z">
 <meta property="article:author" content="RickyD">
 <meta property="article:tag" content="前端开发">
 <meta property="article:tag" content="笔记">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-07-22 21:02:00" itemprop="dateModified" datetime="2023-07-22T21:02:00+08:00">2023-07-22</time>
+                <time title="修改时间：2023-07-22 21:25:01" itemprop="dateModified" datetime="2023-07-22T21:25:01+08:00">2023-07-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -245,7 +245,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>726</span>
+              <span>727</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -264,7 +264,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="初识-Node-js"><a href="#初识-Node-js" class="headerlink" title="初识 Node.js"></a>初识 Node.js</h1><h2 id="1-Node-js-是什么"><a href="#1-Node-js-是什么" class="headerlink" title="1.Node.js 是什么"></a>1.Node.js 是什么</h2><p>Node.js is an open-source, cross-platform JavaScript runtime environment.<br>Node 是一个开源的，跨平台的 js 运行环境</p>
+        <h1 id="初识-Node-js"><a href="#初识-Node-js" class="headerlink" title="初识 Node.js"></a>初识 Node.js<span id="more"></span></h1><h2 id="1-Node-js-是什么"><a href="#1-Node-js-是什么" class="headerlink" title="1.Node.js 是什么"></a>1.Node.js 是什么</h2><p>Node.js is an open-source, cross-platform JavaScript runtime environment.<br>Node 是一个开源的，跨平台的 js 运行环境</p>
 <h2 id="2-Node-js-的应用场景"><a href="#2-Node-js-的应用场景" class="headerlink" title="2.Node.js 的应用场景"></a>2.Node.js 的应用场景</h2><p>应用一：目前前端开发的库都是以 node 包的形式进行管理<br>应用二：npm,yarn,pnpm 都是前端开发使用的很高频率的工具<br>应用三:越来越多的公司使用 node 作为 web 服务器，中间件，代理服务器<br>应用四:大量的项目需要用 node 完成前后端渲染的代码同构<br>应用五：为项目编写一些脚本工具 js<br>应用六：开发一些桌面端的应用 electron(竞品 Tauri)</p>
 <h2 id="3-Node-的安装和管理"><a href="#3-Node-的安装和管理" class="headerlink" title="3. Node 的安装和管理"></a>3. Node 的安装和管理</h2><p>官网:<a target="_blank" rel="noopener" href="https://nodejs.org/en">https://nodejs.org/en</a></p>
 <p>LTS:长期稳定版<br>Current:最新的包含所有最新的特性</p>

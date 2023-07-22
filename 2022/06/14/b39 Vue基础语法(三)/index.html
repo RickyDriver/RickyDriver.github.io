@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"muleandhorse.icu","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="6-21 Vue基础-Options API如果是多对一就用computed，如果是一对多就用watch。 往往在实际开发中，我们的数据不是直接展示，而是需要经过一定的处理。或者是把多个数据结合起来展示。在模版中，我们如果需要计算多个data，可以使用简单的js表达式，三元运算符。但是模版设计的初衷，是用于简单的数据展示。如果数据处理全部丢在模版里面，整个模版就会显得笨重和难以维护。 1.计算属性">
+  <meta name="description" content="6-21 Vue基础-Options API">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vue基础语法(三)">
 <meta property="og:url" content="http://muleandhorse.icu/2022/06/14/b39%20Vue%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95(%E4%B8%89)/index.html">
 <meta property="og:site_name" content="Mule and Horse">
-<meta property="og:description" content="6-21 Vue基础-Options API如果是多对一就用computed，如果是一对多就用watch。 往往在实际开发中，我们的数据不是直接展示，而是需要经过一定的处理。或者是把多个数据结合起来展示。在模版中，我们如果需要计算多个data，可以使用简单的js表达式，三元运算符。但是模版设计的初衷，是用于简单的数据展示。如果数据处理全部丢在模版里面，整个模版就会显得笨重和难以维护。 1.计算属性">
+<meta property="og:description" content="6-21 Vue基础-Options API">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://docimg4.docs.qq.com/image/AgAABlP525zHMX3_vStJtpi8-Mnf7dYj.png?w=1129&h=541">
 <meta property="og:image" content="https://docimg7.docs.qq.com/image/AgAABlP525xekEaQcEZDALzy3tzes5An.png?w=664&h=235">
@@ -39,7 +39,7 @@
 <meta property="og:image" content="https://docimg4.docs.qq.com/image/AgAABlP525yGXFJZtWJDvqHCwhuaYVrx.png?w=757&h=234">
 <meta property="og:image" content="https://docimg4.docs.qq.com/image/AgAABlP525yzU_9zQ-JLs4jze05KQO3G.png?w=220&h=77">
 <meta property="article:published_time" content="2022-06-14T08:06:09.000Z">
-<meta property="article:modified_time" content="2023-07-22T13:04:27.092Z">
+<meta property="article:modified_time" content="2023-07-22T13:25:24.650Z">
 <meta property="article:author" content="RickyD">
 <meta property="article:tag" content="前端开发">
 <meta property="article:tag" content="笔记">
@@ -239,7 +239,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-07-22 21:04:27" itemprop="dateModified" datetime="2023-07-22T21:04:27+08:00">2023-07-22</time>
+                <time title="修改时间：2023-07-22 21:25:24" itemprop="dateModified" datetime="2023-07-22T21:25:24+08:00">2023-07-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -276,7 +276,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="6-21-Vue基础-Options-API"><a href="#6-21-Vue基础-Options-API" class="headerlink" title="6-21 Vue基础-Options API"></a><strong>6-21 Vue基础-Options API</strong></h1><p>如果是多对一就用computed，如果是一对多就用watch。</p>
+        <h1 id="6-21-Vue基础-Options-API"><a href="#6-21-Vue基础-Options-API" class="headerlink" title="6-21 Vue基础-Options API"></a><strong>6-21 Vue基础-Options API</strong><span id="more"></span></h1><p>如果是多对一就用computed，如果是一对多就用watch。</p>
 <p>往往在实际开发中，我们的数据不是直接展示，而是需要经过一定的处理。或者是把多个数据结合起来展示。在模版中，我们如果需要计算多个data，可以使用简单的js表达式，三元运算符。但是模版设计的初衷，是用于简单的数据展示。如果数据处理全部丢在模版里面，整个模版就会显得笨重和难以维护。</p>
 <h2 id="1-计算属性computed"><a href="#1-计算属性computed" class="headerlink" title="1.计算属性computed"></a>1.<strong>计算属性computed</strong></h2><h3 id="1-1-计算属性的概念"><a href="#1-1-计算属性的概念" class="headerlink" title="1.1 计算属性的概念"></a><strong>1.1 计算属性的概念</strong></h3><p>对于任何包含响应式数据的<strong>复杂逻辑</strong>，你都应该使用<strong>计算属性</strong>；</p>
 <p>计算属性将被混入到组件的实例中，也就说所有的getter，setter中的this都将自动绑定this为组件的实例</p>
