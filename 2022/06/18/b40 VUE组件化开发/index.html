@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.svg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"muleandhorse.icu","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="组件化开发1.组件化开发的思想**1.1 认识组件化开发组件化开发也是类似的把大问题转成很多个方便解决的小问题，比如如果将所有的逻辑全部放在一起，处理起来变得非常复杂，而且不利于后续的维护和扩展。但是如果我们把页面拆成一个个小的功能块，每个功能块完成自己独立的部分，整个页面的管理就变得非常容易。 学习组件化开发最重要的是他的思想，每个框架，平台具体的实现不同，但是思想都是一样的。 组件最大的好处是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue的组件化开发思想">
+<meta property="og:url" content="http://muleandhorse.icu/2022/06/18/b40%20VUE%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BC%80%E5%8F%91/index.html">
+<meta property="og:site_name" content="Mule and Horse">
+<meta property="og:description" content="组件化开发1.组件化开发的思想**1.1 认识组件化开发组件化开发也是类似的把大问题转成很多个方便解决的小问题，比如如果将所有的逻辑全部放在一起，处理起来变得非常复杂，而且不利于后续的维护和扩展。但是如果我们把页面拆成一个个小的功能块，每个功能块完成自己独立的部分，整个页面的管理就变得非常容易。 学习组件化开发最重要的是他的思想，每个框架，平台具体的实现不同，但是思想都是一样的。 组件最大的好处是">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230629175510917.png">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230629175543524.png">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230629190448429.png">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230629190513276.png">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230629190540916.png">
+<meta property="article:published_time" content="2022-06-18T08:06:09.000Z">
+<meta property="article:modified_time" content="2023-07-22T13:05:35.656Z">
+<meta property="article:author" content="RickyD">
+<meta property="article:tag" content="前端开发">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="vue">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230629175510917.png">
+
+<link rel="canonical" href="http://muleandhorse.icu/2022/06/18/b40%20VUE%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BC%80%E5%8F%91/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>vue的组件化开发思想 | Mule and Horse</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mule and Horse</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个工地仔的救赎之路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">67</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">10</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://muleandhorse.icu/2022/06/18/b40%20VUE%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BC%80%E5%8F%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="RickyD">
+      <meta itemprop="description" content="如果站长加班加似了，这个网站就是他留给世界最后的遗产">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mule and Horse">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          vue的组件化开发思想
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-06-18 16:06:09" itemprop="dateCreated datePublished" datetime="2022-06-18T16:06:09+08:00">2022-06-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-07-22 21:05:35" itemprop="dateModified" datetime="2023-07-22T21:05:35+08:00">2023-07-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="组件化开发"><a href="#组件化开发" class="headerlink" title="组件化开发"></a><strong>组件化开发</strong></h1><h2 id="1-组件化开发的思想"><a href="#1-组件化开发的思想" class="headerlink" title="1.组件化开发的思想**"></a>1.组件化开发的思想**</h2><h3 id="1-1-认识组件化开发"><a href="#1-1-认识组件化开发" class="headerlink" title="1.1 认识组件化开发"></a><strong>1.1 认识组件化开发</strong></h3><p>组件化开发也是类似的把大问题转成很多个方便解决的小问题，比如如果将所有的逻辑全部放在一起，处理起来变得非常复杂，而且不利于后续的维护和扩展。但是如果我们把页面拆成一个个小的功能块，每个功能块完成自己独立的部分，整个页面的管理就变得非常容易。</p>
+<p>学习组件化开发最重要的是他的思想，每个框架，平台具体的实现不同，但是思想都是一样的。</p>
+<p>组件最大的好处是方便<strong>复用</strong>。</p>
+<h3 id="1-2-Vue的组件化开发"><a href="#1-2-Vue的组件化开发" class="headerlink" title="1.2 Vue的组件化开发"></a><strong>1.2 Vue的组件化开发</strong></h3><p>组件化是Vue的核心思想，也是课程的重点内容</p>
+<p>​	前面我们的createApp函数传入了一个配置对象App，这个对象本质上就是一个组件，而且也是整个应用程序的根(Root)组件</p>
+<p>组件化开发，简单来说就是两步</p>
+<ol>
+<li><p>注册组件</p>
+</li>
+<li><p>使用组件</p>
+</li>
+</ol>
+<h3 id="1-3-Vue的SFC"><a href="#1-3-Vue的SFC" class="headerlink" title="1.3 Vue的SFC"></a><strong>1.3 Vue的SFC</strong></h3><p>真实开发中，我们会通过一个后缀名为.vue的单文件组件(Single File Component)来解决，并且通过统一的开发结构；vue-cli&#x2F;vite&#x2F;webpack&#x2F;rollup。</p>
+<p>使用sfc的.vue文件来开发</p>
+<ol>
+<li><p>使用VueCLi来创建项目</p>
+</li>
+<li><p>自己用webpack或者vite来处理</p>
+</li>
+</ol>
+<h2 id="2-VueCLI"><a href="#2-VueCLI" class="headerlink" title="2. VueCLI"></a>2. VueCLI</h2><h3 id="2-1-什么是VueCLI脚手架？"><a href="#2-1-什么是VueCLI脚手架？" class="headerlink" title="2.1 什么是VueCLI脚手架？"></a><strong>2.1 什么是VueCLI脚手架？</strong></h3><p>真实开发我们不可能每一个项目都从头来配置webpack&#x2F;vite，这样开发效率会非常的低，所以真实开发我们通常会使用脚手架(帮助我们搭建好一些基础结构)来创建项目，Vue项目所使用的就是Vue的脚手架即Vue CLI</p>
+<p>​	CLI：Command Line Interface 命令行界面</p>
+<p>​	vue-cli已经内置了webpack的配置，不需要从0开始</p>
+<h3 id="2-2-Vue-CLI的安装和使用"><a href="#2-2-Vue-CLI的安装和使用" class="headerlink" title="2.2 Vue CLI的安装和使用"></a><strong>2.2 Vue CLI的安装和使用</strong></h3><p>安装：npm install @vue&#x2F;cli -g</p>
+<p>升级: npm update @vue&#x2F;cli -g</p>
+<p>使用：vue create 项目名</p>
+<p>更多： <a target="_blank" rel="noopener" href="https://cli.vuejs.org/zh/">https://cli.vuejs.org/zh/</a></p>
+<p>Windows用户，vue-cli的配置文件在一个叫做**.vuerc**的文件上,<strong>C:\Users{当前用户名}</strong></p>
+<p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230629175510917.png" alt="image-20230629175510917"></p>
+<p><strong>browserslist文件：做浏览器适配</strong></p>
+<p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230629175543524.png" alt="image-20230629175543524"></p>
+<p><strong>jsconfig.json: 给vscode用的</strong></p>
+<p><strong>额外补充：tree</strong></p>
+<p>windows可以直接使用：</p>
+<p>mac需要安装tree，<strong>homebrew install tree</strong></p>
+<p>如果报错得先安装homebrew</p>
+<p>命令：tree &gt; tree.md 这样你的整个项目目录会被输出到当前的tree.md文件中</p>
+<p>忽略node_modules文件夹的目录输出：tree -I ‘node_modules’ &gt; tree.md</p>
+<p>其他命令自行百度命令行tree的使用</p>
+<h2 id="3-组件的注册方式"><a href="#3-组件的注册方式" class="headerlink" title="3. 组件的注册方式**"></a>3. 组件的注册方式**</h2><p>如果我有一部分内容(模版，逻辑)，我们希望把这部分内容抽到一个独立的组件中维护，那我们就得先注册</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;h2&gt;&#123;&#123;title&#125;&#125;&lt;/h2&gt;</span><br><span class="line">&lt;p&gt;&#123;&#123;msg&#125;&#125;&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>全局组件</strong>：在其他任何组件中都能使用</p>
+<p><strong>局部组件</strong>：只有在注册了的组件中才能使用</p>
+<h3 id="3-1-全局注册组件"><a href="#3-1-全局注册组件" class="headerlink" title="3.1 全局注册组件"></a><strong>3.1 全局注册组件</strong></h3><p>全局注册组件需要我们使用全局创建的app来注册</p>
+<p>通过app的component方法传入组件的名称，组件的实现</p>
+<p>之后就可以使用了。</p>
+<ol>
+<li>创建组件</li>
+</ol>
+<p>在components文件夹中创建一个my-cpn.vue的文件，写入内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;h2&gt;&#123;&#123; title &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;p&gt;&#123;&#123; msg &#125;&#125;&lt;/p&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">//1.创建组件</span><br><span class="line">export default &#123;</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      title: &#x27;我是组件的标题&#x27;,</span><br><span class="line">      msg: &#x27;我是组件的内容&#x27;,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">div &#123;</span><br><span class="line">  background-color: orange;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>注册组件</li>
+</ol>
+<p>修改main.js的内容</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createApp &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">App</span> <span class="keyword">from</span> <span class="string">&#x27;./App.vue&#x27;</span>;</span><br><span class="line"><span class="comment">//2.注册组件</span></span><br><span class="line"><span class="comment">//2.1 引入组件</span></span><br><span class="line"><span class="keyword">import</span> myCpn <span class="keyword">from</span> <span class="string">&#x27;./components/my-cpn.vue&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">createApp</span>(<span class="title class_">App</span>);</span><br><span class="line"><span class="comment">//写自己对app需要的配置选项操作</span></span><br><span class="line"><span class="comment">//2.2注册全局组件</span></span><br><span class="line"><span class="comment">//第一个参数是将来使用的时候要用的名字</span></span><br><span class="line"><span class="comment">//第二个参数是具体组件的实现</span></span><br><span class="line">app.<span class="title function_">component</span>(<span class="string">&#x27;my-cpn&#x27;</span>, myCpn);</span><br><span class="line">app.<span class="title function_">mount</span>(<span class="string">&#x27;#app&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>使用组件</li>
+</ol>
+<p>在App.vue中使用对应的组件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;!-- 3.使用组件 --&gt;</span><br><span class="line">    &lt;my-cpn&gt;&lt;/my-cpn&gt;</span><br><span class="line">    &lt;my-cpn&gt;&lt;/my-cpn&gt;</span><br><span class="line">    &lt;my-cpn&gt;&lt;/my-cpn&gt;</span><br><span class="line">    &lt;my-cpn&gt;&lt;/my-cpn&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style lang=&quot;scss&quot;&gt;&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-组件自己的逻辑"><a href="#3-2-组件自己的逻辑" class="headerlink" title="3.2 组件自己的逻辑"></a><strong>3.2 组件自己的逻辑</strong></h3><p>组件也可以有自己的代码逻辑，比如自己的data，methods，computed…</p>
+<p>再创建一个组件product-item</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;product&quot;&gt;</span><br><span class="line">    &lt;h2&gt;&#123;&#123; title &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;p&gt;&#123;&#123; msg &#125;&#125;&lt;/p&gt;</span><br><span class="line">    &lt;button @click=&quot;demo&quot;&gt;点我&lt;/button&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      title: &#x27;我是product的title&#x27;,</span><br><span class="line">      msg: &#x27;我是product的msg&#x27;,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    demo() &#123;</span><br><span class="line">      console.log(123);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">.product &#123;</span><br><span class="line">  background-color: skyblue;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230629190448429.png" alt="image-20230629190448429"></p>
+<p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230629190513276.png" alt="image-20230629190513276"></p>
+<p>scoped样式隔离：如果style标签不加scoped隔离，会导致样式穿透，那个组件后引入就应用对应的样式，哪怕之前有同样的选择器，自己的样式也不生效。加一个scoped就能解决，为什么？</p>
+<p>原理：<img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230629190540916.png" alt="image-20230629190540916"> 加了scoped以后每个组件的内的模版中的所有标签都加上了一个 **data-v-[hash:8]**，最终你的style样式应用上去的时候会自动加上一个对应的属性选择器div[data-v-hash]{}</p>
+<p>为什么data必须是一个函数：让每个组件都有自己的独立的数据。</p>
+<h3 id="3-3-组件的命名"><a href="#3-3-组件的命名" class="headerlink" title="3.3 组件的命名"></a><strong>3.3 组件的命名</strong></h3><p>在我们注册全局组件是通过app.component（），参数一是组件的名字，参数二是组件的实现</p>
+<p>命名的方式有两种</p>
+<ol>
+<li>kebab-case短横线命名 <strong>my-cpn</strong></li>
+</ol>
+<p>​	使用的时候只能短横线 <code>&lt;my-cpn&gt; &lt;/my-cpn&gt;</code></p>
+<ol start="2">
+<li>PascalCase大驼峰 <strong>MyCpn</strong></li>
+</ol>
+<p>​	使用的时候短横线和大驼峰均可 </p>
+<p>我们修改main.js测试一下</p>
+<p>main.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createApp &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">App</span> <span class="keyword">from</span> <span class="string">&#x27;./App.vue&#x27;</span>;</span><br><span class="line"><span class="comment">//2.注册组件</span></span><br><span class="line"><span class="comment">//2.1 引入组件</span></span><br><span class="line"><span class="keyword">import</span> myCpn <span class="keyword">from</span> <span class="string">&#x27;./components/my-cpn.vue&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> productItem <span class="keyword">from</span> <span class="string">&#x27;./components/product-item.vue&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">createApp</span>(<span class="title class_">App</span>);</span><br><span class="line"><span class="comment">//写自己对app需要的配置选项操作</span></span><br><span class="line"><span class="comment">//2.2注册全局组件</span></span><br><span class="line"><span class="comment">//第一个参数是将来使用的时候要用的名字</span></span><br><span class="line"><span class="comment">//第二个参数是具体组件的实现</span></span><br><span class="line">app.<span class="title function_">component</span>(<span class="string">&#x27;MyCpn&#x27;</span>, myCpn);</span><br><span class="line">app.<span class="title function_">component</span>(<span class="string">&#x27;product-item&#x27;</span>, productItem);</span><br><span class="line">app.<span class="title function_">mount</span>(<span class="string">&#x27;#app&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>App.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;!-- 3.使用组件 --&gt;</span><br><span class="line">    &lt;my-cpn&gt;&lt;/my-cpn&gt;</span><br><span class="line">    &lt;!-- 大驼峰注册的时候 也可以大驼峰来使用 --&gt;</span><br><span class="line">    &lt;MyCpn&gt;&lt;/MyCpn&gt;</span><br><span class="line">    &lt;product-item&gt;&lt;/product-item&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style lang=&quot;scss&quot;&gt;&lt;/style&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-局部组件"><a href="#3-4-局部组件" class="headerlink" title="3.4 局部组件"></a><strong>3.4 局部组件</strong></h3><p>全局组件往往会在应用程序一开始就注册，这样有些组件即使没有使用到，也会注册</p>
+<ol>
+<li><p>打包后的js体积会增加，不利于webpack的tree shaking</p>
+</li>
+<li><p>使得依赖关系的维护很困难，而且不太容易定位子组件的实现，以及过多的全局变量</p>
+</li>
+</ol>
+<p>所以开发中除非明确是全局都需要的一般都会采用局部组件的形式</p>
+<p>使用局部组件操作如下</p>
+<ol>
+<li><p>编写并且注册，通过选项API，<strong>components</strong>选项来注册</p>
+</li>
+<li><p>components中的选项对应的是一个对象，对象中<strong>key:组件的名称</strong>，<strong>value：组件的实现</strong></p>
+</li>
+</ol>
+<p>恢复main.js的内容，我们尝试在App.vue中注册为局部组件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;MyList&gt;&lt;/MyList&gt;</span><br><span class="line">    &lt;!-- 3.使用组件 --&gt;</span><br><span class="line">    &lt;my-cpn&gt;&lt;/my-cpn&gt;</span><br><span class="line">    &lt;!-- 大驼峰注册的时候 也可以大驼峰来使用 --&gt;</span><br><span class="line">    &lt;MyCpn&gt;&lt;/MyCpn&gt;</span><br><span class="line">    &lt;product-item&gt;&lt;/product-item&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">//引入组件</span><br><span class="line">import MyCpn from &#x27;./components/my-cpn.vue&#x27;;</span><br><span class="line">import productItem from &#x27;./components/product-item.vue&#x27;;</span><br><span class="line">import MyList from &#x27;./components/my-list.vue&#x27;;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">  //配置App用的组件</span><br><span class="line">  components: &#123;</span><br><span class="line">    //注册</span><br><span class="line">    // &#x27;MyCpn&#x27;: MyCpn,</span><br><span class="line">    //简写</span><br><span class="line">    MyCpn,</span><br><span class="line">    &#x27;product-item&#x27;: productItem,</span><br><span class="line">    MyList,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>注册为局部组件以后，我们的组件就只能在App内使用，其他地方用不了。</p>
+<h2 id="4-组件化通信"><a href="#4-组件化通信" class="headerlink" title="4. 组件化通信**"></a>4. 组件化通信**</h2><p>拆分组件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;!-- 头部 --&gt;</span><br><span class="line">    &lt;div class=&quot;header&quot;&gt;</span><br><span class="line">      &lt;div class=&quot;top&quot;&gt;top banner&lt;/div&gt;</span><br><span class="line">      &lt;input type=&quot;text&quot; /&gt;</span><br><span class="line">      &lt;div class=&quot;nav&quot;&gt;&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;!-- 中间主体 --&gt;</span><br><span class="line">    &lt;div class=&quot;content&quot;&gt;</span><br><span class="line">      &lt;div class=&quot;banner&quot;&gt;banner&lt;/div&gt;</span><br><span class="line">      &lt;ul&gt;</span><br><span class="line">        &lt;li&gt;商品列表1&lt;/li&gt;</span><br><span class="line">        &lt;li&gt;商品列表2&lt;/li&gt;</span><br><span class="line">        &lt;li&gt;商品列表3&lt;/li&gt;</span><br><span class="line">        &lt;li&gt;商品列表4&lt;/li&gt;</span><br><span class="line">      &lt;/ul&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;!-- 底部footer --&gt;</span><br><span class="line">    &lt;div class=&quot;footer&quot;&gt;</span><br><span class="line">      &lt;div&gt;物流配送&lt;/div&gt;</span><br><span class="line">      &lt;div&gt;版权声明&lt;/div&gt;</span><br><span class="line">      &lt;div&gt;免责声明&lt;/div&gt;</span><br><span class="line">      &lt;div&gt;注册地址：XXXXX&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>RickyD
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://muleandhorse.icu/2022/06/18/b40%20VUE%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BC%80%E5%8F%91/" title="vue的组件化开发思想">http://muleandhorse.icu/2022/06/18/b40 VUE组件化开发/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/" rel="tag"># 前端开发</a>
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/tags/vue/" rel="tag"># vue</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/16/b40%20v-model/" rel="prev" title="vue的v-model">
+      <i class="fa fa-chevron-left"></i> vue的v-model
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/06/20/b41%20VUE%E7%BB%84%E4%BB%B6%E5%8C%96%E9%80%9A%E4%BF%A1(%E4%B8%80)/" rel="next" title="vue的组件化通信(一)">
+      vue的组件化通信(一) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81ODIzMi8zNDY5NQ=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BC%80%E5%8F%91"><span class="nav-number">1.</span> <span class="nav-text">组件化开发</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BC%80%E5%8F%91%E7%9A%84%E6%80%9D%E6%83%B3"><span class="nav-number">1.1.</span> <span class="nav-text">1.组件化开发的思想**</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E8%AE%A4%E8%AF%86%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BC%80%E5%8F%91"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 认识组件化开发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Vue%E7%9A%84%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BC%80%E5%8F%91"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 Vue的组件化开发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-Vue%E7%9A%84SFC"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 Vue的SFC</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-VueCLI"><span class="nav-number">1.2.</span> <span class="nav-text">2. VueCLI</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E4%BB%80%E4%B9%88%E6%98%AFVueCLI%E8%84%9A%E6%89%8B%E6%9E%B6%EF%BC%9F"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 什么是VueCLI脚手架？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Vue-CLI%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 Vue CLI的安装和使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%BB%84%E4%BB%B6%E7%9A%84%E6%B3%A8%E5%86%8C%E6%96%B9%E5%BC%8F"><span class="nav-number">1.3.</span> <span class="nav-text">3. 组件的注册方式**</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%85%A8%E5%B1%80%E6%B3%A8%E5%86%8C%E7%BB%84%E4%BB%B6"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 全局注册组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E7%BB%84%E4%BB%B6%E8%87%AA%E5%B7%B1%E7%9A%84%E9%80%BB%E8%BE%91"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 组件自己的逻辑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E7%BB%84%E4%BB%B6%E7%9A%84%E5%91%BD%E5%90%8D"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 组件的命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E5%B1%80%E9%83%A8%E7%BB%84%E4%BB%B6"><span class="nav-number">1.3.4.</span> <span class="nav-text">3.4 局部组件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E7%BB%84%E4%BB%B6%E5%8C%96%E9%80%9A%E4%BF%A1"><span class="nav-number">1.4.</span> <span class="nav-text">4. 组件化通信**</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="RickyD"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">RickyD</p>
+  <div class="site-description" itemprop="description">如果站长加班加似了，这个网站就是他留给世界最后的遗产</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/RickyDriver" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;RickyDriver" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1552330861@qq.com" title="E-Mail → 1552330861@qq.com"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RickyD</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">135k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">7:30</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>

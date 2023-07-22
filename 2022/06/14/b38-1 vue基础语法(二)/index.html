@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.svg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"muleandhorse.icu","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Vue基础语法（二）1. v-on绑定事件v-on的使用 ​	缩写:@ ​	参数：event ​	用法：绑定事件回调函数 1.1 基本使用123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354&lt;style&gt;  .box &amp;#123;    wi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue基础语法(二)">
+<meta property="og:url" content="http://muleandhorse.icu/2022/06/14/b38-1%20vue%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95(%E4%BA%8C)/index.html">
+<meta property="og:site_name" content="Mule and Horse">
+<meta property="og:description" content="Vue基础语法（二）1. v-on绑定事件v-on的使用 ​	缩写:@ ​	参数：event ​	用法：绑定事件回调函数 1.1 基本使用123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354&lt;style&gt;  .box &amp;#123;    wi">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230630165315669.png">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230630165341178.png">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230630165354502.png">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230630165407979.png">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230630165418926.png">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230630165435148.png">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230630165454897.png">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230630165509046.png">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230630165523023.png">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230630165535285.png">
+<meta property="article:published_time" content="2022-06-14T06:06:09.000Z">
+<meta property="article:modified_time" content="2023-07-22T13:04:00.020Z">
+<meta property="article:author" content="RickyD">
+<meta property="article:tag" content="前端开发">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="vue">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230630165315669.png">
+
+<link rel="canonical" href="http://muleandhorse.icu/2022/06/14/b38-1%20vue%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95(%E4%BA%8C)/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>vue基础语法(二) | Mule and Horse</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mule and Horse</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个工地仔的救赎之路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">67</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">10</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://muleandhorse.icu/2022/06/14/b38-1%20vue%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95(%E4%BA%8C)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="RickyD">
+      <meta itemprop="description" content="如果站长加班加似了，这个网站就是他留给世界最后的遗产">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mule and Horse">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          vue基础语法(二)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-06-14 14:06:09" itemprop="dateCreated datePublished" datetime="2022-06-14T14:06:09+08:00">2022-06-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-07-22 21:04:00" itemprop="dateModified" datetime="2023-07-22T21:04:00+08:00">2023-07-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>11 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Vue基础语法（二）"><a href="#Vue基础语法（二）" class="headerlink" title="Vue基础语法（二）"></a>Vue基础语法（二）</h1><h2 id="1-v-on绑定事件"><a href="#1-v-on绑定事件" class="headerlink" title="1. v-on绑定事件"></a>1. v-on绑定事件</h2><p>v-on的使用</p>
+<p>​	缩写:@</p>
+<p>​	参数：event</p>
+<p>​	用法：绑定事件回调函数</p>
+<h3 id="1-1-基本使用"><a href="#1-1-基本使用" class="headerlink" title="1.1 基本使用"></a><strong>1.1 基本使用</strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">  .box &#123;</span><br><span class="line">    width: 100px;</span><br><span class="line">    height: 100px;</span><br><span class="line">    background-color: orange;</span><br><span class="line">    margin-top: 10px;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">    &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;!-- 基本使用 --&gt;</span><br><span class="line">  &lt;div class=&quot;box&quot; v-on:click=&quot;divClick&quot;&gt;&lt;/div&gt;</span><br><span class="line">  &lt;!-- 简写 重点掌握 --&gt;</span><br><span class="line">  &lt;div class=&quot;box&quot; @click=&quot;divClick&quot;&gt;&lt;/div&gt;</span><br><span class="line">  &lt;!-- 不推荐，绑定方法的时候也可以写一个表达式 --&gt;</span><br><span class="line">  &lt;h2&gt;&#123;&#123;counter&#125;&#125;&lt;/h2&gt;</span><br><span class="line">  &lt;button @click=&quot;add&quot;&gt;+1&lt;/button&gt;</span><br><span class="line">  &lt;button @click=&quot;counter--&quot;&gt;-1&lt;/button&gt;</span><br><span class="line">  &lt;!-- 绑定其他事件 --&gt;</span><br><span class="line">  &lt;div class=&quot;box&quot; @mousemove=&quot;divMouse&quot;&gt;66&lt;/div&gt;</span><br><span class="line">  &lt;!-- 如何绑定多个事件 --&gt;</span><br><span class="line">  &lt;div class=&quot;box&quot; @click=&quot;divClick&quot; @mousemove=&quot;divMouse&quot;&gt;多个事件&lt;/div&gt;</span><br><span class="line">  &lt;div class=&quot;box&quot; v-on=&quot;&#123;click:divClick,mousemove:divMouse&#125;&quot;&gt;</span><br><span class="line">    多个事件1</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">  &lt;div class=&quot;box&quot; @=&quot;&#123;click:divClick,mousemove:divMouse&#125;&quot;&gt;多个事件2&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script src=&quot;./lib/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  //1.创建app</span><br><span class="line">  const app = Vue.createApp(&#123;</span><br><span class="line">    data: function () &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        counter: 0,</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      divMouse() &#123;</span><br><span class="line">        console.log(&#x27;鼠标移动了&#x27;);</span><br><span class="line">      &#125;,</span><br><span class="line">      divClick() &#123;</span><br><span class="line">        console.log(&#x27;6666&#x27;);</span><br><span class="line">      &#125;,</span><br><span class="line">      add() &#123;</span><br><span class="line">        this.counter++;</span><br><span class="line">      &#125;,</span><br><span class="line">      sub() &#123;</span><br><span class="line">        this.counter--;</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">  //2. 挂载</span><br><span class="line">  app.mount(&#x27;#app&#x27;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="1-2-参数的传递"><a href="#1-2-参数的传递" class="headerlink" title="1.2 参数的传递"></a><strong>1.2 参数的传递</strong></h3><p>你要传递参数就得在@绑定的时候加上()，如果你不需要传递参数，那就不加</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;!-- 1.默认传递 event --&gt;</span><br><span class="line">  &lt;button @click=&quot;btn1&quot;&gt;按钮1&lt;/button&gt;</span><br><span class="line">  &lt;!-- 2.只有自己的参数 --&gt;</span><br><span class="line">  &lt;button @click=&quot;btn2(username,age)&quot;&gt;按钮2&lt;/button&gt;</span><br><span class="line">  &lt;!-- 3.自己的参数和event都要 --&gt;</span><br><span class="line">  &lt;!-- 明确想要事件对象需要加$event --&gt;</span><br><span class="line">  &lt;button @click=&quot;btn3(username,age,$event)&quot;&gt;按钮3&lt;/button&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script src=&quot;./lib/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  //1.创建app</span><br><span class="line">  const app = Vue.createApp(&#123;</span><br><span class="line">    data: function () &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        username: &#x27;alex&#x27;,</span><br><span class="line">        age: 18,</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      //绑定的时候没有传递任何参数，event对象会被默认传递进来</span><br><span class="line">      btn1(event) &#123;</span><br><span class="line">        console.log(event.target);</span><br><span class="line">      &#125;,</span><br><span class="line">      btn2(name, age) &#123;</span><br><span class="line">        console.log(name, age);</span><br><span class="line">      &#125;,</span><br><span class="line">      btn3(a, b, c) &#123;</span><br><span class="line">        console.log(a, b, c);</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">  //2. 挂载</span><br><span class="line">  app.mount(&#x27;#app&#x27;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="1-3-修饰符"><a href="#1-3-修饰符" class="headerlink" title="1.3 修饰符"></a><strong>1.3 修饰符</strong></h3><p>常用的是stop阻止冒泡，剩下的看看文档就好：<a target="_blank" rel="noopener" href="https://cn.vuejs.org/guide/essentials/event-handling.html#event-modifiers">https://cn.vuejs.org/guide/essentials/event-handling.html#event-modifiers</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">  .box &#123;</span><br><span class="line">    width: 100px;</span><br><span class="line">    height: 100px;</span><br><span class="line">    background-color: aqua;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">    &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;box&quot; @click=&quot;haha&quot;&gt;</span><br><span class="line">    &lt;button @click.stop=&quot;btn&quot;&gt;按钮&lt;/button&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script src=&quot;./lib/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  //1.创建app</span><br><span class="line">  const app = Vue.createApp(&#123;</span><br><span class="line">    data: function () &#123;</span><br><span class="line">      return &#123;&#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      btn() &#123;</span><br><span class="line">        console.log(&#x27;按钮被点击了&#x27;);</span><br><span class="line">      &#125;,</span><br><span class="line">      haha() &#123;</span><br><span class="line">        console.log(&#x27;盒子被点击了&#x27;);</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">  //2. 挂载</span><br><span class="line">  app.mount(&#x27;#app&#x27;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-Vue的条件渲染"><a href="#2-Vue的条件渲染" class="headerlink" title="2. Vue的条件渲染"></a>2. Vue的条件渲染</h2><p>根据某些条件来渲染某些元素&#x2F;组件</p>
+<p>v-if</p>
+<p>v-else</p>
+<p>v-else-if</p>
+<p>v-show</p>
+<h3 id="2-1-demo"><a href="#2-1-demo" class="headerlink" title="**2.1 demo"></a>**2.1 demo</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;!-- 如果cars为空 整个ul不展示 --&gt;</span><br><span class="line">  &lt;ul v-if=&quot;cars.length&gt;0&quot;&gt;</span><br><span class="line">    &lt;li v-for=&quot;good in cars&quot;&gt;&#123;&#123;good&#125;&#125;&lt;/li&gt;</span><br><span class="line">  &lt;/ul&gt;</span><br><span class="line">  &lt;!-- if不展示的时候展示else的内容 --&gt;</span><br><span class="line">  &lt;h2 v-else&gt;🛒为空，快去淘点东西～～～&lt;/h2&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script src=&quot;./lib/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  //1.创建app</span><br><span class="line">  const app = Vue.createApp(&#123;</span><br><span class="line">    data: function () &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        cars: [],</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;&#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">  //2. 挂载</span><br><span class="line">  app.mount(&#x27;#app&#x27;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>v-if，v-else，v-else-if用于根据条件来渲染某一块的内容，只有条件为true的时候才会渲染，这三个指令与if、else、else if类似</p>
+<p>v-if：他是惰性的，当条件为false的时候其内容完全不会被渲染或者被销毁掉；当条件为true的时候才会真正渲染某一块的内容。</p>
+<h3 id="2-2-v-if，v-else使用"><a href="#2-2-v-if，v-else使用" class="headerlink" title="2.2 v-if，v-else使用"></a><strong>2.2 v-if，v-else使用</strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">     &lt;!-- person有内容的时候展示人的信息 姓名+年龄 </span><br><span class="line">     person是一个空对象的时候，不展示</span><br><span class="line">     --&gt;</span><br><span class="line">     &lt;div v-if=&quot;Object.keys(person).length&quot;&gt;</span><br><span class="line">       &lt;h2&gt;个人信息&lt;/h2&gt;</span><br><span class="line">       &lt;ul&gt;</span><br><span class="line">         &lt;li&gt;姓名：&#123;&#123;person.name&#125;&#125;&lt;/li&gt;</span><br><span class="line">         &lt;li&gt;年龄:&#123;&#123;person.age&#125;&#125;&lt;/li&gt;</span><br><span class="line">       &lt;/ul&gt;</span><br><span class="line">     &lt;/div&gt;</span><br><span class="line">     &lt;div v-else&gt;</span><br><span class="line">       &lt;h2&gt;没有输入信息&lt;/h2&gt;</span><br><span class="line">       &lt;p&gt;请输入个人信息～～～&lt;/p&gt;</span><br><span class="line">     &lt;/div&gt;</span><br><span class="line">   &lt;/div&gt;</span><br><span class="line">   &lt;script src=&quot;./lib/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">   &lt;script&gt;</span><br><span class="line">     //1.创建app</span><br><span class="line">     const app = Vue.createApp(&#123;</span><br><span class="line">       data: function () &#123;</span><br><span class="line">         return &#123;</span><br><span class="line">           person: &#123;</span><br><span class="line">             name: &#x27;alex&#x27;,</span><br><span class="line">             age: 18,</span><br><span class="line">           &#125;,</span><br><span class="line">         &#125;;</span><br><span class="line">       &#125;,</span><br><span class="line">       methods: &#123;&#125;,</span><br><span class="line">     &#125;);</span><br><span class="line">     //2. 挂载</span><br><span class="line">     app.mount(&#x27;#app&#x27;);</span><br><span class="line">   &lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-v-else-if"><a href="#2-3-v-else-if" class="headerlink" title="2.3 v-else-if"></a><strong>2.3 v-else-if</strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;h1 v-if=&quot;score&gt;90&quot;&gt;倩婷&lt;/h1&gt;</span><br><span class="line">  &lt;h2 v-else-if=&quot;score&gt;80&quot;&gt;良好&lt;/h2&gt;</span><br><span class="line">  &lt;h2 v-else-if=&quot;score&gt;60&quot;&gt;及格&lt;/h2&gt;</span><br><span class="line">  &lt;h2 v-else&gt;alex&lt;/h2&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script src=&quot;./lib/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  //1.创建app</span><br><span class="line">  const app = Vue.createApp(&#123;</span><br><span class="line">    data: function () &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        score: 40,</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;&#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">  //2. 挂载</span><br><span class="line">  app.mount(&#x27;#app&#x27;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-template"><a href="#2-4-template" class="headerlink" title="2.4 template"></a><strong>2.4 template</strong></h3><p>用于控制一组元素，但是又不想使用没有意义的div或者其他元素</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;!-- 我们加一个div的目的是为了控制多个元素的渲染与否，但是这个div是一个多余的dom结构，这个时候我们可以选择使用template来优化 --&gt;</span><br><span class="line">  &lt;template v-if=&quot;Object.keys(person).length&quot;&gt;</span><br><span class="line">    &lt;h2&gt;个人信息&lt;/h2&gt;</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">      &lt;li&gt;姓名：&#123;&#123;person.name&#125;&#125;&lt;/li&gt;</span><br><span class="line">      &lt;li&gt;年龄:&#123;&#123;person.age&#125;&#125;&lt;/li&gt;</span><br><span class="line">    &lt;/ul&gt;</span><br><span class="line">  &lt;/template&gt;</span><br><span class="line">  &lt;template v-else&gt;</span><br><span class="line">    &lt;h2&gt;没有输入信息&lt;/h2&gt;</span><br><span class="line">    &lt;p&gt;请输入个人信息～～～&lt;/p&gt;</span><br><span class="line">  &lt;/template&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script src=&quot;./lib/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  //1.创建app</span><br><span class="line">  const app = Vue.createApp(&#123;</span><br><span class="line">    data: function () &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        person: &#123;</span><br><span class="line">          name: &#x27;alex&#x27;,</span><br><span class="line">          age: 18,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;&#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">  //2. 挂载</span><br><span class="line">  app.mount(&#x27;#app&#x27;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="2-5-v-show"><a href="#2-5-v-show" class="headerlink" title="2.5 v-show"></a><strong>2.5 v-show</strong></h3><p>v-show后面的条件为true的时候展示，为false不展示 和v-if看起来一样</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;button @click=&quot;toggle&quot;&gt;切换&lt;/button&gt;</span><br><span class="line"></span><br><span class="line">  &lt;img</span><br><span class="line">    v-show=&quot;isShow&quot;</span><br><span class="line">    src=&quot;https://game.gtimg.cn/images/yxzj/web201706/images/comm/floatwindow/wzry_qrcode.jpg&quot;</span><br><span class="line">    alt=&quot;&quot;</span><br><span class="line">  /&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script src=&quot;./lib/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  //1.创建app</span><br><span class="line">  const app = Vue.createApp(&#123;</span><br><span class="line">    data: function () &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        isShow: true,</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      toggle() &#123;</span><br><span class="line">        this.isShow = !this.isShow;</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">  //2. 挂载</span><br><span class="line">  app.mount(&#x27;#app&#x27;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>v-show和v-if的区别：</p>
+<p>本质的区别：v-show是通过display：none来让元素消失，而v-if直接把整个dom结构都干掉了，v-if&#x3D;”false”的时候，其对应的原生dom压根都不会渲染</p>
+<p>用法的区别:v-show不支持template，v-show不能 v-else 一起用</p>
+<p>实际开发：如果是频繁切换的那就用v-show，如果不频繁就使用v-if</p>
+<h3 id="3-列表渲染-掌握"><a href="#3-列表渲染-掌握" class="headerlink" title="3.     列表渲染(掌握)"></a>3.     <strong>列表渲染(掌握)</strong></h3><ol>
+<li><p><strong>v-for的时候绑定唯一的key</strong></p>
+</li>
+<li><p><strong>v-for的时候不要使用数组的index作为key</strong></p>
+</li>
+</ol>
+<p>真实开发中，拿到的一组数据并且需要渲染，这个时候我们不会一个个的去写，而是使用</p>
+<p><strong>v-for</strong>来完成，v-for类似于js的循环，可以遍历一组数据</p>
+<p>比如京东的商品列表。</p>
+<p>使用v-for来渲染一组数据，就是我们常说的列表渲染</p>
+<h4 id="3-1-v-for的基本使用"><a href="#3-1-v-for的基本使用" class="headerlink" title="3.1 v-for的基本使用"></a><strong>3.1 v-for的基本使用</strong></h4><p>v-for的基本格式 “<strong>item in 数组”</strong></p>
+<p>​	数组通常是来自于data或者prop，或者请求</p>
+<p>​	item是我们起的一个别名，这个别名可以自定义</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;h2&gt;电影列表&lt;/h2&gt;</span><br><span class="line">  &lt;ul&gt;</span><br><span class="line">    &lt;li v-for=&quot;movie in movies&quot;&gt;&#123;&#123;movie&#125;&#125;&lt;/li&gt;</span><br><span class="line">  &lt;/ul&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script src=&quot;./lib/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  //1.创建app</span><br><span class="line">  const app = Vue.createApp(&#123;</span><br><span class="line">    data: function () &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        movies: [&#x27;多啦a梦&#x27;, &#x27;复仇者联盟&#x27;, &#x27;蜘蛛侠&#x27;],</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;&#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">  //2. 挂载</span><br><span class="line">  app.mount(&#x27;#app&#x27;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>在我们遍历一个数组的时候，往往可能需要拿到索引来做一些操作，</p>
+<p>​	如果在v-for中你需要用到索引的话，v-for&#x3D;”(item,index) in arr”</p>
+<p>​	注意：item和index的顺序</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">    &lt;li v-for=&quot;(movie,index) in movies&quot;&gt;</span><br><span class="line">    &#123;&#123;index+1&#125;&#125; -&#123;&#123;movie&#125;&#125;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br><span class="line"></span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+
+<p>实际工作中，我们需要渲染的数组往往是比较复杂的</p>
+<p>渲染相对复杂一丢丢的数组</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;h2&gt;商品列表&lt;/h2&gt;</span><br><span class="line">  &lt;ul&gt;</span><br><span class="line">    &lt;li v-for=&quot;good in goods&quot;&gt;</span><br><span class="line">      &lt;p&gt;商品名称:&#123;&#123;good.name&#125;&#125;&lt;/p&gt;</span><br><span class="line">      &lt;p&gt;商品价格:&#123;&#123;good.price&#125;&#125;&lt;/p&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">  &lt;/ul&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script src=&quot;./lib/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  //1.创建app</span><br><span class="line">  const app = Vue.createApp(&#123;</span><br><span class="line">    data: function () &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        goods: [</span><br><span class="line">          &#123; name: &#x27;mbp&#x27;, price: 1999 &#125;,</span><br><span class="line">          &#123; name: &#x27;imac&#x27;, price: 2999 &#125;,</span><br><span class="line">          &#123; name: &#x27;iphone&#x27;, price: 3999 &#125;,</span><br><span class="line">        ],</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;&#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">  //2. 挂载</span><br><span class="line">  app.mount(&#x27;#app&#x27;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="3-2-v-for的其他类型"><a href="#3-2-v-for的其他类型" class="headerlink" title="3.2 v-for的其他类型"></a><strong>3.2 v-for的其他类型</strong></h4><p>v-for还支持</p>
+<p>对象</p>
+<p>数字</p>
+<p>字符串(所有的可迭代对象) </p>
+<p><strong>v-for对象</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;ul&gt;</span><br><span class="line">    &lt;!-- 只要你写了两个或者两个以上的别名，就需要小括号 --&gt;</span><br><span class="line">    &lt;li v-for=&quot;(value,key,index) in info&quot;&gt;&#123;&#123;value&#125;&#125;~&#123;&#123;key&#125;&#125;~&#123;&#123;index&#125;&#125;&lt;/li&gt;</span><br><span class="line">  &lt;/ul&gt;</span><br><span class="line">  &lt;!-- 只写一个 --&gt;</span><br><span class="line">  &lt;h2 v-for=&quot;value in info&quot;&gt;&#123;&#123;value&#125;&#125;&lt;/h2&gt;</span><br><span class="line">  &lt;!-- 写两个 --&gt;</span><br><span class="line">  &lt;h3 v-for=&quot;(value,key) in info&quot;&gt;&#123;&#123;value&#125;&#125;&lt;==&gt;&#123;&#123;key&#125;&#125;&lt;/h3&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script src=&quot;./lib/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  //1.创建app</span><br><span class="line">  const app = Vue.createApp(&#123;</span><br><span class="line">    data: function () &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        info: &#123;</span><br><span class="line">          name: &#x27;alex&#x27;,</span><br><span class="line">          age: 18,</span><br><span class="line">          height: 1.88,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;&#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">  //2. 挂载</span><br><span class="line">  app.mount(&#x27;#app&#x27;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>v-for也支持数字的遍历</p>
+<p>​	item就是每个数字</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">  &lt;li v-for=&quot;item in 10&quot;&gt;&#123;&#123;item&#125;&#125;&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>v-for遍历字符串</p>
+<p>​	item就是单个字符</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;ul&gt;</span><br><span class="line">    &lt;li v-for=&quot;item in msg&quot;&gt;&#123;&#123;item&#125;&#125;&lt;/li&gt;</span><br><span class="line">  &lt;/ul&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script src=&quot;./lib/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  //1.创建app</span><br><span class="line">  const app = Vue.createApp(&#123;</span><br><span class="line">    data: function () &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        msg: &#x27;hello vue&#x27;,</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;&#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">  //2. 挂载</span><br><span class="line">  app.mount(&#x27;#app&#x27;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>类似v-if如果，外层的div没有实际的意义，可以用template替换</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;template v-for=&quot;(value,key,index) in info&quot;&gt;</span><br><span class="line">    &lt;span&gt;&#123;&#123;value&#125;&#125;&lt;/span&gt;</span><br><span class="line">    &lt;strong&gt;&#123;&#123;key&#125;&#125;&lt;/strong&gt;</span><br><span class="line">    &lt;i&gt;&#123;&#123;index&#125;&#125;&lt;/i&gt;</span><br><span class="line">  &lt;/template&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script src=&quot;./lib/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  //1.创建app</span><br><span class="line">  const app = Vue.createApp(&#123;</span><br><span class="line">    data: function () &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        info: &#123; name: &#x27;alex&#x27;, age: 18, height: 1.88 &#125;,</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;&#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">  //2. 挂载</span><br><span class="line">  app.mount(&#x27;#app&#x27;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3-数组的更新检测"><a href="#3-3-数组的更新检测" class="headerlink" title="3.3 数组的更新检测"></a><strong>3.3 数组的更新检测</strong></h4><p>vue2和vue3的区别，vue2使用类似this.arr[0]&#x3D;”123”是不能触发视图的更新，因为Object.defineproperty并不能监听一个对象中0的访问和修改，但是vue3可以，因为他用的proxy。vue2的解决方案是采用Vue.set()</p>
+<p>其实Vue内部将所有变更数组的方法进行了<strong>重写</strong>，保证他们对数组的操作能够被监听到。能够触发视图的更新</p>
+<p>​	push 尾部添加</p>
+<p>​	pop	 尾部删除</p>
+<p>​	shift 头部删除</p>
+<p>​	unshift 头部添加</p>
+<p>​	splice 任意位置 添加&#x2F;删除&#x2F;替换</p>
+<p>​	sort 排序</p>
+<p>​	reverse 翻转</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;ul&gt;</span><br><span class="line">    &lt;li v-for=&quot;item in names&quot;&gt;&#123;&#123;item&#125;&#125;&lt;/li&gt;</span><br><span class="line">  &lt;/ul&gt;</span><br><span class="line">  &lt;button @click=&quot;changeArray&quot;&gt;修改&lt;/button&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script src=&quot;./lib/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  //1.创建app</span><br><span class="line">  const app = Vue.createApp(&#123;</span><br><span class="line">    data: function () &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        names: [&#x27;abc&#x27;, &#x27;cba&#x27;, &#x27;nba&#x27;, &#x27;aaa&#x27;, &#x27;ccc&#x27;],</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      changeArray() &#123;</span><br><span class="line">        this.names.splice(2, 1, &#x27;alex&#x27;);</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">  //2. 挂载</span><br><span class="line">  app.mount(&#x27;#app&#x27;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>除了上述的一些方法以外，还有一些方法是返回一个新数组，用这个新数组直接替换旧数组也能让视图更新。比如filter，map…</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;ul&gt;</span><br><span class="line">    &lt;li v-for=&quot;item in names&quot;&gt;&#123;&#123;item&#125;&#125;&lt;/li&gt;</span><br><span class="line">  &lt;/ul&gt;</span><br><span class="line">  &lt;button @click=&quot;changeArray&quot;&gt;修改&lt;/button&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script src=&quot;./lib/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  //1.创建app</span><br><span class="line">  const app = Vue.createApp(&#123;</span><br><span class="line">    data: function () &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        names: [1, 2, 3, 4, 5],</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      changeArray() &#123;</span><br><span class="line">        // console.log(1111);</span><br><span class="line">        // //过滤掉偶数</span><br><span class="line">        // this.names = this.names.filter((ele) =&gt; ele % 2);</span><br><span class="line">        //箭头函数简写的注意：一旦你写了&#123;&#125;就得写return</span><br><span class="line">        this.names = this.names.map((ele) =&gt; &#123;</span><br><span class="line">          ele = ele * 2;</span><br><span class="line">          return ele;</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">  //2. 挂载</span><br><span class="line">  app.mount(&#x27;#app&#x27;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-4-v-for中key的作用"><a href="#3-4-v-for中key的作用" class="headerlink" title="3.4 v-for中key的作用"></a><strong>3.4 v-for中key的作用</strong></h4><p>官方：</p>
+<p>​	key属性主要用于Vue的<strong>虚拟DOM</strong>算法，在<strong>新旧Vnode</strong>对比时辨识Vnode；</p>
+<p>​	如果不使用key，Vue会使用一种最大限度地减少动态元素并且尽可能地尝试就地<strong>修改&#x2F;复用</strong>相同类型的元素的算法</p>
+<p>​	使用key时，他会基于key的变化重新排列元素的顺序，并且移除&#x2F;销毁key不存在的元素。个人：<strong>差量更新，就地复用</strong></p>
+<p>认识vnode</p>
+<p>​	因为还没有学习组件，所以我们暂时理解html元素创建出来的vnode</p>
+<p>​	Virtual Node虚拟节点；无论是组件还是html元素在vue中都会解析成一个个的虚拟的节点</p>
+<p>​	Vnode本质就是一个js对象</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;title&quot; style=&quot;font-size: 30px; color: red&quot;&gt;哈哈哈&lt;/div&gt;</span><br><span class="line">    &lt;!-- 上述结构会在vue中抽象成下面的vnode --&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">      const vnode = &#123;</span><br><span class="line">        type: &#x27;div&#x27;,</span><br><span class="line">        props: &#123;</span><br><span class="line">          class: &#x27;title&#x27;,</span><br><span class="line">          style: &#123;</span><br><span class="line">            &#x27;font-size&#x27;: &#x27;30px&#x27;,</span><br><span class="line">            color: &#x27;red&#x27;,</span><br><span class="line">          &#125;,</span><br><span class="line">        &#125;,</span><br><span class="line">        children: &#x27;哈哈哈&#x27;,</span><br><span class="line">      &#125;;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>vue在解析模版的时候，会把里面的一个个标签都抽象成一个个vnode，实际上我们的页面不只是上述简单一个div构成，而是许多元素，这些元素被抽象的时候最终会形成像真实dom一样的树形结构，这样的结构就是VDOM</p>
+<p>也就是多个vnode构成的一个相对比较大的js对象而已。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> vnode=&#123;</span><br><span class="line"><span class="attr">type</span>:<span class="string">&quot;div&quot;</span>,</span><br><span class="line"><span class="attr">props</span>:&#123;</span><br><span class="line">    <span class="attr">id</span>:<span class="string">&quot;app&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="attr">children</span>:[</span><br><span class="line"><span class="comment">//很多很多其他vnode</span></span><br><span class="line">]</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>插入f案例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;button @click=&quot;insertF&quot;&gt;插入f&lt;/button&gt;</span><br><span class="line">  &lt;ul&gt;</span><br><span class="line">    &lt;li v-for=&quot;item in letters&quot;&gt;&#123;&#123;item&#125;&#125;&lt;/li&gt;</span><br><span class="line">  &lt;/ul&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script src=&quot;./lib/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  //1.创建app</span><br><span class="line">  const app = Vue.createApp(&#123;</span><br><span class="line">    data: function () &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        letters: [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;, &#x27;e&#x27;],</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      insertF() &#123;</span><br><span class="line">        this.letters.splice(2, 0, &#x27;f&#x27;);</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">  //2. 挂载</span><br><span class="line">  app.mount(&#x27;#app&#x27;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>我们确定一件事，在本次更新中，button和ul都不用更新，需要更新只是li,但是观察控制台的element会发现点击以后闪烁的li有四个，从插入f开始后续的li都会销毁然后重新创建，如果我们给他绑定一个唯一的key，就能够更新过程中只更改一个li</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;li v-for=&quot;item in letters&quot; :key=&quot;item&quot;&gt;&#123;&#123;item&#125;&#125;&lt;/li&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>vue的diff算法对于有key和没有key的虚拟dom到底是怎么来做的</p>
+<p>vue源码中的操作</p>
+<p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230630165315669.png" alt="image-20230630165315669"></p>
+<p>我们先看没有key的操作</p>
+<p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230630165341178.png" alt="image-20230630165341178"></p>
+<p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230630165354502.png" alt="image-20230630165354502"></p>
+<p>那具体是怎么做的呢？</p>
+<p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230630165407979.png" alt="image-20230630165407979"></p>
+<p>有key的时候源码的操作</p>
+<p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230630165418926.png" alt="image-20230630165418926"></p>
+<p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230630165435148.png" alt="image-20230630165435148"></p>
+<p>有key的diff操作如下</p>
+<p>第一步从头开始遍历，调用patch比较，c和f的key不一致会跳出</p>
+<p>第二步从尾巴开始遍历，比较，b和f的key不一致，会跳出</p>
+<p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230630165454897.png" alt="image-20230630165454897"></p>
+<p>第三步如果旧的节点遍历完了，依然有新节点，那就新增</p>
+<p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230630165509046.png" alt="image-20230630165509046"></p>
+<p>第四步：如果新节点遍历完毕以后，依然还有旧的节点，移除旧节点</p>
+<p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230630165523023.png" alt="image-20230630165523023"></p>
+<p>第五步：最特殊的情况，中间还有很多未知或者 乱序的节点</p>
+<p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230630165535285.png" alt="image-20230630165535285"></p>
+<p>为什么说vue3比vue2还慢，其实是diff的时候有key的情况下，第五种情况，他会重新遍历一遍整个旧的节点，用map建立一个索引的图结构，目的是为了最大程度的复用旧的节点。这里说的慢是js慢，因为vue2采用的比较是旧节点首尾索引，新节点首位索引，他的时间复杂度是O(n),vue3是O(nlogn)，所以某些情况下diff的时候vue3会更慢，但是这种慢是能接受的，js更多的操作目的是为了dom更少的操作。</p>
+<p>解释如下bug:选中imac，然后删除mpb，发现默认选中的不再是imac而是iphone因为此时iphone的索引变成了1，vue为了最大程度的复用旧节点，删除前有选中的是key为1的li，删除后选中的也是key为1的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;ul&gt;</span><br><span class="line">    &lt;li v-for=&quot;(item,index) in goods&quot; :key=&quot;index&quot;&gt;</span><br><span class="line">      &lt;input type=&quot;checkbox&quot; /&gt;</span><br><span class="line">      商品名称：&#123;&#123;item.name&#125;&#125; 商品价格：&#123;&#123;item.price&#125;&#125;</span><br><span class="line">      &lt;button @click=&quot;del(index)&quot;&gt;删除&lt;/button&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">  &lt;/ul&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script src=&quot;./lib/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  //1.创建app</span><br><span class="line">  const app = Vue.createApp(&#123;</span><br><span class="line">    data: function () &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        goods: [</span><br><span class="line">          &#123; id: &#x27;001&#x27;, name: &#x27;mbp&#x27;, price: 1999 &#125;,</span><br><span class="line">          &#123; id: &#x27;002&#x27;, name: &#x27;imac&#x27;, price: 2999 &#125;,</span><br><span class="line">          &#123; id: &#x27;003&#x27;, name: &#x27;phone&#x27;, price: 3999 &#125;,</span><br><span class="line">        ],</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      del(index) &#123;</span><br><span class="line">        this.goods.splice(index, 1);</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;);</span><br><span class="line">  //2. 挂载</span><br><span class="line">  app.mount(&#x27;#app&#x27;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>RickyD
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://muleandhorse.icu/2022/06/14/b38-1%20vue%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95(%E4%BA%8C)/" title="vue基础语法(二)">http://muleandhorse.icu/2022/06/14/b38-1 vue基础语法(二)/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/" rel="tag"># 前端开发</a>
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/tags/vue/" rel="tag"># vue</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/12/b38%20Vue%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95(%E4%B8%80)/" rel="prev" title="vue基础语法(一)">
+      <i class="fa fa-chevron-left"></i> vue基础语法(一)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/06/14/b39%20Vue%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95(%E4%B8%89)/" rel="next" title="vue基础语法(三)">
+      vue基础语法(三) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81ODIzMi8zNDY5NQ=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%EF%BC%88%E4%BA%8C%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">Vue基础语法（二）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-v-on%E7%BB%91%E5%AE%9A%E4%BA%8B%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">1. v-on绑定事件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 基本使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E5%8F%82%E6%95%B0%E7%9A%84%E4%BC%A0%E9%80%92"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 参数的传递</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 修饰符</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Vue%E7%9A%84%E6%9D%A1%E4%BB%B6%E6%B8%B2%E6%9F%93"><span class="nav-number">1.2.</span> <span class="nav-text">2. Vue的条件渲染</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-demo"><span class="nav-number">1.2.1.</span> <span class="nav-text">**2.1 demo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-v-if%EF%BC%8Cv-else%E4%BD%BF%E7%94%A8"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 v-if，v-else使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-v-else-if"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 v-else-if</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-template"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.4 template</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-v-show"><span class="nav-number">1.2.5.</span> <span class="nav-text">2.5 v-show</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%88%97%E8%A1%A8%E6%B8%B2%E6%9F%93-%E6%8E%8C%E6%8F%A1"><span class="nav-number">1.2.6.</span> <span class="nav-text">3.     列表渲染(掌握)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-v-for%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">1.2.6.1.</span> <span class="nav-text">3.1 v-for的基本使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-v-for%E7%9A%84%E5%85%B6%E4%BB%96%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.2.6.2.</span> <span class="nav-text">3.2 v-for的其他类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-%E6%95%B0%E7%BB%84%E7%9A%84%E6%9B%B4%E6%96%B0%E6%A3%80%E6%B5%8B"><span class="nav-number">1.2.6.3.</span> <span class="nav-text">3.3 数组的更新检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-v-for%E4%B8%ADkey%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">1.2.6.4.</span> <span class="nav-text">3.4 v-for中key的作用</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="RickyD"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">RickyD</p>
+  <div class="site-description" itemprop="description">如果站长加班加似了，这个网站就是他留给世界最后的遗产</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/RickyDriver" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;RickyDriver" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1552330861@qq.com" title="E-Mail → 1552330861@qq.com"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RickyD</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">135k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">7:30</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>

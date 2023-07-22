@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.svg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"muleandhorse.icu","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="6-25 v-model1.v-model的基本使用1.1 v-model的概念v-model指令可以在表单元素上创建双向数据绑定，（有很多人分不清楚响应式和双向数据绑定），它会根据控件的类型自动选取正确的方法来更新元素 v-model的本质只不过是语法糖，负责监听用户的输入来更新数据，并且在特殊场景下进行边界处理 1234567891011121314151617181920212223&lt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue的v-model">
+<meta property="og:url" content="http://muleandhorse.icu/2022/06/16/b40%20v-model/index.html">
+<meta property="og:site_name" content="Mule and Horse">
+<meta property="og:description" content="6-25 v-model1.v-model的基本使用1.1 v-model的概念v-model指令可以在表单元素上创建双向数据绑定，（有很多人分不清楚响应式和双向数据绑定），它会根据控件的类型自动选取正确的方法来更新元素 v-model的本质只不过是语法糖，负责监听用户的输入来更新数据，并且在特殊场景下进行边界处理 1234567891011121314151617181920212223&lt;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-06-16T08:06:09.000Z">
+<meta property="article:modified_time" content="2023-07-22T13:05:03.816Z">
+<meta property="article:author" content="RickyD">
+<meta property="article:tag" content="前端开发">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="vue">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://muleandhorse.icu/2022/06/16/b40%20v-model/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>vue的v-model | Mule and Horse</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mule and Horse</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个工地仔的救赎之路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">67</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">10</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://muleandhorse.icu/2022/06/16/b40%20v-model/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="RickyD">
+      <meta itemprop="description" content="如果站长加班加似了，这个网站就是他留给世界最后的遗产">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mule and Horse">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          vue的v-model
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-06-16 16:06:09" itemprop="dateCreated datePublished" datetime="2022-06-16T16:06:09+08:00">2022-06-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-07-22 21:05:03" itemprop="dateModified" datetime="2023-07-22T21:05:03+08:00">2023-07-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="6-25-v-model"><a href="#6-25-v-model" class="headerlink" title="6-25 v-model"></a><strong>6-25 v-model</strong></h1><h2 id="1-v-model的基本使用"><a href="#1-v-model的基本使用" class="headerlink" title="1.v-model的基本使用"></a>1.v-model的基本使用</h2><h3 id="1-1-v-model的概念"><a href="#1-1-v-model的概念" class="headerlink" title="1.1 v-model的概念"></a><strong>1.1 v-model的概念</strong></h3><p>v-model指令可以在表单元素上创建<strong>双向数据绑定，</strong>（有很多人分不清楚响应式和双向数据绑定），它会根据控件的类型自动选取正确的方法来更新元素</p>
+<p>v-model的本质只不过是语法糖，负责监听用户的输入来更新数据，并且在特殊场景下进行边界处理</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;input type=&quot;text&quot; :value=&quot;msg&quot; @input=&quot;inputChange&quot; /&gt;</span><br><span class="line">    &lt;h1&gt;&#123;&#123; msg &#125;&#125;h1&gt;</span><br><span class="line">  div&gt;</span><br><span class="line">&lt;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      msg: &#x27;hello vue&#x27;,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    inputChange(event) &#123;</span><br><span class="line">      this.msg = event.target.value;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>上面的整个过程就是手动实现了双向绑定，第一：把msg作为input的value通过v-bind绑定上去；第二：当input变化时data中的msg也会变化这个就是双向绑定。vue有一个语法糖v-model能够帮助我们快速完成这种双向绑定。</p>
+<p>使用v-model：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;text&quot; v-model=&quot;info&quot; /&gt;</span><br><span class="line">&lt;h1&gt;&#123;&#123; info &#125;&#125;&lt;/h1&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="1-2-v-model的绑定原理"><a href="#1-2-v-model的绑定原理" class="headerlink" title="1.2 v-model的绑定原理"></a><strong>1.2 v-model的绑定原理</strong></h3><p>v-bind绑定value属性值</p>
+<p>v-on绑定input事件，函数中会获取最新的值赋给绑定的变量</p>
+<h2 id="2-v-model-绑定一些表单元素"><a href="#2-v-model-绑定一些表单元素" class="headerlink" title="2.v-model 绑定一些表单元素**"></a>2.v-model 绑定一些表单元素**</h2><h3 id="2-1-textarea"><a href="#2-1-textarea" class="headerlink" title="2.1 textarea"></a><strong>2.1 textarea</strong></h3><p>具体的输入的文本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;textarea v-model=&quot;msg&quot; cols=&quot;30&quot; rows=&quot;10&quot;&gt;&lt;/textarea&gt;</span><br><span class="line">    &lt;p&gt;输入的内容:&#123;&#123; msg &#125;&#125;&lt;/p&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      msg: &#x27;&#x27;,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    inputChange(event) &#123;</span><br><span class="line">      this.msg = event.target.value;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="2-2-v-model绑定checkbox"><a href="#2-2-v-model绑定checkbox" class="headerlink" title="2.2 v-model绑定checkbox"></a><strong>2.2 v-model绑定checkbox</strong></h3><p>单个勾选框和多个勾选框</p>
+<p>单个：v-model绑定的是一个布尔值，而且此时的input的value属性不影响v-model的值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;input type=&quot;checkbox&quot; v-model=&quot;isAgree&quot; /&gt;</span><br><span class="line">    &lt;p&gt;&#123;&#123; isAgree &#125;&#125;&lt;/p&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      isAgree: &#x27;1231231&#x27;,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>多个：会把选中的input的value放到v-model的数组中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;h2&gt;请选择你的爱好&lt;/h2&gt;</span><br><span class="line">    &lt;label for=&quot;sing&quot;&gt;</span><br><span class="line">      &lt;input type=&quot;checkbox&quot; id=&quot;sing&quot; value=&quot;sing123123&quot; v-model=&quot;hobbies&quot; /&gt;唱</span><br><span class="line">    &lt;/label&gt;</span><br><span class="line">    &lt;label for=&quot;jump&quot;&gt;</span><br><span class="line">      &lt;input type=&quot;checkbox&quot; id=&quot;jump&quot; value=&quot;jump&quot; v-model=&quot;hobbies&quot; /&gt;跳</span><br><span class="line">    &lt;/label&gt;</span><br><span class="line">    &lt;label for=&quot;rap&quot;&gt;</span><br><span class="line">      &lt;input type=&quot;checkbox&quot; id=&quot;rap&quot; value=&quot;rap&quot; v-model=&quot;hobbies&quot; /&gt;rap</span><br><span class="line">    &lt;/label&gt;</span><br><span class="line">    &lt;label for=&quot;basketball&quot;&gt;</span><br><span class="line">      &lt;input</span><br><span class="line">        type=&quot;checkbox&quot;</span><br><span class="line">        id=&quot;basketball&quot;</span><br><span class="line">        value=&quot;basketball&quot;</span><br><span class="line">        v-model=&quot;hobbies&quot;</span><br><span class="line">      /&gt;🏀</span><br><span class="line">    &lt;/label&gt;</span><br><span class="line">    &lt;h2&gt;&#123;&#123; hobbies &#125;&#125;&lt;/h2&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      hobbies: [],</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-v-model绑定radio"><a href="#2-3-v-model绑定radio" class="headerlink" title="2.3 v-model绑定radio"></a><strong>2.3 v-model绑定radio</strong></h3><p>绑定的是选中的value的值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;input type=&quot;radio&quot; v-model=&quot;gender&quot; value=&quot;male&quot; /&gt;男</span><br><span class="line">    &lt;input type=&quot;radio&quot; v-model=&quot;gender&quot; value=&quot;female&quot; /&gt;女</span><br><span class="line">    &lt;h2&gt;&#123;&#123; gender &#125;&#125;&lt;/h2&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      gender: &#x27;&#x27;,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-v-model绑定-select"><a href="#2-4-v-model绑定-select" class="headerlink" title="2.4 v-model绑定 select"></a><strong>2.4 v-model绑定 select</strong></h3><p>单个：v-model绑定对应选中的value值</p>
+<p>多个：v-model把选中的多个放到数组中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;select v-model=&quot;fruit&quot;&gt;</span><br><span class="line">      &lt;option value=&quot;apple&quot;&gt;苹果&lt;/option&gt;</span><br><span class="line">      &lt;option value=&quot;orange&quot;&gt;橘子&lt;/option&gt;</span><br><span class="line">      &lt;option value=&quot;banana&quot;&gt;香蕉&lt;/option&gt;</span><br><span class="line">    &lt;/select&gt;</span><br><span class="line">    &lt;h1&gt;单选：&#123;&#123; fruit &#125;&#125;&lt;/h1&gt;</span><br><span class="line">    &lt;hr /&gt;</span><br><span class="line">    &lt;select v-model=&quot;fruits&quot; multiple&gt;</span><br><span class="line">      &lt;option value=&quot;apple&quot;&gt;苹果&lt;/option&gt;</span><br><span class="line">      &lt;option value=&quot;orange&quot;&gt;橘子&lt;/option&gt;</span><br><span class="line">      &lt;option value=&quot;banana&quot;&gt;香蕉&lt;/option&gt;</span><br><span class="line">    &lt;/select&gt;</span><br><span class="line">    &lt;h1&gt;多选：&#123;&#123; fruits &#125;&#125;&lt;/h1&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      fruit: &#x27;banana&#x27;,</span><br><span class="line">      fruits: [],</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-v-model的值绑定"><a href="#3-v-model的值绑定" class="headerlink" title="3.v-model的值绑定**"></a>3.v-model的值绑定**</h2><p>上面的例子中我们绑定的值都是template中固定的，真实开发中我们的数据大多数来自于服务器，我们一般先请求下来，然后绑定到data中的某个属性，再通过v-bind来进行绑定绑定-值绑定</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;!-- 水果用select --&gt;</span><br><span class="line">    &lt;select multiple v-model=&quot;fruits&quot;&gt;</span><br><span class="line">      &lt;option v-for=&quot;item in allFruits&quot; :key=&quot;item.value&quot; :value=&quot;item.value&quot;&gt;</span><br><span class="line">        &#123;&#123; item.text &#125;&#125;</span><br><span class="line">      &lt;/option&gt;</span><br><span class="line">    &lt;/select&gt;</span><br><span class="line">    &lt;h2&gt;水果:&#123;&#123; fruits &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;!-- 爱好用checkbox --&gt;</span><br><span class="line">    &lt;template v-for=&quot;item in allHobbies&quot; :key=&quot;item.value&quot;&gt;</span><br><span class="line">      &lt;label :for=&quot;item.value&quot;&gt;</span><br><span class="line">        &lt;input</span><br><span class="line">          :id=&quot;item.value&quot;</span><br><span class="line">          type=&quot;checkbox&quot;</span><br><span class="line">          v-model=&quot;hobbies&quot;</span><br><span class="line">          :value=&quot;item.value&quot;</span><br><span class="line">        /&gt;</span><br><span class="line">        &#123;&#123; item.text &#125;&#125;</span><br><span class="line">      &lt;/label&gt;</span><br><span class="line">    &lt;/template&gt;</span><br><span class="line"></span><br><span class="line">    &lt;h2&gt;爱好:&#123;&#123; hobbies &#125;&#125;&lt;/h2&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      //用户选择的水果</span><br><span class="line">      fruits: [],</span><br><span class="line">      //水果</span><br><span class="line">      allFruits: [</span><br><span class="line">        &#123;</span><br><span class="line">          value: &#x27;apple&#x27;,</span><br><span class="line">          text: &#x27;苹果&#x27;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          value: &#x27;orange&#x27;,</span><br><span class="line">          text: &#x27;橘子&#x27;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          value: &#x27;banana&#x27;,</span><br><span class="line">          text: &#x27;香蕉&#x27;,</span><br><span class="line">        &#125;,</span><br><span class="line">      ],</span><br><span class="line">      //用户选择的爱好</span><br><span class="line">      hobbies: [],</span><br><span class="line">      //爱好</span><br><span class="line">      allHobbies: [</span><br><span class="line">        &#123;</span><br><span class="line">          value: &#x27;sing&#x27;,</span><br><span class="line">          text: &#x27;唱&#x27;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          value: &#x27;jump&#x27;,</span><br><span class="line">          text: &#x27;跳&#x27;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          value: &#x27;rap&#x27;,</span><br><span class="line">          text: &#x27;rap&#x27;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          value: &#x27;basketball&#x27;,</span><br><span class="line">          text: &#x27;篮球&#x27;,</span><br><span class="line">        &#125;,</span><br><span class="line">      ],</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-v-model的修饰符"><a href="#4-v-model的修饰符" class="headerlink" title="4.v-model的修饰符"></a>4.<strong>v-model的修饰符</strong></h2><h3 id="4-1-lazy"><a href="#4-1-lazy" class="headerlink" title="4.1 lazy"></a><strong>4.1 lazy</strong></h3><p>默认双向绑定input的时候，绑定的是input事件，每次内容输入后就会将新的值和我们data中的属性同步</p>
+<p>如果加上了lazy修饰符，那么会将绑定的事件和change同步，只有提交&#x2F;回车时才会触发</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;!-- 水果用select --&gt;</span><br><span class="line">    &lt;select multiple v-model=&quot;fruits&quot;&gt;</span><br><span class="line">      &lt;option v-for=&quot;item in allFruits&quot; :key=&quot;item.value&quot; :value=&quot;item.value&quot;&gt;</span><br><span class="line">        &#123;&#123; item.text &#125;&#125;</span><br><span class="line">      &lt;/option&gt;</span><br><span class="line">    &lt;/select&gt;</span><br><span class="line">    &lt;h2&gt;水果:&#123;&#123; fruits &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;!-- 爱好用checkbox --&gt;</span><br><span class="line">    &lt;template v-for=&quot;item in allHobbies&quot; :key=&quot;item.value&quot;&gt;</span><br><span class="line">      &lt;label :for=&quot;item.value&quot;&gt;</span><br><span class="line">        &lt;input</span><br><span class="line">          :id=&quot;item.value&quot;</span><br><span class="line">          type=&quot;checkbox&quot;</span><br><span class="line">          v-model=&quot;hobbies&quot;</span><br><span class="line">          :value=&quot;item.value&quot;</span><br><span class="line">        /&gt;</span><br><span class="line">        &#123;&#123; item.text &#125;&#125;</span><br><span class="line">      &lt;/label&gt;</span><br><span class="line">    &lt;/template&gt;</span><br><span class="line"></span><br><span class="line">    &lt;h2&gt;爱好:&#123;&#123; hobbies &#125;&#125;&lt;/h2&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      //用户选择的水果</span><br><span class="line">      fruits: [],</span><br><span class="line">      //水果</span><br><span class="line">      allFruits: [</span><br><span class="line">        &#123;</span><br><span class="line">          value: &#x27;apple&#x27;,</span><br><span class="line">          text: &#x27;苹果&#x27;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          value: &#x27;orange&#x27;,</span><br><span class="line">          text: &#x27;橘子&#x27;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          value: &#x27;banana&#x27;,</span><br><span class="line">          text: &#x27;香蕉&#x27;,</span><br><span class="line">        &#125;,</span><br><span class="line">      ],</span><br><span class="line">      //用户选择的爱好</span><br><span class="line">      hobbies: [],</span><br><span class="line">      //爱好</span><br><span class="line">      allHobbies: [</span><br><span class="line">        &#123;</span><br><span class="line">          value: &#x27;sing&#x27;,</span><br><span class="line">          text: &#x27;唱&#x27;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          value: &#x27;jump&#x27;,</span><br><span class="line">          text: &#x27;跳&#x27;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          value: &#x27;rap&#x27;,</span><br><span class="line">          text: &#x27;rap&#x27;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          value: &#x27;basketball&#x27;,</span><br><span class="line">          text: &#x27;篮球&#x27;,</span><br><span class="line">        &#125;,</span><br><span class="line">      ],</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-number"><a href="#4-2-number" class="headerlink" title="4.2 number"></a><strong>4.2 number</strong></h3><p>和type&#x3D;”number”效果一致</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;input type=&quot;text&quot; v-model.number=&quot;counter&quot; /&gt;</span><br><span class="line">    &lt;h2&gt;counter:&#123;&#123; counter &#125;&#125;---&#123;&#123; typeof counter &#125;&#125;&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line">    &lt;input type=&quot;number&quot; v-model=&quot;counter2&quot; /&gt;</span><br><span class="line">    &lt;h2&gt;counter2:&#123;&#123; counter2 &#125;&#125;---&#123;&#123; typeof counter2 &#125;&#125;&lt;/h2&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      counter: 123,</span><br><span class="line">      counter2: 456,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-3-trim"><a href="#4-3-trim" class="headerlink" title="4.3 trim"></a><strong>4.3 trim</strong></h3><p>消除用户输入的空格</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;!-- 修饰符可以链式使用 --&gt;</span><br><span class="line">    &lt;input type=&quot;text&quot; v-model.trim.lazy=&quot;msg&quot; /&gt;</span><br><span class="line">    &lt;h2&gt;&#123;&#123; msg &#125;&#125;&lt;/h2&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      msg: &#x27;&#x27;,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="5-v-model的练习-和购物车要求一样"><a href="#5-v-model的练习-和购物车要求一样" class="headerlink" title="5.v-model的练习(和购物车要求一样)"></a>5.<strong>v-model的练习(和购物车要求一样)</strong></h2><h3 id="5-1-全选反选"><a href="#5-1-全选反选" class="headerlink" title="5.1 全选反选"></a><strong>5.1 全选反选</strong></h3><p>全选反选-computed实现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;h2&gt;爱好&lt;/h2&gt;</span><br><span class="line">    全选&lt;input type=&quot;checkbox&quot; v-model=&quot;all&quot; /&gt;</span><br><span class="line">    &lt;!-- li中是每一个单选 --&gt;</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">      &lt;li v-for=&quot;item in hobbies&quot; :key=&quot;item.id&quot;&gt;</span><br><span class="line">        &lt;input type=&quot;checkbox&quot; v-model=&quot;item.check&quot; /&gt;</span><br><span class="line">        &lt;span&gt;&#123;&#123; item.hobby &#125;&#125;&lt;/span&gt;</span><br><span class="line">      &lt;/li&gt;</span><br><span class="line">    &lt;/ul&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import &#123; set &#125; from &#x27;lodash&#x27;;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      hobbies: [</span><br><span class="line">        &#123;</span><br><span class="line">          id: &#x27;001&#x27;,</span><br><span class="line">          hobby: &#x27;篮球&#x27;,</span><br><span class="line">          check: false,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          id: &#x27;002&#x27;,</span><br><span class="line">          hobby: &#x27;棒球&#x27;,</span><br><span class="line">          check: false,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          id: &#x27;003&#x27;,</span><br><span class="line">          hobby: &#x27;羽毛球&#x27;,</span><br><span class="line">          check: false,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          id: &#x27;004&#x27;,</span><br><span class="line">          hobby: &#x27;乒乓球&#x27;,</span><br><span class="line">          check: false,</span><br><span class="line">        &#125;,</span><br><span class="line">      ],</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  //计算属性</span><br><span class="line">  computed: &#123;</span><br><span class="line">    //简写不行，简写只有getter的情况，获取复杂计算的值</span><br><span class="line">    //所以我们要写完整写法</span><br><span class="line">    // all() &#123;&#125;,</span><br><span class="line">    all: &#123;</span><br><span class="line">      //获取</span><br><span class="line">      get() &#123;</span><br><span class="line">        // 下面几个单选的选中状态，check都为true才选中</span><br><span class="line">        return this.hobbies.every((item) =&gt; item.check === true);</span><br><span class="line">      &#125;,</span><br><span class="line">      //设置</span><br><span class="line">      set(value) &#123;</span><br><span class="line">        // 拿到全选的true/false 赋值给每个item的check</span><br><span class="line">        // console.log(value);</span><br><span class="line">        this.hobbies.forEach((ele) =&gt; (ele.check = value));</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>全选反选-watch实现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;h2&gt;爱好&lt;/h2&gt;</span><br><span class="line">    全选&lt;input type=&quot;checkbox&quot; v-model=&quot;all&quot; @change=&quot;changeAll&quot; /&gt;</span><br><span class="line">    &lt;!-- li中是每一个单选 --&gt;</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">      &lt;li v-for=&quot;item in hobbies&quot; :key=&quot;item.id&quot;&gt;</span><br><span class="line">        &lt;input type=&quot;checkbox&quot; v-model=&quot;item.check&quot; /&gt;</span><br><span class="line">        &lt;span&gt;&#123;&#123; item.hobby &#125;&#125;&lt;/span&gt;</span><br><span class="line">      &lt;/li&gt;</span><br><span class="line">    &lt;/ul&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      all: false,</span><br><span class="line">      hobbies: [</span><br><span class="line">        &#123;</span><br><span class="line">          id: &#x27;001&#x27;,</span><br><span class="line">          hobby: &#x27;篮球&#x27;,</span><br><span class="line">          check: false,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          id: &#x27;002&#x27;,</span><br><span class="line">          hobby: &#x27;棒球&#x27;,</span><br><span class="line">          check: false,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          id: &#x27;003&#x27;,</span><br><span class="line">          hobby: &#x27;羽毛球&#x27;,</span><br><span class="line">          check: false,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          id: &#x27;004&#x27;,</span><br><span class="line">          hobby: &#x27;乒乓球&#x27;,</span><br><span class="line">          check: false,</span><br><span class="line">        &#125;,</span><br><span class="line">      ],</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    changeAll() &#123;</span><br><span class="line">      this.hobbies.forEach((item) =&gt; (item.check = this.all));</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  //侦听器</span><br><span class="line">  watch: &#123;</span><br><span class="line">    //不能简写，我们要侦听的是数组中每个对象的check属性</span><br><span class="line">    hobbies: &#123;</span><br><span class="line">      //这里我们不需要newValue,oldValue</span><br><span class="line">      handler(newValue, oldValue) &#123;</span><br><span class="line">        this.all = this.hobbies.every((item) =&gt; item.check === true);</span><br><span class="line">      &#125;,</span><br><span class="line">      deep: true,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-2-购物车"><a href="#5-2-购物车" class="headerlink" title="5.2 购物车"></a><strong>5.2 购物车</strong></h3><p>data.js</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">export default &#123;</span><br><span class="line">  list: [</span><br><span class="line">    &#123;</span><br><span class="line">      id: 625153951363,</span><br><span class="line">      //商品数量</span><br><span class="line">      number: 15,</span><br><span class="line">      //已购数量</span><br><span class="line">      buy_num: 1,</span><br><span class="line">      select: true,</span><br><span class="line">      name: &#x27;2020西太湖国际音乐节&#x27;,</span><br><span class="line">      showTime: &#x27;2020.09.19-09.20&#x27;,</span><br><span class="line">      price: &#x27;100&#x27;,</span><br><span class="line">      city: &#x27;常州&#x27;,</span><br><span class="line">      address: &#x27;常州西太湖中国花卉博览景区北门&#x27;,</span><br><span class="line">      pic: &#x27;https://img.alicdn.com/bao/uploaded/https://img.alicdn.com/imgextra/i3/2251059038/O1CN01zJEpaN2GdSG1Xvo8y_!!2251059038.jpg&#x27;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      id: 624506842658,</span><br><span class="line">      number: 10,</span><br><span class="line">      buy_num: 3,</span><br><span class="line">      select: false,</span><br><span class="line">      name: &#x27;2020舟山东海音乐节&#x27;,</span><br><span class="line">      showTime: &#x27;2020.09.04-09.06&#x27;,</span><br><span class="line">      price: &#x27;200&#x27;,</span><br><span class="line">      city: &#x27;舟山&#x27;,</span><br><span class="line">      address: &#x27;舟山市朱家尖南沙景区沙滩&#x27;,</span><br><span class="line">      pic: &#x27;https://img.alicdn.com/bao/uploaded/i4/2251059038/O1CN01L70FVl2GdSG2wpwyE_!!0-item_pic.jpg&#x27;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      id: 623216520608,</span><br><span class="line">      number: 8,</span><br><span class="line">      buy_num: 2,</span><br><span class="line">      select: false,</span><br><span class="line">      name: &#x27;中国•磐安 2020氧气山水音乐节&#x27;,</span><br><span class="line">      showTime: &#x27;2020.08.22 周六 16:30&#x27;,</span><br><span class="line">      price: &#x27;300&#x27;,</span><br><span class="line">      city: &#x27;金华&#x27;,</span><br><span class="line">      address: &#x27;金华磐安花溪风景区&#x27;,</span><br><span class="line">      pic: &#x27;https://img.alicdn.com/bao/uploaded/https://img.alicdn.com/imgextra/i3/2251059038/O1CN01ECp69h2GdSFpoUPAm_!!2251059038.jpg&#x27;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      id: 624345993344,</span><br><span class="line">      number: 13,</span><br><span class="line">      buy_num: 2,</span><br><span class="line">      select: false,</span><br><span class="line">      name: &#x27;2020“一生中最爱”七夕演唱会&#x27;,</span><br><span class="line">      showTime: &#x27;2020.08.25 周二 19:30&#x27;,</span><br><span class="line">      price: &#x27;400&#x27;,</span><br><span class="line">      city: &#x27;北京&#x27;,</span><br><span class="line">      address: &#x27;糖果TANGO-雍和宫店三层&#x27;,</span><br><span class="line">      pic: &#x27;https://img.alicdn.com/bao/uploaded/i3/2251059038/O1CN01WGNYBE2GdSFqXJgII_!!0-item_pic.jpg&#x27;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      id: 624170605605,</span><br><span class="line">      number: 5,</span><br><span class="line">      buy_num: 1,</span><br><span class="line">      select: true,</span><br><span class="line">      name: &#x27;东海五渔节之敢潮音乐节&#x27;,</span><br><span class="line">      showTime: &#x27;2020.08.22 周六 18:00&#x27;,</span><br><span class="line">      price: &#x27;500&#x27;,</span><br><span class="line">      city: &#x27;舟山&#x27;,</span><br><span class="line">      address: &#x27;舟山嵊泗五龙乡听海广场(原黄沙村船厂)&#x27;,</span><br><span class="line">      pic: &#x27;https://img.alicdn.com/bao/uploaded/https://img.alicdn.com/imgextra/i1/2251059038/O1CN01eV5pR32GdSFxJUb0v_!!2251059038.jpg&#x27;,</span><br><span class="line">    &#125;,</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="App-vue"><a href="#App-vue" class="headerlink" title="App.vue"></a>App.vue</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;header&quot;&gt;网页头部&lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;content&quot;&gt;</span><br><span class="line">      &lt;!-- 用vue的语法渲染 --&gt;</span><br><span class="line">      &lt;div class=&quot;top&quot;&gt;&lt;input type=&quot;checkbox&quot; v-model=&quot;allCheck&quot; /&gt; 全选&lt;/div&gt;</span><br><span class="line">      &lt;ul class=&quot;center&quot;&gt;</span><br><span class="line">        &lt;li v-for=&quot;item in list&quot; :key=&quot;item.id&quot;&gt;</span><br><span class="line">          &lt;div class=&quot;select&quot;&gt;</span><br><span class="line">            &lt;input type=&quot;checkbox&quot; v-model=&quot;item.select&quot; /&gt;</span><br><span class="line">          &lt;/div&gt;</span><br><span class="line">          &lt;div class=&quot;pic&quot;&gt;</span><br><span class="line">            &lt;img :src=&quot;item.pic&quot; alt=&quot;&quot; /&gt;</span><br><span class="line">          &lt;/div&gt;</span><br><span class="line">          &lt;div class=&quot;name&quot;&gt;&#123;&#123; item.name &#125;&#125;&lt;/div&gt;</span><br><span class="line">          &lt;div class=&quot;price&quot;&gt;</span><br><span class="line">            ￥ &lt;span&gt;&#123;&#123; formateMoney(item.price) &#125;&#125;&lt;/span&gt;</span><br><span class="line">          &lt;/div&gt;</span><br><span class="line">          &lt;div class=&quot;number&quot;&gt;</span><br><span class="line">            &lt;button @click=&quot;sub(item.id)&quot; :disabled=&quot;item.buy_num &lt;= 1&quot;&gt;</span><br><span class="line">              -</span><br><span class="line">            &lt;/button&gt;</span><br><span class="line">            &lt;input type=&quot;text&quot; v-model=&quot;item.buy_num&quot; /&gt;</span><br><span class="line">            &lt;button</span><br><span class="line">              @click=&quot;add(item.id)&quot;</span><br><span class="line">              :disabled=&quot;item.buy_num &gt;= item.number&quot;</span><br><span class="line">            &gt;</span><br><span class="line">              +</span><br><span class="line">            &lt;/button&gt;</span><br><span class="line">          &lt;/div&gt;</span><br><span class="line">          &lt;div class=&quot;subtotal&quot;&gt;</span><br><span class="line">            ￥ &lt;span&gt;&#123;&#123; formateMoney(subtotal(item.id)) &#125;&#125;&lt;/span&gt;</span><br><span class="line">          &lt;/div&gt;</span><br><span class="line">          &lt;div class=&quot;del&quot;&gt;</span><br><span class="line">            &lt;button @click=&quot;del(item.id)&quot;&gt;删除&lt;/button&gt;</span><br><span class="line">          &lt;/div&gt;</span><br><span class="line">        &lt;/li&gt;</span><br><span class="line">      &lt;/ul&gt;</span><br><span class="line">      &lt;div class=&quot;bottom&quot;&gt;</span><br><span class="line">        &lt;p&gt;总购买数量: &#123;&#123; totalNum &#125;&#125;&lt;/p&gt;</span><br><span class="line">        &lt;p&gt;</span><br><span class="line">          &lt;button class=&quot;pay&quot; @click=&quot;pay(totalPrice)&quot;&gt;去结算&lt;/button&gt;</span><br><span class="line">          &lt;button class=&quot;clear&quot; @click=&quot;delAll&quot;&gt;清空购物车&lt;/button&gt;</span><br><span class="line">          &lt;button class=&quot;clear_select&quot; @click=&quot;delSelected&quot;&gt;</span><br><span class="line">            删除所有已选中</span><br><span class="line">          &lt;/button&gt;</span><br><span class="line">          &lt;button class=&quot;list&quot;&gt;返回列表页&lt;/button&gt;</span><br><span class="line">        &lt;/p&gt;</span><br><span class="line">        &lt;p&gt;</span><br><span class="line">          总价格 : ￥ &lt;span&gt;&#123;&#123; formateMoney(totalPrice) &#125;&#125;&lt;/span&gt;</span><br><span class="line">        &lt;/p&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;footer&quot;&gt;网页底部&lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">//引入数据</span><br><span class="line">import mock from &#x27;./data&#x27;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      list: mock.list,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    //删除已选</span><br><span class="line">    delSelected() &#123;</span><br><span class="line">      this.list = this.list.filter((item) =&gt; !item.select);</span><br><span class="line">      // this.list = this.list.filter((item) =&gt; item.select === false);</span><br><span class="line">    &#125;,</span><br><span class="line">    //清空</span><br><span class="line">    delAll() &#123;</span><br><span class="line">      this.list = [];</span><br><span class="line">    &#125;,</span><br><span class="line">    //去结算</span><br><span class="line">    pay(money) &#123;</span><br><span class="line">      console.log(&#x27;总价：&#x27;, money);</span><br><span class="line">    &#125;,</span><br><span class="line">    //删除</span><br><span class="line">    del(id) &#123;</span><br><span class="line">      // this.list = this.list.filter((item) =&gt; item.id !== id);</span><br><span class="line">      //方法二</span><br><span class="line">      const index = this.list.findIndex((item) =&gt; item.id === id);</span><br><span class="line">      this.list.splice(index, 1);</span><br><span class="line">    &#125;,</span><br><span class="line">    //减</span><br><span class="line">    sub(id) &#123;</span><br><span class="line">      const good = this.list.find((ele) =&gt; ele.id === id);</span><br><span class="line">      good.buy_num--;</span><br><span class="line">    &#125;,</span><br><span class="line">    //加</span><br><span class="line">    add(id) &#123;</span><br><span class="line">      const good = this.list.find((ele) =&gt; ele.id === id);</span><br><span class="line">      good.buy_num++;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  //计算属性</span><br><span class="line">  computed: &#123;</span><br><span class="line">    //全选</span><br><span class="line">    allCheck: &#123;</span><br><span class="line">      get() &#123;</span><br><span class="line">        if (!!this.list.length) &#123;</span><br><span class="line">          // return this.list.every((item) =&gt; item.select === true);</span><br><span class="line">          return this.list.every((item) =&gt; item.select);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      set(val) &#123;</span><br><span class="line">        this.list.forEach((item) =&gt; (item.select = val));</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    //格式化金钱</span><br><span class="line">    formateMoney() &#123;</span><br><span class="line">      //计算属性传递参数</span><br><span class="line">      return (money) =&gt; &#123;</span><br><span class="line">        return (money - 0).toFixed(2);</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    //单个商品的小记</span><br><span class="line">    subtotal() &#123;</span><br><span class="line">      return (id) =&gt; &#123;</span><br><span class="line">        const good = this.list.find((ele) =&gt; ele.id === id);</span><br><span class="line">        return good.price * good.buy_num;</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    //总数量和总价格都应该是选中的才参与计算</span><br><span class="line">    //总数量</span><br><span class="line">    totalNum() &#123;</span><br><span class="line">      return this.list.reduce((prev, item) =&gt; &#123;</span><br><span class="line">        return item.select ? prev + item.buy_num : prev;</span><br><span class="line">      &#125;, 0);</span><br><span class="line">    &#125;,</span><br><span class="line">    //总价格</span><br><span class="line">    totalPrice() &#123;</span><br><span class="line">      return this.list.reduce((prev, item) =&gt; &#123;</span><br><span class="line">        return item.select ? prev + item.buy_num * item.price : prev;</span><br><span class="line">      &#125;, 0);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">* &#123;</span><br><span class="line">  margin: 0;</span><br><span class="line">  padding: 0;</span><br><span class="line">  list-style: none;</span><br><span class="line">  text-decoration: none;</span><br><span class="line">&#125;</span><br><span class="line">button,</span><br><span class="line">input &#123;</span><br><span class="line">  outline: none;</span><br><span class="line">  border: none;</span><br><span class="line">&#125;</span><br><span class="line">img &#123;</span><br><span class="line">  width: 100%;</span><br><span class="line">  height: 100%;</span><br><span class="line">  display: block;</span><br><span class="line">&#125;</span><br><span class="line">.header,</span><br><span class="line">.footer &#123;</span><br><span class="line">  width: 1200px;</span><br><span class="line">  height: 80px;</span><br><span class="line">  background-color: skyblue;</span><br><span class="line">  color: #fff;</span><br><span class="line">  font-size: 30px;</span><br><span class="line">  display: flex;</span><br><span class="line">  justify-content: center;</span><br><span class="line">  align-items: center;</span><br><span class="line">  margin: 0 auto;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.footer &#123;</span><br><span class="line">  height: 300px;</span><br><span class="line">  font-size: 100px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content &#123;</span><br><span class="line">  width: 1200px;</span><br><span class="line">  padding: 10px 0;</span><br><span class="line">  margin: 0 auto;</span><br><span class="line">  display: flex;</span><br><span class="line">  flex-direction: column;</span><br><span class="line">&#125;</span><br><span class="line">.content .top,</span><br><span class="line">.content .bottom &#123;</span><br><span class="line">  height: 40px;</span><br><span class="line">  display: flex;</span><br><span class="line">  align-items: center;</span><br><span class="line">  background-color: pink;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content .top &gt; input &#123;</span><br><span class="line">  width: 20px;</span><br><span class="line">  height: 20px;</span><br><span class="line">  margin: 0 20px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content .bottom &#123;</span><br><span class="line">  justify-content: space-around;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content .bottom &gt; p button &#123;</span><br><span class="line">  font-size: 20px;</span><br><span class="line">  padding: 3px 10px;</span><br><span class="line">  cursor: pointer;</span><br><span class="line">  color: #fff;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content .bottom &gt; p &gt; button.pay &#123;</span><br><span class="line">  background-color: green;</span><br><span class="line">&#125;</span><br><span class="line">.content .bottom &gt; p &gt; button.clear &#123;</span><br><span class="line">  background-color: red;</span><br><span class="line">&#125;</span><br><span class="line">.content .bottom &gt; p &gt; button.clear_select &#123;</span><br><span class="line">  background-color: orange;</span><br><span class="line">&#125;</span><br><span class="line">.content .bottom &gt; p &gt; button.list &#123;</span><br><span class="line">  background-color: skyblue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content .bottom &gt; p &gt; span &#123;</span><br><span class="line">  color: red;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content .center &#123;</span><br><span class="line">  width: 100%;</span><br><span class="line">&#125;</span><br><span class="line">.content .center &gt; li &#123;</span><br><span class="line">  height: 100px;</span><br><span class="line">  display: flex;</span><br><span class="line">  justify-content: space-between;</span><br><span class="line">  align-items: center;</span><br><span class="line">  border: 1px solid #333;</span><br><span class="line">  box-sizing: border-box;</span><br><span class="line">  margin: 10px 0;</span><br><span class="line">  border-radius: 10px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content .center &gt; li &gt; div &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  justify-content: center;</span><br><span class="line">  align-items: center;</span><br><span class="line">  height: 100%;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content .center &gt; li &gt; div &gt; span &#123;</span><br><span class="line">  color: red;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content .center &gt; li &gt; div:first-child &gt; input &#123;</span><br><span class="line">  width: 20px;</span><br><span class="line">  height: 20px;</span><br><span class="line">&#125;</span><br><span class="line">.content .center &gt; li &gt; div &gt; button &#123;</span><br><span class="line">  font-size: 20px;</span><br><span class="line">  padding: 5px 10px;</span><br><span class="line">  cursor: pointer;</span><br><span class="line">&#125;</span><br><span class="line">.content .center &gt; li &gt; div &gt; .del &gt; button &#123;</span><br><span class="line">  background-color: red;</span><br><span class="line">  color: #fff;</span><br><span class="line">&#125;</span><br><span class="line">.content .center &gt; li &gt; div.number &gt; input &#123;</span><br><span class="line">  width: 50px;</span><br><span class="line">  height: 24px;</span><br><span class="line">  font-size: 20px;</span><br><span class="line">  text-align: center;</span><br><span class="line">&#125;</span><br><span class="line">.select,</span><br><span class="line">.pic,</span><br><span class="line">.del &#123;</span><br><span class="line">  width: 100px;</span><br><span class="line">&#125;</span><br><span class="line">.name,</span><br><span class="line">.price,</span><br><span class="line">.subtotal &#123;</span><br><span class="line">  width: 200px;</span><br><span class="line">&#125;</span><br><span class="line">.number &#123;</span><br><span class="line">  width: 300px;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="5-3-表格"><a href="#5-3-表格" class="headerlink" title="5.3 表格"></a><strong>5.3 表格</strong></h3><p>生成唯一id使用uuid库:<code>npm install uuid</code></p>
+<p>使用的话就自己看看npm的文档</p>
+<p>data.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="attr">info</span>: [</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">&#x27;胡杭&#x27;</span>, <span class="attr">age</span>: <span class="number">16</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">&#x27;胜明&#x27;</span>, <span class="attr">age</span>: <span class="number">22</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">&#x27;军毅&#x27;</span>, <span class="attr">age</span>: <span class="number">21</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">&#x27;晓华&#x27;</span>, <span class="attr">age</span>: <span class="number">13</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">&#x27;盛聪&#x27;</span>, <span class="attr">age</span>: <span class="number">23</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">&#x27;侦剑&#x27;</span>, <span class="attr">age</span>: <span class="number">32</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">&#x27;红翔&#x27;</span>, <span class="attr">age</span>: <span class="number">25</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">&#x27;超维&#x27;</span>, <span class="attr">age</span>: <span class="number">18</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">&#x27;士琪&#x27;</span>, <span class="attr">age</span>: <span class="number">22</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">&#x27;艳华&#x27;</span>, <span class="attr">age</span>: <span class="number">20</span> &#125;,</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>App.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;button class=&quot;add&quot; @click=&quot;add&quot; :disabled=&quot;count &gt;= 10&quot;&gt;添加&lt;/button&gt;</span><br><span class="line">    &lt;button class=&quot;sort&quot; @click=&quot;sort&quot;&gt;从小到大&lt;/button&gt;</span><br><span class="line">    &lt;button class=&quot;del&quot; @click=&quot;delSelect&quot;&gt;删除选中&lt;/button&gt;</span><br><span class="line">    &lt;table border=&quot;1&quot; cellspacing=&quot;0&quot; cellpadding=&quot;20&quot;&gt;</span><br><span class="line">      &lt;thead&gt;</span><br><span class="line">        &lt;tr&gt;</span><br><span class="line">          &lt;th&gt;序列号&lt;/th&gt;</span><br><span class="line">          &lt;th&gt;姓名&lt;/th&gt;</span><br><span class="line">          &lt;th&gt;年龄&lt;/th&gt;</span><br><span class="line">          &lt;th&gt;操作&lt;/th&gt;</span><br><span class="line">          &lt;th&gt;选择&lt;/th&gt;</span><br><span class="line">        &lt;/tr&gt;</span><br><span class="line">      &lt;/thead&gt;</span><br><span class="line">      &lt;tbody&gt;</span><br><span class="line">        &lt;tr v-for=&quot;item in data&quot; :key=&quot;item.id&quot;&gt;</span><br><span class="line">          &lt;td&gt;&#123;&#123; item.index &#125;&#125;&lt;/td&gt;</span><br><span class="line">          &lt;td&gt;&#123;&#123; item.name &#125;&#125;&lt;/td&gt;</span><br><span class="line">          &lt;td&gt;&#123;&#123; item.age &#125;&#125;&lt;/td&gt;</span><br><span class="line">          &lt;td&gt;</span><br><span class="line">            &lt;button class=&quot;delOne&quot; @click=&quot;del(item.id)&quot;&gt;删除&lt;/button&gt;</span><br><span class="line">          &lt;/td&gt;</span><br><span class="line">          &lt;td&gt;&lt;input type=&quot;checkbox&quot; v-model=&quot;item.select&quot; /&gt;&lt;/td&gt;</span><br><span class="line">        &lt;/tr&gt;</span><br><span class="line">      &lt;/tbody&gt;</span><br><span class="line">    &lt;/table&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">//引入uuid</span><br><span class="line">import &#123; v4 as uuidv4 &#125; from &#x27;uuid&#x27;;</span><br><span class="line">import mock from &#x27;./data&#x27;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      //添加了多少个的计数</span><br><span class="line">      count: 0,</span><br><span class="line">      info: [],</span><br><span class="line">      //真正操作的数组</span><br><span class="line">      data: [],</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    //添加</span><br><span class="line">    add() &#123;</span><br><span class="line">      this.data.push(this.info[this.count]);</span><br><span class="line">      this.count++;</span><br><span class="line">    &#125;,</span><br><span class="line">    sort() &#123;</span><br><span class="line">      this.data.sort((a, b) =&gt; &#123;</span><br><span class="line">        return a.age - b.age;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    del(id) &#123;</span><br><span class="line">      this.data = this.data.filter((item) =&gt; item.id !== id);</span><br><span class="line">    &#125;,</span><br><span class="line">    delSelect() &#123;</span><br><span class="line">      this.data = this.data.filter((ele) =&gt; !ele.select);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  //请求数据，并且将请求的数据做一定的处理</span><br><span class="line">  created() &#123;</span><br><span class="line">    this.info = mock.info.map((item, index) =&gt; &#123;</span><br><span class="line">      item.select = false;</span><br><span class="line">      item.index = index + 1;</span><br><span class="line">      item.id = uuidv4();</span><br><span class="line">      return item;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>RickyD
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://muleandhorse.icu/2022/06/16/b40%20v-model/" title="vue的v-model">http://muleandhorse.icu/2022/06/16/b40 v-model/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/" rel="tag"># 前端开发</a>
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/tags/vue/" rel="tag"># vue</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/14/b39%20Vue%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95(%E4%B8%89)/" rel="prev" title="vue基础语法(三)">
+      <i class="fa fa-chevron-left"></i> vue基础语法(三)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/06/18/b40%20VUE%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BC%80%E5%8F%91/" rel="next" title="vue的组件化开发思想">
+      vue的组件化开发思想 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81ODIzMi8zNDY5NQ=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#6-25-v-model"><span class="nav-number">1.</span> <span class="nav-text">6-25 v-model</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-v-model%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">1.1.</span> <span class="nav-text">1.v-model的基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-v-model%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 v-model的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-v-model%E7%9A%84%E7%BB%91%E5%AE%9A%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 v-model的绑定原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-v-model-%E7%BB%91%E5%AE%9A%E4%B8%80%E4%BA%9B%E8%A1%A8%E5%8D%95%E5%85%83%E7%B4%A0"><span class="nav-number">1.2.</span> <span class="nav-text">2.v-model 绑定一些表单元素**</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-textarea"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 textarea</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-v-model%E7%BB%91%E5%AE%9Acheckbox"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 v-model绑定checkbox</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-v-model%E7%BB%91%E5%AE%9Aradio"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 v-model绑定radio</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-v-model%E7%BB%91%E5%AE%9A-select"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.4 v-model绑定 select</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-v-model%E7%9A%84%E5%80%BC%E7%BB%91%E5%AE%9A"><span class="nav-number">1.3.</span> <span class="nav-text">3.v-model的值绑定**</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-v-model%E7%9A%84%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="nav-number">1.4.</span> <span class="nav-text">4.v-model的修饰符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-lazy"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 lazy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-number"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 number</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-trim"><span class="nav-number">1.4.3.</span> <span class="nav-text">4.3 trim</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-v-model%E7%9A%84%E7%BB%83%E4%B9%A0-%E5%92%8C%E8%B4%AD%E7%89%A9%E8%BD%A6%E8%A6%81%E6%B1%82%E4%B8%80%E6%A0%B7"><span class="nav-number">1.5.</span> <span class="nav-text">5.v-model的练习(和购物车要求一样)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E5%85%A8%E9%80%89%E5%8F%8D%E9%80%89"><span class="nav-number">1.5.1.</span> <span class="nav-text">5.1 全选反选</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E8%B4%AD%E7%89%A9%E8%BD%A6"><span class="nav-number">1.5.2.</span> <span class="nav-text">5.2 购物车</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#App-vue"><span class="nav-number">1.5.3.</span> <span class="nav-text">App.vue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-%E8%A1%A8%E6%A0%BC"><span class="nav-number">1.5.4.</span> <span class="nav-text">5.3 表格</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="RickyD"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">RickyD</p>
+  <div class="site-description" itemprop="description">如果站长加班加似了，这个网站就是他留给世界最后的遗产</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/RickyDriver" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;RickyDriver" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1552330861@qq.com" title="E-Mail → 1552330861@qq.com"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RickyD</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">135k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">7:30</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>

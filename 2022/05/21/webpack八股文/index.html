@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.svg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"muleandhorse.icu","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="1. 说说 Node 是什么？和浏览器有什么区别和关系 Node.js 是一个基于 V8 JavaScript 引擎的 JavaScript 运行时环境 123V8可以嵌入到任何C ++应用程序中，无论是Chrome还是Node.js，事实上都是嵌入了V8引擎来执行JavaScript代码；但是在Chrome浏览器中，还需要解析、渲染HTML、CSS等相关渲染引擎，另外还需要提供支持浏览器操作的A">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS高阶的一些八股文">
+<meta property="og:url" content="http://muleandhorse.icu/2022/05/21/webpack%E5%85%AB%E8%82%A1%E6%96%87/index.html">
+<meta property="og:site_name" content="Mule and Horse">
+<meta property="og:description" content="1. 说说 Node 是什么？和浏览器有什么区别和关系 Node.js 是一个基于 V8 JavaScript 引擎的 JavaScript 运行时环境 123V8可以嵌入到任何C ++应用程序中，无论是Chrome还是Node.js，事实上都是嵌入了V8引擎来执行JavaScript代码；但是在Chrome浏览器中，还需要解析、渲染HTML、CSS等相关渲染引擎，另外还需要提供支持浏览器操作的A">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-21T06:06:09.000Z">
+<meta property="article:modified_time" content="2023-07-22T13:14:17.730Z">
+<meta property="article:author" content="RickyD">
+<meta property="article:tag" content="前端开发">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="javascript">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://muleandhorse.icu/2022/05/21/webpack%E5%85%AB%E8%82%A1%E6%96%87/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>JS高阶的一些八股文 | Mule and Horse</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mule and Horse</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个工地仔的救赎之路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">67</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">10</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://muleandhorse.icu/2022/05/21/webpack%E5%85%AB%E8%82%A1%E6%96%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="RickyD">
+      <meta itemprop="description" content="如果站长加班加似了，这个网站就是他留给世界最后的遗产">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mule and Horse">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JS高阶的一些八股文
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-21 14:06:09" itemprop="dateCreated datePublished" datetime="2022-05-21T14:06:09+08:00">2022-05-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-07-22 21:14:17" itemprop="dateModified" datetime="2023-07-22T21:14:17+08:00">2023-07-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>11 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="1-说说-Node-是什么？和浏览器有什么区别和关系"><a href="#1-说说-Node-是什么？和浏览器有什么区别和关系" class="headerlink" title="1. 说说 Node 是什么？和浏览器有什么区别和关系"></a>1. 说说 Node 是什么？和浏览器有什么区别和关系</h2><ul>
+<li><p>Node.js 是一个基于 V8 JavaScript 引擎的 JavaScript 运行时环境</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">V8可以嵌入到任何C ++应用程序中，无论是Chrome还是Node.js，事实上都是嵌入了V8引擎来执行JavaScript代码；</span><br><span class="line">但是在Chrome浏览器中，还需要解析、渲染HTML、CSS等相关渲染引擎，另外还需要提供支持浏览器操作的API、浏览器自己的事件循环等</span><br><span class="line">在Node.js中我们也需要进行一些额外的操作，比如文件系统读/写、网络IO、加密、压缩解压文件等操作</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在浏览器中，全局变量都是在 window 上的，比如有 document、setInterval、setTimeout、alert、console 等等</p>
+<ul>
+<li>在浏览器中执行的 JavaScript 代码，如果我们在顶级范围内通过 var 定义的一个属性，默认会被添加到 window 对象上</li>
+</ul>
+</li>
+<li><p>在 Node 中，我们也有一个 global 属性，并且看起来它里面有很多其他对象</p>
+<ul>
+<li>在 node 中，我们通过 var 定义一个变量，它只是在当前模块中有一个变量，不会放到全局中</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-说说你对模块化开发的理解"><a href="#2-说说你对模块化开发的理解" class="headerlink" title="2. 说说你对模块化开发的理解"></a>2. 说说你对模块化开发的理解</h2><ul>
+<li><p>模块化开发最终的目的是将程序划分成一个个小的结构(模块)</p>
+</li>
+<li><p>这个结构中编写属于自己的逻辑代码，有自己的作用域，定义变量名词时不会影响到其他的结构</p>
+</li>
+<li><p>可导出变量,函数,对象等给其他模块用</p>
+</li>
+<li><p>也可导入其他模块中的变量,函数,对象</p>
+</li>
+<li><p>按照这种结构划分开发程序的过程，就是模块化开发的过程</p>
+</li>
+<li><p>早期是没有模块化, 带来一些问题</p>
+<ul>
+<li>命名冲突 -&gt; 立即执行函数 -&gt; 自定义模块 -&gt; 没有规范</li>
+<li>社区中模块化规范: CommonJS&#x2F;AMD&#x2F;CMD</li>
+<li>ES6 中推出模块化: ES Module</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-整理-ES-Module-模块化的规则和原理-3-种导入导出的方式"><a href="#3-整理-ES-Module-模块化的规则和原理-3-种导入导出的方式" class="headerlink" title="3. 整理 ES Module 模块化的规则和原理(3 种导入导出的方式)"></a>3. 整理 ES Module 模块化的规则和原理(3 种导入导出的方式)</h2><h3 id="1-导入和导出的三种方式"><a href="#1-导入和导出的三种方式" class="headerlink" title="1. 导入和导出的三种方式"></a>1. 导入和导出的三种方式</h3><ul>
+<li><p>导出的方式</p>
+<ul>
+<li><p>在语句声明的前面直接加上 export 关键字</p>
+</li>
+<li><p>将所有需要导出的标识符，放到 export 后面的 {}中</p>
+<ul>
+<li>这里的 {}里面不是 ES6 的对象字面量的增强写法，{}也不是表示一个对象的；</li>
+<li>export {name: name}，是错误的写法；</li>
+</ul>
+</li>
+<li><p>导出时给标识符起一个别名</p>
+<ul>
+<li>通过 as 取别名</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 导出方式一:在语句什么的前面加上export</span></span><br><span class="line"><span class="comment">// export const name = &quot;张三&quot;</span></span><br><span class="line"><span class="comment">// export const age = 89</span></span><br><span class="line"><span class="comment">// export function bar() &#123;</span></span><br><span class="line"><span class="comment">//   console.log(&quot;bar--&quot;)</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"><span class="keyword">const</span> name = <span class="string">&#x27;张三&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> age = <span class="number">89</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">bar</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;bar--&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//导出方式二:将所有需要导出的标识符,放到export后面&#123;&#125;</span></span><br><span class="line"><span class="comment">// export &#123;</span></span><br><span class="line"><span class="comment">//   name,</span></span><br><span class="line"><span class="comment">//   age,</span></span><br><span class="line"><span class="comment">//   bar</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"><span class="comment">//导出方式三: 导出时给标识符起别名</span></span><br><span class="line"><span class="keyword">export</span> &#123; name <span class="keyword">as</span> newName, age, bar <span class="keyword">as</span> fn &#125;;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>导入 <code>从另外一个模块中导入内容</code></p>
+</li>
+<li><p>导入的方式</p>
+<ul>
+<li>import {标识符列表} from ‘模块’<ul>
+<li>注意：这里的{}也不是一个对象，里面只是存放导入的标识符列表内容</li>
+</ul>
+</li>
+<li>导入时给标识符起别名<ul>
+<li>通过 as 关键字起别名</li>
+</ul>
+</li>
+<li>通过 * 将模块功能放到一个模块功能对象（a module object）上</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 导入,必须在顶层,必须加后缀名js</span></span><br><span class="line"><span class="comment">//导入方式一</span></span><br><span class="line"><span class="comment">// import &#123; name, age, bar &#125; from &quot;./foo.js&quot;</span></span><br><span class="line"><span class="comment">//导入方式二 :导入时给标识符取别名</span></span><br><span class="line"><span class="keyword">import</span> &#123; name <span class="keyword">as</span> newName, age <span class="keyword">as</span> newAge, bar <span class="keyword">as</span> fn &#125; <span class="keyword">from</span> <span class="string">&#x27;./foo.js&#x27;</span>;</span><br><span class="line"><span class="comment">//导入方式三: 通过*将模块功能放到一个模块功能对象上</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> foo <span class="keyword">from</span> <span class="string">&#x27;./foo.js&#x27;</span>;</span><br><span class="line"><span class="comment">// console.log(newName, newAge, fn)</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(foo.<span class="property">name</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(foo.<span class="property">age</span>);</span><br><span class="line">foo.<span class="title function_">bar</span>();</span><br><span class="line"><span class="comment">// console.log(name, age)</span></span><br><span class="line"><span class="comment">// bar()</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-默认导出-x2F-导入"><a href="#2-默认导出-x2F-导入" class="headerlink" title="2. 默认导出&#x2F;导入"></a>2. 默认导出&#x2F;导入</h3><ul>
+<li><p>默认导出 export 时可以不需要指定名字</p>
+</li>
+<li><p>在导入时不需要使用 {}，并且可以自己来指定名字</p>
+</li>
+<li><p>在一个模块中，只能有一个默认导出（default export）</p>
+</li>
+<li><p>默认导出</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">bar</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;bar--&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//默认导出,不需要指定名字,方式一</span></span><br><span class="line"><span class="comment">// export default bar</span></span><br><span class="line"><span class="comment">// 默认导出 方式二:定义标识符直接作为默认导出</span></span><br><span class="line"><span class="comment">// 注意:一个模块只能有一个默认导出</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">baz</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;baz---&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>默认导入</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 导入不用&#123;&#125;,可以自己指定名字</span></span><br><span class="line"><span class="comment">// import bar from &quot;./foo.js&quot;</span></span><br><span class="line"><span class="keyword">import</span> baz <span class="keyword">from</span> <span class="string">&#x27;./foo.js&#x27;</span>;</span><br><span class="line"><span class="comment">// console.log(bar)</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(baz);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="3-export-和-import-结合"><a href="#3-export-和-import-结合" class="headerlink" title="3. export 和 import 结合"></a>3. export 和 import 结合</h3><p>why 这样做?</p>
+<ul>
+<li><p>在开发和封装一个功能库时，通常我们希望将暴露的所有接口放到一个文件中；</p>
+</li>
+<li><p>这样方便指定统一的接口规范，也方便阅读；</p>
+</li>
+<li><p>这个时候，我们就可以使用 export 和 import 结合使用</p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 入口文件</span></span><br><span class="line"><span class="comment">// 先导入再导出</span></span><br><span class="line"><span class="comment">// import &#123; formatData &#125; from &quot;./format.js&quot;</span></span><br><span class="line"><span class="comment">// import &#123; sayhello &#125; from &quot;./foo.js&quot;</span></span><br><span class="line"><span class="comment">// export &#123; formatData, parseLyric &#125;</span></span><br><span class="line"><span class="comment">//优化一</span></span><br><span class="line"><span class="comment">// export &#123; formatData &#125; from &quot;./format.js&quot;</span></span><br><span class="line"><span class="comment">// export &#123; sayhello &#125; from &quot;./foo.js&quot;</span></span><br><span class="line"><span class="comment">// 优化二</span></span><br><span class="line"><span class="comment">// 导入format中的所有,导出所有</span></span><br><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">&#x27;./format.js&#x27;</span>;</span><br><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">&#x27;./foo.js&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-import-函数"><a href="#4-import-函数" class="headerlink" title="4. import 函数"></a>4. import 函数</h3><ul>
+<li><p>通过 import 加载一个模块，是不可以在其放到逻辑代码中的</p>
+</li>
+<li><p>使用 import() 函数来动态加载</p>
+<ul>
+<li>import 函数返回一个 Promise，可以通过 then 获取结果</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 导入,必须在顶层,必须加后缀名js</span></span><br><span class="line"><span class="comment">// import &#123; name, age, bar &#125; from &quot;./foo.js&quot;</span></span><br><span class="line"><span class="comment">// 1.通过import加载一个模块,是不可以放在逻辑代码中</span></span><br><span class="line"><span class="keyword">var</span> flag = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">if</span> (flag) &#123;</span><br><span class="line">  <span class="comment">// import &#123; name, age, bar &#125; from &quot;./foo.js&quot;</span></span><br><span class="line">  <span class="comment">//2.使用import函数来动态加载,返回promise</span></span><br><span class="line">  <span class="keyword">import</span>(<span class="string">&#x27;./foo.js&#x27;</span>).<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(res);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(res.<span class="property">name</span>, res.<span class="property">age</span>, res.<span class="property">bar</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;你猜不猜&#x27;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="keyword">import</span>.<span class="property">meta</span>);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="5-ESModule-原理"><a href="#5-ESModule-原理" class="headerlink" title="5. ESModule 原理"></a>5. ESModule 原理</h3><ul>
+<li>ES Module 的解析过程可以划分为三个阶段：<ul>
+<li>阶段一：构建（Construction），根据地址查找 js 文件，并且下载，将其解析成模块记录（Module Record）；</li>
+<li>阶段二：实例化（Instantiation），对模块记录进行实例化，并且分配内存空间，解析模块的导入和导出语句，把模块指向对应的内存地址。</li>
+<li>阶段三：运行（Evaluation），运行代码，计算值，并且将值填充到内存地址中；</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-整理-npm、yarn-常用的命令以及作用"><a href="#4-整理-npm、yarn-常用的命令以及作用" class="headerlink" title="4. 整理 npm、yarn 常用的命令以及作用"></a>4. 整理 npm、yarn 常用的命令以及作用</h2><table>
+<thead>
+<tr>
+<th align="left">npm</th>
+<th>yarn</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">npm install</td>
+<td>yarn install</td>
+<td>根据 package.json 中的依赖包安装</td>
+</tr>
+<tr>
+<td align="left">npm install [package]</td>
+<td>yarn add [package]</td>
+<td>默认安装开发和生产依赖</td>
+</tr>
+<tr>
+<td align="left">npm install –save [package]</td>
+<td>yarn add [package]</td>
+<td>默认安装开发和生产依赖</td>
+</tr>
+<tr>
+<td align="left">npm install –save-dev [package]</td>
+<td>yarn add [package][–dev&#x2F;-D]</td>
+<td>安装开发依赖</td>
+</tr>
+<tr>
+<td align="left">npm rebuild</td>
+<td>yarn install –force</td>
+<td>强制重新 build</td>
+</tr>
+<tr>
+<td align="left">npm uninstall [package]</td>
+<td>yarn remove [package]</td>
+<td>卸载某个依赖包</td>
+</tr>
+<tr>
+<td align="left">npm cache clean</td>
+<td>yarn cache clean</td>
+<td>清除缓存</td>
+</tr>
+<tr>
+<td align="left">npm update [package]</td>
+<td>yarn upgrade</td>
+<td>更新指定包</td>
+</tr>
+</tbody></table>
+<h2 id="5-说出-npm-install-的安装过程"><a href="#5-说出-npm-install-的安装过程" class="headerlink" title="5. 说出 npm install 的安装过程"></a>5. 说出 npm install 的安装过程</h2><p>npm install 会检测是有 package-lock.json 文件：</p>
+<ul>
+<li><p>没有 lock 文件</p>
+<ul>
+<li>分析依赖关系，这是因为我们可能包会依赖其他的包，并且多个包之间会产生相同依赖的情况；</li>
+<li>从 registry 仓库中下载压缩包（如果我们设置了镜像，那么会从镜像服务器下载压缩包）；</li>
+<li>获取到压缩包后会对压缩包进行缓存（从 npm5 开始有的）；</li>
+<li>将压缩包解压到项目的 node_modules 文件夹中（前面我们讲过，require 的查找顺序会在该包下面查找）</li>
+</ul>
+</li>
+<li><p>有 lock 文件</p>
+<ul>
+<li>检测 lock 中包的版本是否和 package.json 中一致（会按照 semver 版本规范检测）</li>
+<li>不一致，那么会重新构建依赖关系，直接会走顶层的流程</li>
+<li>一致的情况下，会去优先查找缓存<ul>
+<li>没有找到，会从 registry 仓库下载，直接走顶层流程</li>
+<li>查找到，会获取缓存中的压缩文件，并且将压缩文件解压到 node_modules 文件夹中</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-总结-package-json-中常见字段的作用"><a href="#6-总结-package-json-中常见字段的作用" class="headerlink" title="6. 总结 package.json 中常见字段的作用"></a>6. 总结 package.json 中常见字段的作用</h2><ul>
+<li><p>必须填写的属性：name、version</p>
+<ul>
+<li>name 是项目的名称；</li>
+<li>version 是当前项目的版本号；</li>
+<li>description 是描述信息，很多时候是作为项目的基本描述；</li>
+<li>author 是作者相关信息（发布时用到）；</li>
+<li>license 是开源协议（发布时用到）；</li>
+</ul>
+</li>
+<li><p>private 属性：</p>
+<ul>
+<li><p>private 属性记录当前的项目是否是私有的；</p>
+</li>
+<li><p>当值为 true 时，npm 是不能发布它的，这是防止私有项目或模块发布出去的方式；</p>
+</li>
+</ul>
+</li>
+<li><p>main 属性：</p>
+<ul>
+<li>设置程序的入口。</li>
+</ul>
+</li>
+<li><p>scripts 属性</p>
+<ul>
+<li>scripts 属性用于配置一些脚本命令，以键值对的形式存在；</li>
+<li>配置后我们可以通过 npm run 命令的 key 来执行这个命令；</li>
+<li>npm start 和 npm run start 的区别是什么？</li>
+<li>它们是等价的；</li>
+<li>对于常用的 start、 test、stop、restart 可以省略掉 run 直接通过 npm start 等方式运行；</li>
+</ul>
+</li>
+<li><p>dependencies 属性</p>
+</li>
+<li><p>dependencies 属性是指定无论开发环境还是生成环境都需要依赖的包</p>
+</li>
+<li><p>我们项目实际开发用到的一些库模块 vue、vuex、vue-router、react、react-dom、axios 等等</p>
+</li>
+<li><p>devDependencies 属性</p>
+<ul>
+<li>一些包在生成环境是不需要的，比如 webpack、babel 等</li>
+<li>这个时候我们会通过 npm install webpack –save-dev，将它安装到 devDependencies 属性中</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>^和~的区别</strong></p>
+</li>
+<li><p>x.y.z 是一个明确的版本号</p>
+</li>
+<li><p>^x.y.z 表明 x 是不变的 y 和安装最新的版本</p>
+</li>
+<li><p>~x.y.z 表示 x,y 不变 z 安装最新的版本</p>
+</li>
+<li><p>X 主版本号(major) 做了不兼容的 API 修改(可能不兼容之前的版本)</p>
+</li>
+<li><p>Y: 次版本号(minor) 新功能增加 但是兼容之前的版本</p>
+</li>
+<li><p>Z 修订号(patch) 做了向下兼容的修正 修复了之前的 bug 没有产生新功能</p>
+</li>
+</ul>
+<h2 id="7-说说-npx-命令的作用"><a href="#7-说说-npx-命令的作用" class="headerlink" title="7. 说说 npx 命令的作用"></a>7. 说说 npx 命令的作用</h2><ul>
+<li>npx 会到当前目录的 node_modules&#x2F;.bin 目录下查找对应的命令</li>
+<li>如果想要局部的 webpack ,可以通过使用 npx</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npx webpack --version</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="8-说说-pnpm-的优化原理和用法"><a href="#8-说说-pnpm-的优化原理和用法" class="headerlink" title="8. 说说 pnpm 的优化原理和用法"></a>8. 说说 pnpm 的优化原理和用法</h2><ul>
+<li>当使用 npm 或 Yarn 时，如果你有 100 个项目，并且所有项目都有一个相同的依赖包，那么， 你在硬盘上就需要保存 100 份该相同依赖包的副本</li>
+<li>为了解决上面的问题,就出现了 pnpm,使用 pnpm,依赖包将被存放在一个统一的位置<ul>
+<li>当安装软件包时， 其包含的所有文件都会硬链接到此位置，而不会占用 额外的硬盘空间</li>
+<li>这让你可以在项目之间方便地共享相同版本的 依赖包</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>npm 命令</th>
+<th>pnpm 等价命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>npm install</td>
+<td>pnpm install</td>
+<td>安装 package.json 中的依赖包</td>
+</tr>
+<tr>
+<td>npm install <pcg></td>
+<td>pnpm add <pcg></td>
+<td>默认安装开发和生产依赖</td>
+</tr>
+<tr>
+<td>npm uninstall <pcg></td>
+<td>pnpm remove <pcg></td>
+<td>卸载某个依赖包</td>
+</tr>
+<tr>
+<td>npm run <cmd></td>
+<td>pnpm <cmd></td>
+<td>运行某个脚本</td>
+</tr>
+</tbody></table>
+<h2 id="9-什么是-webpack，说说你对-webpack-的理解"><a href="#9-什么是-webpack，说说你对-webpack-的理解" class="headerlink" title="9. 什么是 webpack，说说你对 webpack 的理解"></a>9. 什么是 webpack，说说你对 webpack 的理解</h2><ul>
+<li><p>webpack 是一个静态的模块化打包工具，为现代的 JavaScript 应用程序；</p>
+</li>
+<li><p>如下解释</p>
+<ul>
+<li>打包 bundler：webpack 可以将帮助我们进行打包，所以它是一个打包工具</li>
+<li>静态的 static：这样表述的原因是我们最终可以将代码打包成最终的静态资源（部署到静态服务器）</li>
+<li>模块化 module：webpack 默认支持各种模块化开发，ES Module、CommonJS、AMD 等</li>
+<li>现代的 modern：正是因为现代前端开发面临各种各样的问题，才催生了 webpack 的出现和发展</li>
+</ul>
+</li>
+</ul>
+<h2 id="10-什么是-loader？webpack-的-loader-是什么作用？和-Plugin-有什么区别？"><a href="#10-什么是-loader？webpack-的-loader-是什么作用？和-Plugin-有什么区别？" class="headerlink" title="10. 什么是 loader？webpack 的 loader 是什么作用？和 Plugin 有什么区别？"></a>10. 什么是 loader？webpack 的 loader 是什么作用？和 Plugin 有什么区别？</h2><ul>
+<li><p>loader 用来对模块的源代码进行转换,加载文件</p>
+<ul>
+<li><p>比如因为 webpack 不知道怎么样去加载 css 文件,所以我们需要用 css-loader 来加载 css 文件</p>
+</li>
+<li><p>主要通过配置方式来使用 loader 来加载</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">module</span>: &#123;</span><br><span class="line">  <span class="attr">rules</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="comment">// 告诉webpack匹配以.css结尾的文件</span></span><br><span class="line">      <span class="attr">test</span>: <span class="regexp">/\.css$/</span>,</span><br><span class="line">      <span class="comment">// use: [</span></span><br><span class="line">      <span class="comment">//   // 注意顺序,从下往上执行</span></span><br><span class="line">      <span class="comment">//   &#123; loader: &quot;style-loader&quot; &#125;,</span></span><br><span class="line">      <span class="comment">//   &#123; loader: &quot;css-loader&quot; &#125;</span></span><br><span class="line">      <span class="comment">// ]</span></span><br><span class="line">      <span class="comment">//简写一: 如果loader只有一个</span></span><br><span class="line">      <span class="comment">// loader: &quot;css-loader&quot;</span></span><br><span class="line">      <span class="comment">//简写二: 多个loader不需要其他属性时,可以直接写loader字符串形式</span></span><br><span class="line">      <span class="comment">// 配置方式一</span></span><br><span class="line">      <span class="attr">use</span>: [<span class="string">&#x27;style-loader&#x27;</span>, <span class="string">&#x27;css-loader&#x27;</span>, <span class="string">&#x27;postcss-loader&#x27;</span>],</span><br><span class="line">      <span class="comment">// 配置方式二</span></span><br><span class="line">      <span class="comment">// use: [&quot;style-loader&quot;, &quot;css-loader&quot;, &#123;</span></span><br><span class="line">      <span class="comment">//   loader: &quot;postcss-loader&quot;,</span></span><br><span class="line">      <span class="comment">//   options: &#123;</span></span><br><span class="line">      <span class="comment">//     postcssOptions: &#123;</span></span><br><span class="line">      <span class="comment">//       plugins: [</span></span><br><span class="line">      <span class="comment">//         &quot;autoprefixer&quot;</span></span><br><span class="line">      <span class="comment">//       ]</span></span><br><span class="line">      <span class="comment">//     &#125;</span></span><br><span class="line">      <span class="comment">//   &#125;</span></span><br><span class="line">      <span class="comment">// &#125;]</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="comment">// 告诉webpack匹配以.css结尾的文件</span></span><br><span class="line">      <span class="attr">test</span>: <span class="regexp">/\.less$/</span>,</span><br><span class="line">      <span class="comment">// use: [</span></span><br><span class="line">      <span class="comment">//   // 注意顺序,从下往上执行</span></span><br><span class="line">      <span class="comment">//   &#123; loader: &quot;style-loader&quot; &#125;,</span></span><br><span class="line">      <span class="comment">//   &#123; loader: &quot;css-loader&quot; &#125;,</span></span><br><span class="line">      <span class="comment">//   &#123; loader: &quot;less-loader&quot; &#125;,</span></span><br><span class="line">      <span class="comment">//   &#123; loader: &quot;postcss-loader&quot; &#125;</span></span><br><span class="line">      <span class="comment">// ]</span></span><br><span class="line">      <span class="comment">// 简写</span></span><br><span class="line">      <span class="attr">use</span>: [<span class="string">&#x27;style-loader&#x27;</span>, <span class="string">&#x27;css-loader&#x27;</span>, <span class="string">&#x27;less-loader&#x27;</span>, <span class="string">&#x27;postcss-loader&#x27;</span>],</span><br><span class="line">    &#125;,</span><br><span class="line">  ];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>loader 和 plugin 的区别<ul>
+<li>loader 是用于特定的模块类型(css,vue…)进行解析加载</li>
+<li>plugin 是用于执行更多广泛的任务,比如打包优化,资源管理,环境变量注入等<ul>
+<li>常见的插件<ul>
+<li>CleanWebpackPlugin <strong>每次修改了一些配置，重新打包时，帮助我们删除 dist 文件夹</strong></li>
+<li>HtmlWebpackPlugin <strong>对 index.html 进行打包处理,自动在 dist 文件夹中，生成了一个 index.html 的文件</strong></li>
+<li>DefinePlugin <strong>允许在编译时创建配置的全局常量，是一个 webpack 内置的插件（不需要单独安装）</strong><ul>
+<li>比如 BASE_URL <strong>基础路径</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="11-什么是-babel？babel-在开发中是什么作用？"><a href="#11-什么是-babel？babel-在开发中是什么作用？" class="headerlink" title="11. 什么是 babel？babel 在开发中是什么作用？"></a>11. 什么是 babel？babel 在开发中是什么作用？</h2><p>转码器</p>
+<ul>
+<li>Babel 是一个工具链，主要用于旧浏览器或者环境中将 ECMAScript 2015+代码转换为向后兼容版本的 JavaScript (ES6 以上的代码转成 ES5 代码)</li>
+<li>作用: 语法转换,源代码转换,箭头函数转换 ,ES6 以上的代码转成 ES5 代码</li>
+</ul>
+<h2 id="12-webpack-的开发模式和生产模式有什么区别？"><a href="#12-webpack-的开发模式和生产模式有什么区别？" class="headerlink" title="12. webpack 的开发模式和生产模式有什么区别？"></a>12. webpack 的开发模式和生产模式有什么区别？</h2><ul>
+<li>Mode: development 开发模式<ul>
+<li>会将 process.env.NODE_ENV 的值设置为 development</li>
+</ul>
+</li>
+<li>Mode: production 生产模式<ul>
+<li>会将 process.env.NODE_ENV 的值设置为 production</li>
+</ul>
+</li>
+</ul>
+<h2 id="13-webpack-如何开启本地服务器，并且提高页面的更新效率（HMR）？"><a href="#13-webpack-如何开启本地服务器，并且提高页面的更新效率（HMR）？" class="headerlink" title="13. webpack 如何开启本地服务器，并且提高页面的更新效率（HMR）？"></a>13. webpack 如何开启本地服务器，并且提高页面的更新效率（HMR）？</h2><ul>
+<li><p>如何开启本地服务器?</p>
+<ul>
+<li><p>安装 webpack-dev-server</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install webpack-dev-server -D</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改配置文件,启动时加上 serve</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">   &quot;serve&quot;: &quot;webpack serve --config jack.config.js&quot;</span><br><span class="line"> &#125;,</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>命令 : npm run serve</p>
+</li>
+</ul>
+</li>
+<li><p>HMR <strong>模块热替换</strong></p>
+<ul>
+<li><p>模块热替换是指在 应用程序运行过程中，替换、添加、删除模块，而<strong>无需重新刷新整个页面</strong></p>
+</li>
+<li><p>如何使用 HMR</p>
+<ul>
+<li>默认情况下，webpack-dev-server 已经支持 HMR，我们只需要开启即可（默认已经开启）；</li>
+<li>在不开启 HMR 的情况下，当我们修改了源代码之后，整个页面会自动刷新，使用的是 live reloading；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>RickyD
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://muleandhorse.icu/2022/05/21/webpack%E5%85%AB%E8%82%A1%E6%96%87/" title="JS高阶的一些八股文">http://muleandhorse.icu/2022/05/21/webpack八股文/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/" rel="tag"># 前端开发</a>
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/tags/javascript/" rel="tag"># javascript</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/21/js%E9%AB%98%E9%98%B6%E5%85%AB%E8%82%A1%E6%96%87/" rel="prev" title="JS高阶的一些八股文">
+      <i class="fa fa-chevron-left"></i> JS高阶的一些八股文
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/21/b32%20%E9%98%B2%E6%8A%96%E4%B8%8E%E8%8A%82%E6%B5%81%E5%87%BD%E6%95%B0/" rel="next" title="javascript 笔记26-节流与防抖函数">
+      javascript 笔记26-节流与防抖函数 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81ODIzMi8zNDY5NQ=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AF%B4%E8%AF%B4-Node-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E5%92%8C%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%E5%92%8C%E5%85%B3%E7%B3%BB"><span class="nav-number">1.</span> <span class="nav-text">1. 说说 Node 是什么？和浏览器有什么区别和关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%AF%B4%E8%AF%B4%E4%BD%A0%E5%AF%B9%E6%A8%A1%E5%9D%97%E5%8C%96%E5%BC%80%E5%8F%91%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">2.</span> <span class="nav-text">2. 说说你对模块化开发的理解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%95%B4%E7%90%86-ES-Module-%E6%A8%A1%E5%9D%97%E5%8C%96%E7%9A%84%E8%A7%84%E5%88%99%E5%92%8C%E5%8E%9F%E7%90%86-3-%E7%A7%8D%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">3. 整理 ES Module 模块化的规则和原理(3 种导入导出的方式)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%AF%BC%E5%85%A5%E5%92%8C%E5%AF%BC%E5%87%BA%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="nav-number">3.1.</span> <span class="nav-text">1. 导入和导出的三种方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E9%BB%98%E8%AE%A4%E5%AF%BC%E5%87%BA-x2F-%E5%AF%BC%E5%85%A5"><span class="nav-number">3.2.</span> <span class="nav-text">2. 默认导出&#x2F;导入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-export-%E5%92%8C-import-%E7%BB%93%E5%90%88"><span class="nav-number">3.3.</span> <span class="nav-text">3. export 和 import 结合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-import-%E5%87%BD%E6%95%B0"><span class="nav-number">3.4.</span> <span class="nav-text">4. import 函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-ESModule-%E5%8E%9F%E7%90%86"><span class="nav-number">3.5.</span> <span class="nav-text">5. ESModule 原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%95%B4%E7%90%86-npm%E3%80%81yarn-%E5%B8%B8%E7%94%A8%E7%9A%84%E5%91%BD%E4%BB%A4%E4%BB%A5%E5%8F%8A%E4%BD%9C%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">4. 整理 npm、yarn 常用的命令以及作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E8%AF%B4%E5%87%BA-npm-install-%E7%9A%84%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B"><span class="nav-number">5.</span> <span class="nav-text">5. 说出 npm install 的安装过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E6%80%BB%E7%BB%93-package-json-%E4%B8%AD%E5%B8%B8%E8%A7%81%E5%AD%97%E6%AE%B5%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">6.</span> <span class="nav-text">6. 总结 package.json 中常见字段的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E8%AF%B4%E8%AF%B4-npx-%E5%91%BD%E4%BB%A4%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">7.</span> <span class="nav-text">7. 说说 npx 命令的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E8%AF%B4%E8%AF%B4-pnpm-%E7%9A%84%E4%BC%98%E5%8C%96%E5%8E%9F%E7%90%86%E5%92%8C%E7%94%A8%E6%B3%95"><span class="nav-number">8.</span> <span class="nav-text">8. 说说 pnpm 的优化原理和用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-%E4%BB%80%E4%B9%88%E6%98%AF-webpack%EF%BC%8C%E8%AF%B4%E8%AF%B4%E4%BD%A0%E5%AF%B9-webpack-%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">9.</span> <span class="nav-text">9. 什么是 webpack，说说你对 webpack 的理解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-%E4%BB%80%E4%B9%88%E6%98%AF-loader%EF%BC%9Fwebpack-%E7%9A%84-loader-%E6%98%AF%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8%EF%BC%9F%E5%92%8C-Plugin-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">10.</span> <span class="nav-text">10. 什么是 loader？webpack 的 loader 是什么作用？和 Plugin 有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-%E4%BB%80%E4%B9%88%E6%98%AF-babel%EF%BC%9Fbabel-%E5%9C%A8%E5%BC%80%E5%8F%91%E4%B8%AD%E6%98%AF%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="nav-number">11.</span> <span class="nav-text">11. 什么是 babel？babel 在开发中是什么作用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-webpack-%E7%9A%84%E5%BC%80%E5%8F%91%E6%A8%A1%E5%BC%8F%E5%92%8C%E7%94%9F%E4%BA%A7%E6%A8%A1%E5%BC%8F%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">12.</span> <span class="nav-text">12. webpack 的开发模式和生产模式有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-webpack-%E5%A6%82%E4%BD%95%E5%BC%80%E5%90%AF%E6%9C%AC%E5%9C%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%8C%E5%B9%B6%E4%B8%94%E6%8F%90%E9%AB%98%E9%A1%B5%E9%9D%A2%E7%9A%84%E6%9B%B4%E6%96%B0%E6%95%88%E7%8E%87%EF%BC%88HMR%EF%BC%89%EF%BC%9F"><span class="nav-number">13.</span> <span class="nav-text">13. webpack 如何开启本地服务器，并且提高页面的更新效率（HMR）？</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="RickyD"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">RickyD</p>
+  <div class="site-description" itemprop="description">如果站长加班加似了，这个网站就是他留给世界最后的遗产</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/RickyDriver" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;RickyDriver" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1552330861@qq.com" title="E-Mail → 1552330861@qq.com"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RickyD</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">135k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">7:30</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>

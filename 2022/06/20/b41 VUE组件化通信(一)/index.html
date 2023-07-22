@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.svg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"muleandhorse.icu","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="组件化通信1. Vue组件的嵌套关系1.1 认识组件的嵌套把如下结构拆分成组件 1234567891011121314151617181920212223242526272829303132333435363738&lt;template&gt;  &lt;div id&#x3D;&quot;app&quot;&gt;        &lt;div class&#x3D;&quot;header&quot;&gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue的组件化通信(一)">
+<meta property="og:url" content="http://muleandhorse.icu/2022/06/20/b41%20VUE%E7%BB%84%E4%BB%B6%E5%8C%96%E9%80%9A%E4%BF%A1(%E4%B8%80)/index.html">
+<meta property="og:site_name" content="Mule and Horse">
+<meta property="og:description" content="组件化通信1. Vue组件的嵌套关系1.1 认识组件的嵌套把如下结构拆分成组件 1234567891011121314151617181920212223242526272829303132333435363738&lt;template&gt;  &lt;div id&#x3D;&quot;app&quot;&gt;        &lt;div class&#x3D;&quot;header&quot;&gt;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://docimg5.docs.qq.com/image/AgAABlP525xQIwSredZF145EaC9T8V_i.png?w=442&h=233">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230629192722486.png">
+<meta property="og:image" content="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230629193012805.png">
+<meta property="article:published_time" content="2022-06-20T08:06:09.000Z">
+<meta property="article:modified_time" content="2023-07-22T13:11:06.313Z">
+<meta property="article:author" content="RickyD">
+<meta property="article:tag" content="前端开发">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="vue">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://docimg5.docs.qq.com/image/AgAABlP525xQIwSredZF145EaC9T8V_i.png?w=442&h=233">
+
+<link rel="canonical" href="http://muleandhorse.icu/2022/06/20/b41%20VUE%E7%BB%84%E4%BB%B6%E5%8C%96%E9%80%9A%E4%BF%A1(%E4%B8%80)/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>vue的组件化通信(一) | Mule and Horse</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Mule and Horse</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个工地仔的救赎之路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">67</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">10</span></a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://muleandhorse.icu/2022/06/20/b41%20VUE%E7%BB%84%E4%BB%B6%E5%8C%96%E9%80%9A%E4%BF%A1(%E4%B8%80)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="RickyD">
+      <meta itemprop="description" content="如果站长加班加似了，这个网站就是他留给世界最后的遗产">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mule and Horse">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          vue的组件化通信(一)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-06-20 16:06:09" itemprop="dateCreated datePublished" datetime="2022-06-20T16:06:09+08:00">2022-06-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-07-22 21:11:06" itemprop="dateModified" datetime="2023-07-22T21:11:06+08:00">2023-07-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>11 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="组件化通信"><a href="#组件化通信" class="headerlink" title="组件化通信"></a>组件化通信</h1><h2 id="1-Vue组件的嵌套关系"><a href="#1-Vue组件的嵌套关系" class="headerlink" title="1. Vue组件的嵌套关系"></a>1. Vue组件的嵌套关系</h2><h3 id="1-1-认识组件的嵌套"><a href="#1-1-认识组件的嵌套" class="headerlink" title="1.1 认识组件的嵌套"></a><strong>1.1 认识组件的嵌套</strong></h3><p>把如下结构拆分成组件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;div class=&quot;header&quot;&gt;</span><br><span class="line">      &lt;div class=&quot;top&quot;&gt;top bannerdiv&gt;</span><br><span class="line">      &lt;input type=&quot;text&quot; /&gt;</span><br><span class="line">      &lt;div class=&quot;nav&quot;&gt;div&gt;</span><br><span class="line">    div&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;div class=&quot;content&quot;&gt;</span><br><span class="line">      &lt;div class=&quot;banner&quot;&gt;bannerdiv&gt;</span><br><span class="line">      &lt;ul&gt;</span><br><span class="line">        &lt;li&gt;商品列表1li&gt;</span><br><span class="line">        &lt;li&gt;商品列表2li&gt;</span><br><span class="line">        &lt;li&gt;商品列表3li&gt;</span><br><span class="line">        &lt;li&gt;商品列表4li&gt;</span><br><span class="line">      ul&gt;</span><br><span class="line">    div&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;div class=&quot;footer&quot;&gt;</span><br><span class="line">      &lt;div&gt;物流配送div&gt;</span><br><span class="line">      &lt;div&gt;版权声明div&gt;</span><br><span class="line">      &lt;div&gt;免责声明div&gt;</span><br><span class="line">      &lt;div&gt;注册地址：XXXXXdiv&gt;</span><br><span class="line">    div&gt;</span><br><span class="line">  div&gt;</span><br><span class="line">template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">&#125;;</span><br><span class="line">script&gt;</span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;</span><br><span class="line">div &#123;</span><br><span class="line">  background-color: #fff;</span><br><span class="line">&#125;</span><br><span class="line">style&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><img src="https://docimg5.docs.qq.com/image/AgAABlP525xQIwSredZF145EaC9T8V_i.png?w=442&h=233" alt="img"></p>
+<p>拆分成如上结构以后，我们只需要去对应的组件，编写对应的逻辑即可。</p>
+<h3 id="1-2-组件的通信"><a href="#1-2-组件的通信" class="headerlink" title="1.2 组件的通信"></a><strong>1.2 组件的通信</strong></h3><p>实际开发的时候，我们会经常遇到需要组件直接进行<strong>通信</strong>，即相互传递某些数据</p>
+<p>在Vue中不管是面试还是实际开发，组件间的通信都非常的重要。</p>
+<h2 id="2-父子组件通信"><a href="#2-父子组件通信" class="headerlink" title="2. 父子组件通信**"></a>2. 父子组件通信**</h2><h3 id="2-1-父子组件通信的方式"><a href="#2-1-父子组件通信的方式" class="headerlink" title="2.1 父子组件通信的方式"></a><strong>2.1 父子组件通信的方式</strong></h3><p>父组件传递给子组件：通过<strong>props</strong>属性</p>
+<p>子组件传递给父组件：通过**$emit**触发事件</p>
+<h3 id="2-2-父组件传递给子组件"><a href="#2-2-父组件传递给子组件" class="headerlink" title="2.2 父组件传递给子组件"></a><strong>2.2 父组件传递给子组件</strong></h3><p>props：props就是组件上自定义的attribute，父组件给这些attributes赋值，子组件通过对应的attribute的名称来使用。</p>
+<p>props有两种常见的写法</p>
+<ol>
+<li><p>字符串数组:数组中的字符串就是attribute的名称</p>
+</li>
+<li><p>对象</p>
+</li>
+</ol>
+<h4 id="2-2-1-props的数组用法"><a href="#2-2-1-props的数组用法" class="headerlink" title="2.2.1 props的数组用法"></a><strong>2.2.1 props的数组用法</strong></h4><p>ShowInfo.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;info&quot;&gt;</span><br><span class="line">    &lt;h2&gt;姓名:&#123;&#123; name &#125;&#125;h2&gt;</span><br><span class="line">    &lt;h2&gt;年龄:&#123;&#123; age &#125;&#125;h2&gt;</span><br><span class="line">    &lt;h2&gt;身高:&#123;&#123; height &#125;&#125;h2&gt;</span><br><span class="line">  div&gt;</span><br><span class="line">template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  //props 接收父组件传递过来的数据</span><br><span class="line">  props: [&#x27;name&#x27;, &#x27;age&#x27;, &#x27;height&#x27;],</span><br><span class="line">&#125;;</span><br><span class="line">script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;</span><br><span class="line">.info &#123;</span><br><span class="line">  background-color: skyblue;</span><br><span class="line">&#125;</span><br><span class="line">style&gt;</span><br></pre></td></tr></table></figure>
+
+<p>App.vue</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;<span class="selector-tag">div</span> id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;!-- name前面不加：因为我们没有alex这个变量 --&gt;</span><br><span class="line">    &lt;show-info name=&quot;alex&quot; :age=<span class="string">&quot;18&quot;</span> :height=<span class="string">&quot;1.8&quot;</span>&gt;&lt;/show-info&gt;</span><br><span class="line">    &lt;show-info name=<span class="string">&quot;kern&quot;</span> :age=<span class="string">&quot;88&quot;</span> :height=<span class="string">&quot;1.6&quot;</span>&gt;&lt;/show-info&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import ShowInfo from <span class="string">&#x27;./components/ShowInfo.vue&#x27;</span>;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: <span class="string">&#x27;App&#x27;</span>,</span><br><span class="line">  components: &#123;</span><br><span class="line">    ShowInfo,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;</span><br><span class="line">* &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;xxxxxxxxxx &lt;template&gt;  &lt;<span class="selector-tag">div</span> id=&quot;app&quot;&gt;    &lt;!-- name前面不加：因为我们没有alex这个变量 --&gt;    &lt;show-info name=&quot;alex&quot; :age=<span class="string">&quot;18&quot;</span> :height=<span class="string">&quot;1.8&quot;</span>&gt;&lt;/show-info&gt;    &lt;show-info name=<span class="string">&quot;kern&quot;</span> :age=<span class="string">&quot;88&quot;</span> :height=<span class="string">&quot;1.6&quot;</span>&gt;&lt;/show-info&gt;  &lt;/div&gt;&lt;/template&gt;&lt;script&gt;import ShowInfo from <span class="string">&#x27;./components/ShowInfo.vue&#x27;</span>;export default &#123;  name: <span class="string">&#x27;App&#x27;</span>,  components: &#123;    ShowInfo,  &#125;,&#125;;&lt;/script&gt;&lt;style lang=&quot;scss&quot; scoped&gt;* &#123;  <span class="attribute">margin</span>: <span class="number">10px</span>;&#125;&lt;/style&gt;* &#123;  <span class="attribute">margin</span>: <span class="number">10px</span>;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果需要传递的数据非常多，而且这些数据有一定的共性，我们往往会选择全部放到一个对象里面来prop下去。</p>
+<p>App.vue</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;<span class="selector-tag">div</span> id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;!-- name前面不加：因为我们没有alex这个变量 --&gt;</span><br><span class="line">    &lt;show-info :person=<span class="string">&quot;person&quot;</span>&gt;&lt;/show-info&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import ShowInfo from <span class="string">&#x27;./components/ShowInfo.vue&#x27;</span>;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: <span class="string">&#x27;App&#x27;</span>,</span><br><span class="line">  <span class="built_in">data</span>() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      person: &#123;</span><br><span class="line">        name: <span class="string">&#x27;alex&#x27;</span>,</span><br><span class="line">        age: <span class="number">18</span>,</span><br><span class="line">        height: <span class="number">1.8</span>,</span><br><span class="line">        hobby: <span class="string">&#x27;唱&#x27;</span>,</span><br><span class="line">        weight: <span class="string">&#x27;140斤&#x27;</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  components: &#123;</span><br><span class="line">    ShowInfo,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;</span><br><span class="line">* &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>ShowInfo.vue</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;<span class="selector-tag">div</span> id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;!-- name前面不加：因为我们没有alex这个变量 --&gt;</span><br><span class="line">    &lt;show-info :person=<span class="string">&quot;person&quot;</span>&gt;&lt;/show-info&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import ShowInfo from <span class="string">&#x27;./components/ShowInfo.vue&#x27;</span>;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: <span class="string">&#x27;App&#x27;</span>,</span><br><span class="line">  <span class="built_in">data</span>() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      person: &#123;</span><br><span class="line">        name: <span class="string">&#x27;alex&#x27;</span>,</span><br><span class="line">        age: <span class="number">18</span>,</span><br><span class="line">        height: <span class="number">1.8</span>,</span><br><span class="line">        hobby: <span class="string">&#x27;唱&#x27;</span>,</span><br><span class="line">        weight: <span class="string">&#x27;140斤&#x27;</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  components: &#123;</span><br><span class="line">    ShowInfo,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;</span><br><span class="line">* &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-2-props对象写法"><a href="#2-2-2-props对象写法" class="headerlink" title="2.2.2 props对象写法"></a><strong>2.2.2 props对象写法</strong></h4><p>数组用法中我们只能传递attribute的名称，而且不能对其添加任意的限制，对象写法可以让我们的props更加的完善。</p>
+<p>比如 限定传入的数据类型 type</p>
+<p>比如 限定是否必传 required</p>
+<p>比如 是否有默认值 default</p>
+<p>App.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;!-- name前面不加：因为我们没有alex这个变量 --&gt;</span><br><span class="line">    &lt;show-info :person=&quot;person&quot;&gt;&lt;/show-info&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import ShowInfo from &#x27;./components/ShowInfo.vue&#x27;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      person: &#123;</span><br><span class="line">        name: &#x27;alex&#x27;,</span><br><span class="line">        age: 18,</span><br><span class="line">        height: 1.8,</span><br><span class="line">        hobby: &#x27;唱&#x27;,</span><br><span class="line">        weight: &#x27;140斤&#x27;,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  components: &#123;</span><br><span class="line">    ShowInfo,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;</span><br><span class="line">* &#123;</span><br><span class="line">  margin: 10px;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>ShowInfo.vue</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">&lt;templa&lt;template&gt;</span><br><span class="line">  &lt;<span class="selector-tag">div</span> id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;!-- name前面不加：因为我们没有alex这个变量 --&gt;</span><br><span class="line">    &lt;show-info :person=<span class="string">&quot;person&quot;</span>&gt;&lt;/show-info&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import ShowInfo from <span class="string">&#x27;./components/ShowInfo.vue&#x27;</span>;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: <span class="string">&#x27;App&#x27;</span>,</span><br><span class="line">  <span class="built_in">data</span>() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      person: &#123;</span><br><span class="line">        name: <span class="string">&#x27;alex&#x27;</span>,</span><br><span class="line">        age: <span class="number">18</span>,</span><br><span class="line">        height: <span class="number">1.8</span>,</span><br><span class="line">        hobby: <span class="string">&#x27;唱&#x27;</span>,</span><br><span class="line">        weight: <span class="string">&#x27;140斤&#x27;</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  components: &#123;</span><br><span class="line">    ShowInfo,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;</span><br><span class="line">* &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">te&gt;</span><br><span class="line">  &lt;<span class="selector-tag">div</span> class=&quot;info&quot;&gt;</span><br><span class="line">    &lt;<span class="selector-tag">h2</span>&gt;姓名:&#123;&#123; name &#125;&#125;&lt;/<span class="selector-tag">h2</span>&gt;</span><br><span class="line">    &lt;<span class="selector-tag">h2</span>&gt;年龄:&#123;&#123; age &#125;&#125;&lt;/<span class="selector-tag">h2</span>&gt;</span><br><span class="line">    &lt;<span class="selector-tag">h2</span>&gt;身高:&#123;&#123; <span class="attribute">height</span> &#125;&#125;&lt;/<span class="selector-tag">h2</span>&gt;</span><br><span class="line">    &lt;<span class="selector-tag">p</span>&gt;</span><br><span class="line">      &#123;&#123; friend &#125;&#125;</span><br><span class="line">    &lt;/<span class="selector-tag">p</span>&gt;</span><br><span class="line">  &lt;/<span class="selector-tag">div</span>&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  //props的对象写法，更加完善</span><br><span class="line">  props: &#123;</span><br><span class="line">    name: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">    &#125;,</span><br><span class="line">    age: &#123;</span><br><span class="line">      type: Number,</span><br><span class="line">      required: true,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attribute">height</span>: &#123;</span><br><span class="line">      type: Number,</span><br><span class="line">      default: <span class="number">2</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    friend: &#123;</span><br><span class="line">      type: Object,</span><br><span class="line">      //这样写是不对的，对象类型的prop写default的时候必须使用函数</span><br><span class="line">      // default: &#123;</span><br><span class="line">      //   name: <span class="string">&#x27;jack&#x27;</span>,</span><br><span class="line">      // &#125;,</span><br><span class="line">      default: () =&gt; &#123;</span><br><span class="line">        return &#123; name: <span class="string">&#x27;jack&#x27;</span> &#125;;</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;</span><br><span class="line"><span class="selector-class">.info</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: skyblue;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>细节一：type类型都可以写那些</p>
+<p><strong>String Number Boolean Array Object</strong> Date Function Symbol </p>
+<p>细节二：传递对象类型的时候默认值,如果设置默认值必须写成函数。if组件存在多个实例，如果不使用函数的话，因为数组和对象都是引用类型，所以可能会导致在某一个实例中修改了数据，其他的实例都会被影响，他的本质原因和之前讲的data为什么必须是一个函数一样。</p>
+<p>App.vue</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;<span class="selector-tag">div</span> id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;!-- name前面不加：因为我们没有alex这个变量 --&gt;</span><br><span class="line">    &lt;show-info :person=<span class="string">&quot;person&quot;</span>&gt;&lt;/show-info&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import ShowInfo from <span class="string">&#x27;./components/ShowInfo.vue&#x27;</span>;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: <span class="string">&#x27;App&#x27;</span>,</span><br><span class="line">  <span class="built_in">data</span>() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      person: &#123;</span><br><span class="line">        name: <span class="string">&#x27;alex&#x27;</span>,</span><br><span class="line">        age: <span class="number">18</span>,</span><br><span class="line">        height: <span class="number">1.8</span>,</span><br><span class="line">        hobby: <span class="string">&#x27;唱&#x27;</span>,</span><br><span class="line">        weight: <span class="string">&#x27;140斤&#x27;</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  components: &#123;</span><br><span class="line">    ShowInfo,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;</span><br><span class="line">* &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>ShowInfo.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;info&quot;&gt;</span><br><span class="line">    &lt;h2&gt;姓名:&#123;&#123; name &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;h2&gt;年龄:&#123;&#123; age &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;h2&gt;身高:&#123;&#123; height &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;p&gt;</span><br><span class="line">      &#123;&#123; friend &#125;&#125;</span><br><span class="line">    &lt;/p&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  //props的对象写法，更加完善</span><br><span class="line">  props: &#123;</span><br><span class="line">    name: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">    &#125;,</span><br><span class="line">    age: &#123;</span><br><span class="line">      type: Number,</span><br><span class="line">      required: true,</span><br><span class="line">    &#125;,</span><br><span class="line">    height: &#123;</span><br><span class="line">      type: Number,</span><br><span class="line">      default: 2,</span><br><span class="line">    &#125;,</span><br><span class="line">    friend: &#123;</span><br><span class="line">      type: Object,</span><br><span class="line">      //这样写是不对的，对象类型的prop写default的时候必须使用函数</span><br><span class="line">      // default: &#123;</span><br><span class="line">      //   name: &#x27;jack&#x27;,</span><br><span class="line">      // &#125;,</span><br><span class="line">      default: () =&gt; &#123;</span><br><span class="line">        return &#123; name: &#x27;jack&#x27; &#125;;</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;</span><br><span class="line">.info &#123;</span><br><span class="line">  background-color: skyblue;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>细节三：prop的命名方式</p>
+<p>在html中attribute名称<strong>大小写不敏感</strong>，浏览器会把所有的大写转成小写</p>
+<p>当你在DOM的模版中使用小驼峰写prop的时候需要使用等价的短横线命名</p>
+<p>App.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;show-info :show-msg=&quot;msg&quot;&gt;&lt;/show-info&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import ShowInfo from &#x27;./components/ShowInfo.vue&#x27;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      msg: &#x27;123&#x27;,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  components: &#123;</span><br><span class="line">    ShowInfo,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;</span><br><span class="line">* &#123;</span><br><span class="line">  margin: 10px;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>ShowInfo.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;info&quot;&gt;</span><br><span class="line">    &lt;h1&gt;展示商品信息&lt;/h1&gt;</span><br><span class="line">    &lt;p&gt;&#123;&#123; showMsg &#125;&#125;&lt;/p&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  props: [&#x27;showMsg&#x27;],</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;</span><br><span class="line">.info &#123;</span><br><span class="line">  background-color: skyblue;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>命名</p>
+<p><strong>组件命名：注册的时候大驼峰，使用的时候短横线全小写</strong></p>
+<p><strong>props: 传递的时候短横线(大小写不敏感),使用的时候小驼峰</strong></p>
+<h4 id="2-2-3-非prop的attribute"><a href="#2-2-3-非prop的attribute" class="headerlink" title="2.2.3 非prop的attribute"></a><strong>2.2.3 非prop的attribute</strong></h4><p>定义：传递给组件的属性，没有在组件中使用对应的props定义，比如class,id,style</p>
+<p>Attribute继承</p>
+<p>​	当组件有单个根节点时，非prop的attribute会自动添加到组件的根节点的Attribute上</p>
+<p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230629192722486.png" alt="image-20230629192722486"></p>
+<p>如果我们不希望组件继承这个attribute，可以在组件中设置 inheritAttrs:false。</p>
+<p>ShowInfo.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;info&quot;&gt;</span><br><span class="line">    &lt;h1&gt;展示商品信息&lt;/h1&gt;</span><br><span class="line">    &lt;p&gt;&#123;&#123; showMsg &#125;&#125;&lt;/p&gt;</span><br><span class="line">    &lt;!-- 我们可以通过$attrs来访问所有的非prop的attributes --&gt;</span><br><span class="line">    &lt;p v-bind=&quot;$attrs&quot;&gt;我接受到所有的attr&lt;/p&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  //设置以后  最外层的div不会有active类名</span><br><span class="line">  inheritAttrs: false,</span><br><span class="line">  props: [&#x27;showMsg&#x27;],</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;</span><br><span class="line">.info &#123;</span><br><span class="line">  background-color: skyblue;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>App.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;info&quot;&gt;</span><br><span class="line">    &lt;h1&gt;展示商品信息&lt;/h1&gt;</span><br><span class="line">    &lt;p&gt;&#123;&#123; showMsg &#125;&#125;&lt;/p&gt;</span><br><span class="line">    &lt;!-- 我们可以通过$attrs来访问所有的非prop的attributes --&gt;</span><br><span class="line">    &lt;p v-bind=&quot;$attrs&quot;&gt;我接受到所有的attr&lt;/p&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  //设置以后  最外层的div不会有active类名</span><br><span class="line">  inheritAttrs: false,</span><br><span class="line">  props: [&#x27;showMsg&#x27;],</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;</span><br><span class="line">.info &#123;</span><br><span class="line">  background-color: skyblue;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>多个根节点attribute</p>
+<p>​	会警告，我们必须手动绑定对应的属性</p>
+<p>App.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;info&quot;&gt;</span><br><span class="line">    &lt;h1&gt;展示商品信息&lt;/h1&gt;</span><br><span class="line">    &lt;p&gt;&#123;&#123; showMsg &#125;&#125;&lt;/p&gt;</span><br><span class="line">    &lt;!-- 我们可以通过$attrs来访问所有的非prop的attributes --&gt;</span><br><span class="line">    &lt;p v-bind=&quot;$attrs&quot;&gt;我接受到所有的attr&lt;/p&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  //设置以后  最外层的div不会有active类名</span><br><span class="line">  inheritAttrs: false,</span><br><span class="line">  props: [&#x27;showMsg&#x27;],</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;</span><br><span class="line">.info &#123;</span><br><span class="line">  background-color: skyblue;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>ShowInfo.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;info&quot;&gt;</span><br><span class="line">    &lt;h1&gt;展示商品信息&lt;/h1&gt;</span><br><span class="line">    &lt;p&gt;&#123;&#123; showMsg &#125;&#125;&lt;/p&gt;</span><br><span class="line">    &lt;!-- 我们可以通过$attrs来访问所有的非prop的attributes --&gt;</span><br><span class="line">    &lt;p v-bind=&quot;$attrs&quot;&gt;我接受到所有的attr&lt;/p&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  //设置以后  最外层的div不会有active类名</span><br><span class="line">  inheritAttrs: false,</span><br><span class="line">  props: [&#x27;showMsg&#x27;],</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;</span><br><span class="line">.info &#123;</span><br><span class="line">  background-color: skyblue;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="2-3-子组件传递给父组件"><a href="#2-3-子组件传递给父组件" class="headerlink" title="2.3 子组件传递给父组件"></a><strong>2.3 子组件传递给父组件</strong></h3><ol>
+<li><p>在子组件中定义好触发事件的名称</p>
+</li>
+<li><p>在父组件中以v-on的形式监听第一步的事件名，并且写好对应的回调</p>
+</li>
+<li><p>在子组件中触发事件的时候，父组件根据监听的回调进行对应的处理</p>
+</li>
+</ol>
+<h4 id="2-3-1-基本使用"><a href="#2-3-1-基本使用" class="headerlink" title="2.3.1 基本使用"></a><strong>2.3.1 基本使用</strong></h4><p>App.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;h2&gt;当前计数&#123;&#123; counter &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;!-- 2.v-on监听add事件 --&gt;</span><br><span class="line">    &lt;add-counter @add=&quot;addBtn&quot;&gt;&lt;/add-counter&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import AddCounter from &#x27;./components/AddCounter.vue&#x27;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      counter: 0,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    addBtn() &#123;</span><br><span class="line">      //3.当子组件中的按钮被点击这个函数会执行</span><br><span class="line">      this.counter++;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  components: &#123;</span><br><span class="line">    AddCounter,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;</span><br><span class="line">* &#123;</span><br><span class="line">  margin: 10px;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>AddCounter.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;button @click=&quot;btnClick&quot;&gt;+1&lt;/button&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  methods: &#123;</span><br><span class="line">    btnClick() &#123;</span><br><span class="line">      //1.定义好事件的名称通过$emit</span><br><span class="line">      //定义好一个add事件给父组件监听</span><br><span class="line">      this.$emit(&#x27;add&#x27;);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="2-3-2-emit传参"><a href="#2-3-2-emit传参" class="headerlink" title="2.3.2 emit传参"></a><strong>2.3.2 emit传参</strong></h4><p>AddCounter.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;button @click=&quot;btnClick(1)&quot;&gt;+1&lt;/button&gt;</span><br><span class="line">    &lt;button @click=&quot;btnClick(5)&quot;&gt;+5&lt;/button&gt;</span><br><span class="line">    &lt;button @click=&quot;btnClick(100)&quot;&gt;+100&lt;/button&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  //为了开发者工具考虑在option中声明emit</span><br><span class="line">  //1.数组语法</span><br><span class="line">  // emits: [&#x27;add&#x27;],</span><br><span class="line">  //2. 对象语法</span><br><span class="line">  //添加校验</span><br><span class="line">  emits: &#123;</span><br><span class="line">    //如果校验失败会弹出警告</span><br><span class="line">    add: function (count) &#123;</span><br><span class="line">      if (count &lt;= 5) &#123;</span><br><span class="line">        return true;</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        console.log(123, &#x27;校验失败&#x27;);</span><br><span class="line">        return false;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    btnClick(num) &#123;</span><br><span class="line">      //1. 定义事件</span><br><span class="line">      //第一个参数自定义事件的名称</span><br><span class="line">      //第二个参数是你要传递的参数</span><br><span class="line">      this.$emit(&#x27;add&#x27;, num);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>App.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;h2&gt;当前计数&#123;&#123; counter &#125;&#125;&lt;/h2&gt;</span><br><span class="line">    &lt;!-- 2.v-on监听add事件 --&gt;</span><br><span class="line">    &lt;add-counter @add=&quot;addBtn&quot;&gt;&lt;/add-counter&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import AddCounter from &#x27;./components/AddCounter.vue&#x27;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      counter: 0,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    //接收参数</span><br><span class="line">    addBtn(count) &#123;</span><br><span class="line">      //count接收参数</span><br><span class="line">      //3.当子组件中的按钮被点击这个函数会执行</span><br><span class="line">      this.counter += count;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  components: &#123;</span><br><span class="line">    AddCounter,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;</span><br><span class="line">* &#123;</span><br><span class="line">  margin: 10px;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>自己写一下减法的，创建一个SubCounter.vue</p>
+<h2 id="3-练习"><a href="#3-练习" class="headerlink" title="3. 练习"></a>3. 练习</h2><h3 id="3-1-tab切换"><a href="#3-1-tab切换" class="headerlink" title="3.1 tab切换"></a><strong>3.1 tab切换</strong></h3><p><img src="https://img-1317399392.cos.ap-guangzhou.myqcloud.com/img/image-20230629193012805.png" alt="image-20230629193012805"></p>
+<p>TabControl.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;tab-control&quot;&gt;</span><br><span class="line">    &lt;div</span><br><span class="line">      v-for=&quot;(item, index) in titles&quot;</span><br><span class="line">      :key=&quot;&#123; item &#125;&quot;</span><br><span class="line">      class=&quot;item&quot;</span><br><span class="line">      :class=&quot;&#123; active: index === currentIndex &#125;&quot;</span><br><span class="line">      @click=&quot;itemClick(index)&quot;</span><br><span class="line">    &gt;</span><br><span class="line">      &#123;&#123; item &#125;&#125;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      currentIndex: 0,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  //props接收</span><br><span class="line">  props: [&#x27;titles&#x27;],</span><br><span class="line">  methods: &#123;</span><br><span class="line">    itemClick(index) &#123;</span><br><span class="line">      // console.log(123);</span><br><span class="line">      this.currentIndex = index;</span><br><span class="line">      this.$emit(&#x27;itemChange&#x27;, index);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;</span><br><span class="line">.tab-control &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  height: 40px;</span><br><span class="line">  line-height: 40px;</span><br><span class="line">  text-align: center;</span><br><span class="line">  .item &#123;</span><br><span class="line">    flex: 1;</span><br><span class="line">  &#125;</span><br><span class="line">  .item.active &#123;</span><br><span class="line">    color: orange;</span><br><span class="line">    font-weight: 700;</span><br><span class="line">    border-bottom: 1px solid orange;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>app.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;tab-control</span><br><span class="line">      :titles=&quot;[&#x27;phone&#x27;, &#x27;pc&#x27;, &#x27;others&#x27;]&quot;</span><br><span class="line">      @itemChange=&quot;itemChange&quot;</span><br><span class="line">    &gt;&lt;/tab-control&gt;</span><br><span class="line">    &lt;div&gt;&#123;&#123; pageContents[index] &#125;&#125;&lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import TabControl from &#x27;./components/TabControl.vue&#x27;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      pageContents: [</span><br><span class="line">        &#x27;手机页面这里有很多99包邮的手机&#x27;,</span><br><span class="line">        &#x27;电脑:imac大折扣0元购&#x27;,</span><br><span class="line">        &#x27;周边:双飞燕键鼠套装1.9包邮&#x27;,</span><br><span class="line">      ],</span><br><span class="line">      index: 0,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    itemChange(index) &#123;</span><br><span class="line">      // console.log(index);</span><br><span class="line">      this.index = index;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  components: &#123;</span><br><span class="line">    TabControl,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;</span><br><span class="line">* &#123;</span><br><span class="line">  margin: 10px;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-2-购物车🛒"><a href="#3-2-购物车🛒" class="headerlink" title="3.2 购物车🛒"></a><strong>3.2 购物车🛒</strong></h3><p>data.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="attr">list</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">id</span>: <span class="number">625153951363</span>,</span><br><span class="line">      <span class="comment">//商品数量</span></span><br><span class="line">      <span class="attr">number</span>: <span class="number">15</span>,</span><br><span class="line">      <span class="comment">//已购数量</span></span><br><span class="line">      <span class="attr">buy_num</span>: <span class="number">1</span>,</span><br><span class="line">      <span class="attr">select</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">name</span>: <span class="string">&#x27;2020西太湖国际音乐节&#x27;</span>,</span><br><span class="line">      <span class="attr">showTime</span>: <span class="string">&#x27;2020.09.19-09.20&#x27;</span>,</span><br><span class="line">      <span class="attr">price</span>: <span class="string">&#x27;100&#x27;</span>,</span><br><span class="line">      <span class="attr">city</span>: <span class="string">&#x27;常州&#x27;</span>,</span><br><span class="line">      <span class="attr">address</span>: <span class="string">&#x27;常州西太湖中国花卉博览景区北门&#x27;</span>,</span><br><span class="line">      <span class="attr">pic</span>: <span class="string">&#x27;https://img.alicdn.com/bao/uploaded/https://img.alicdn.com/imgextra/i3/2251059038/O1CN01zJEpaN2GdSG1Xvo8y_!!2251059038.jpg&#x27;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">id</span>: <span class="number">624506842658</span>,</span><br><span class="line">      <span class="attr">number</span>: <span class="number">10</span>,</span><br><span class="line">      <span class="attr">buy_num</span>: <span class="number">3</span>,</span><br><span class="line">      <span class="attr">select</span>: <span class="literal">false</span>,</span><br><span class="line">      <span class="attr">name</span>: <span class="string">&#x27;2020舟山东海音乐节&#x27;</span>,</span><br><span class="line">      <span class="attr">showTime</span>: <span class="string">&#x27;2020.09.04-09.06&#x27;</span>,</span><br><span class="line">      <span class="attr">price</span>: <span class="string">&#x27;200&#x27;</span>,</span><br><span class="line">      <span class="attr">city</span>: <span class="string">&#x27;舟山&#x27;</span>,</span><br><span class="line">      <span class="attr">address</span>: <span class="string">&#x27;舟山市朱家尖南沙景区沙滩&#x27;</span>,</span><br><span class="line">      <span class="attr">pic</span>: <span class="string">&#x27;https://img.alicdn.com/bao/uploaded/i4/2251059038/O1CN01L70FVl2GdSG2wpwyE_!!0-item_pic.jpg&#x27;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">id</span>: <span class="number">623216520608</span>,</span><br><span class="line">      <span class="attr">number</span>: <span class="number">8</span>,</span><br><span class="line">      <span class="attr">buy_num</span>: <span class="number">2</span>,</span><br><span class="line">      <span class="attr">select</span>: <span class="literal">false</span>,</span><br><span class="line">      <span class="attr">name</span>: <span class="string">&#x27;中国•磐安 2020氧气山水音乐节&#x27;</span>,</span><br><span class="line">      <span class="attr">showTime</span>: <span class="string">&#x27;2020.08.22 周六 16:30&#x27;</span>,</span><br><span class="line">      <span class="attr">price</span>: <span class="string">&#x27;300&#x27;</span>,</span><br><span class="line">      <span class="attr">city</span>: <span class="string">&#x27;金华&#x27;</span>,</span><br><span class="line">      <span class="attr">address</span>: <span class="string">&#x27;金华磐安花溪风景区&#x27;</span>,</span><br><span class="line">      <span class="attr">pic</span>: <span class="string">&#x27;https://img.alicdn.com/bao/uploaded/https://img.alicdn.com/imgextra/i3/2251059038/O1CN01ECp69h2GdSFpoUPAm_!!2251059038.jpg&#x27;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">id</span>: <span class="number">624345993344</span>,</span><br><span class="line">      <span class="attr">number</span>: <span class="number">13</span>,</span><br><span class="line">      <span class="attr">buy_num</span>: <span class="number">2</span>,</span><br><span class="line">      <span class="attr">select</span>: <span class="literal">false</span>,</span><br><span class="line">      <span class="attr">name</span>: <span class="string">&#x27;2020“一生中最爱”七夕演唱会&#x27;</span>,</span><br><span class="line">      <span class="attr">showTime</span>: <span class="string">&#x27;2020.08.25 周二 19:30&#x27;</span>,</span><br><span class="line">      <span class="attr">price</span>: <span class="string">&#x27;400&#x27;</span>,</span><br><span class="line">      <span class="attr">city</span>: <span class="string">&#x27;北京&#x27;</span>,</span><br><span class="line">      <span class="attr">address</span>: <span class="string">&#x27;糖果TANGO-雍和宫店三层&#x27;</span>,</span><br><span class="line">      <span class="attr">pic</span>: <span class="string">&#x27;https://img.alicdn.com/bao/uploaded/i3/2251059038/O1CN01WGNYBE2GdSFqXJgII_!!0-item_pic.jpg&#x27;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">id</span>: <span class="number">624170605605</span>,</span><br><span class="line">      <span class="attr">number</span>: <span class="number">5</span>,</span><br><span class="line">      <span class="attr">buy_num</span>: <span class="number">1</span>,</span><br><span class="line">      <span class="attr">select</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">name</span>: <span class="string">&#x27;东海五渔节之敢潮音乐节&#x27;</span>,</span><br><span class="line">      <span class="attr">showTime</span>: <span class="string">&#x27;2020.08.22 周六 18:00&#x27;</span>,</span><br><span class="line">      <span class="attr">price</span>: <span class="string">&#x27;500&#x27;</span>,</span><br><span class="line">      <span class="attr">city</span>: <span class="string">&#x27;舟山&#x27;</span>,</span><br><span class="line">      <span class="attr">address</span>: <span class="string">&#x27;舟山嵊泗五龙乡听海广场(原黄沙村船厂)&#x27;</span>,</span><br><span class="line">      <span class="attr">pic</span>: <span class="string">&#x27;https://img.alicdn.com/bao/uploaded/https://img.alicdn.com/imgextra/i1/2251059038/O1CN01eV5pR32GdSFxJUb0v_!!2251059038.jpg&#x27;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>App.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;content&quot;&gt;</span><br><span class="line">      &lt;div class=&quot;top&quot;&gt;&lt;input type=&quot;checkbox&quot; /&gt; 全选&lt;/div&gt;</span><br><span class="line">      &lt;ul class=&quot;center&quot;&gt;</span><br><span class="line">        &lt;li&gt;</span><br><span class="line">          &lt;div class=&quot;select&quot;&gt;</span><br><span class="line">            &lt;input type=&quot;checkbox&quot; /&gt;</span><br><span class="line">          &lt;/div&gt;</span><br><span class="line">          &lt;div class=&quot;pic&quot;&gt;</span><br><span class="line">            &lt;img src=&quot;&quot; alt=&quot;&quot; /&gt;</span><br><span class="line">          &lt;/div&gt;</span><br><span class="line">          &lt;div class=&quot;name&quot;&gt;asdhgfasghdfg&lt;/div&gt;</span><br><span class="line">          &lt;div class=&quot;price&quot;&gt;￥ &lt;span&gt;100.00&lt;/span&gt;&lt;/div&gt;</span><br><span class="line">          &lt;div class=&quot;number&quot;&gt;</span><br><span class="line">            &lt;button&gt;-&lt;/button&gt;</span><br><span class="line">            &lt;input type=&quot;text&quot; value=&quot;1&quot; /&gt;</span><br><span class="line">            &lt;button&gt;+&lt;/button&gt;</span><br><span class="line">          &lt;/div&gt;</span><br><span class="line">          &lt;div class=&quot;subtotal&quot;&gt;￥ &lt;span&gt;100.00&lt;/span&gt;&lt;/div&gt;</span><br><span class="line">          &lt;div class=&quot;del&quot;&gt;</span><br><span class="line">            &lt;button&gt;删除&lt;/button&gt;</span><br><span class="line">          &lt;/div&gt;</span><br><span class="line">        &lt;/li&gt;</span><br><span class="line">      &lt;/ul&gt;</span><br><span class="line">      &lt;div class=&quot;bottom&quot;&gt;</span><br><span class="line">        &lt;p&gt;总购买数量: 3&lt;/p&gt;</span><br><span class="line">        &lt;p&gt;</span><br><span class="line">          &lt;button class=&quot;pay&quot;&gt;去结算&lt;/button&gt;</span><br><span class="line">          &lt;button class=&quot;clear&quot;&gt;清空购物车&lt;/button&gt;</span><br><span class="line">          &lt;button class=&quot;clear_select&quot;&gt;删除所有已选中&lt;/button&gt;</span><br><span class="line">          &lt;button class=&quot;list&quot;&gt;返回列表页&lt;/button&gt;</span><br><span class="line">        &lt;/p&gt;</span><br><span class="line">        &lt;p&gt;总价格 : ￥ &lt;span&gt;100.00&lt;/span&gt;&lt;/p&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import mock from &#x27;./data&#x27;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      list: mock.list,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;&#125;,</span><br><span class="line">  components: &#123;&#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style lang=&quot;scss&quot; scoped&gt;</span><br><span class="line">* &#123;</span><br><span class="line">  margin: 0;</span><br><span class="line">  padding: 0;</span><br><span class="line">  list-style: none;</span><br><span class="line">  text-decoration: none;</span><br><span class="line">&#125;</span><br><span class="line">button,</span><br><span class="line">input &#123;</span><br><span class="line">  outline: none;</span><br><span class="line">  border: none;</span><br><span class="line">&#125;</span><br><span class="line">img &#123;</span><br><span class="line">  width: 100%;</span><br><span class="line">  height: 100%;</span><br><span class="line">  display: block;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content &#123;</span><br><span class="line">  width: 1200px;</span><br><span class="line">  padding: 10px 0;</span><br><span class="line">  margin: 0 auto;</span><br><span class="line">  display: flex;</span><br><span class="line">  flex-direction: column;</span><br><span class="line">&#125;</span><br><span class="line">.content .top,</span><br><span class="line">.content .bottom &#123;</span><br><span class="line">  height: 40px;</span><br><span class="line">  display: flex;</span><br><span class="line">  align-items: center;</span><br><span class="line">  background-color: pink;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content .top &gt; input &#123;</span><br><span class="line">  width: 20px;</span><br><span class="line">  height: 20px;</span><br><span class="line">  margin: 0 20px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content .bottom &#123;</span><br><span class="line">  justify-content: space-around;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content .bottom &gt; p button &#123;</span><br><span class="line">  font-size: 20px;</span><br><span class="line">  padding: 3px 10px;</span><br><span class="line">  cursor: pointer;</span><br><span class="line">  color: #fff;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content .bottom &gt; p &gt; button.pay &#123;</span><br><span class="line">  background-color: green;</span><br><span class="line">&#125;</span><br><span class="line">.content .bottom &gt; p &gt; button.clear &#123;</span><br><span class="line">  background-color: red;</span><br><span class="line">&#125;</span><br><span class="line">.content .bottom &gt; p &gt; button.clear_select &#123;</span><br><span class="line">  background-color: orange;</span><br><span class="line">&#125;</span><br><span class="line">.content .bottom &gt; p &gt; button.list &#123;</span><br><span class="line">  background-color: skyblue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content .bottom &gt; p &gt; span &#123;</span><br><span class="line">  color: red;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content .center &#123;</span><br><span class="line">  width: 100%;</span><br><span class="line">&#125;</span><br><span class="line">.content .center &gt; li &#123;</span><br><span class="line">  height: 100px;</span><br><span class="line">  display: flex;</span><br><span class="line">  justify-content: space-between;</span><br><span class="line">  align-items: center;</span><br><span class="line">  border: 1px solid #333;</span><br><span class="line">  box-sizing: border-box;</span><br><span class="line">  margin: 10px 0;</span><br><span class="line">  border-radius: 10px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content .center &gt; li &gt; div &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  justify-content: center;</span><br><span class="line">  align-items: center;</span><br><span class="line">  height: 100%;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content .center &gt; li &gt; div &gt; span &#123;</span><br><span class="line">  color: red;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.content .center &gt; li &gt; div:first-child &gt; input &#123;</span><br><span class="line">  width: 20px;</span><br><span class="line">  height: 20px;</span><br><span class="line">&#125;</span><br><span class="line">.content .center &gt; li &gt; div &gt; button &#123;</span><br><span class="line">  font-size: 20px;</span><br><span class="line">  padding: 5px 10px;</span><br><span class="line">  cursor: pointer;</span><br><span class="line">&#125;</span><br><span class="line">.content .center &gt; li &gt; div &gt; .del &gt; button &#123;</span><br><span class="line">  background-color: red;</span><br><span class="line">  color: #fff;</span><br><span class="line">&#125;</span><br><span class="line">.content .center &gt; li &gt; div.number &gt; input &#123;</span><br><span class="line">  width: 50px;</span><br><span class="line">  height: 24px;</span><br><span class="line">  font-size: 20px;</span><br><span class="line">  text-align: center;</span><br><span class="line">&#125;</span><br><span class="line">.select,</span><br><span class="line">.pic,</span><br><span class="line">.del &#123;</span><br><span class="line">  width: 100px;</span><br><span class="line">&#125;</span><br><span class="line">.name,</span><br><span class="line">.price,</span><br><span class="line">.subtotal &#123;</span><br><span class="line">  width: 200px;</span><br><span class="line">&#125;</span><br><span class="line">.number &#123;</span><br><span class="line">  width: 300px;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>RickyD
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://muleandhorse.icu/2022/06/20/b41%20VUE%E7%BB%84%E4%BB%B6%E5%8C%96%E9%80%9A%E4%BF%A1(%E4%B8%80)/" title="vue的组件化通信(一)">http://muleandhorse.icu/2022/06/20/b41 VUE组件化通信(一)/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/" rel="tag"># 前端开发</a>
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/tags/vue/" rel="tag"># vue</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/18/b40%20VUE%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BC%80%E5%8F%91/" rel="prev" title="vue的组件化开发思想">
+      <i class="fa fa-chevron-left"></i> vue的组件化开发思想
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/06/21/b42%20VUE%E7%BB%84%E4%BB%B6%E5%8C%96%E9%80%9A%E4%BF%A1(%E4%BA%8C)/" rel="next" title="vue的组件化通信(二)">
+      vue的组件化通信(二) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81ODIzMi8zNDY5NQ=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%84%E4%BB%B6%E5%8C%96%E9%80%9A%E4%BF%A1"><span class="nav-number">1.</span> <span class="nav-text">组件化通信</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Vue%E7%BB%84%E4%BB%B6%E7%9A%84%E5%B5%8C%E5%A5%97%E5%85%B3%E7%B3%BB"><span class="nav-number">1.1.</span> <span class="nav-text">1. Vue组件的嵌套关系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E8%AE%A4%E8%AF%86%E7%BB%84%E4%BB%B6%E7%9A%84%E5%B5%8C%E5%A5%97"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 认识组件的嵌套</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E7%BB%84%E4%BB%B6%E7%9A%84%E9%80%9A%E4%BF%A1"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 组件的通信</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%88%B6%E5%AD%90%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1"><span class="nav-number">1.2.</span> <span class="nav-text">2. 父子组件通信**</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E7%88%B6%E5%AD%90%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 父子组件通信的方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E7%88%B6%E7%BB%84%E4%BB%B6%E4%BC%A0%E9%80%92%E7%BB%99%E5%AD%90%E7%BB%84%E4%BB%B6"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 父组件传递给子组件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-props%E7%9A%84%E6%95%B0%E7%BB%84%E7%94%A8%E6%B3%95"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">2.2.1 props的数组用法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-props%E5%AF%B9%E8%B1%A1%E5%86%99%E6%B3%95"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">2.2.2 props对象写法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-3-%E9%9D%9Eprop%E7%9A%84attribute"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">2.2.3 非prop的attribute</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%AD%90%E7%BB%84%E4%BB%B6%E4%BC%A0%E9%80%92%E7%BB%99%E7%88%B6%E7%BB%84%E4%BB%B6"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 子组件传递给父组件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-1-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">2.3.1 基本使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2-emit%E4%BC%A0%E5%8F%82"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">2.3.2 emit传参</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%BB%83%E4%B9%A0"><span class="nav-number">1.3.</span> <span class="nav-text">3. 练习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-tab%E5%88%87%E6%8D%A2"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 tab切换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E8%B4%AD%E7%89%A9%E8%BD%A6%F0%9F%9B%92"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 购物车🛒</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="RickyD"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">RickyD</p>
+  <div class="site-description" itemprop="description">如果站长加班加似了，这个网站就是他留给世界最后的遗产</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/RickyDriver" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;RickyDriver" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1552330861@qq.com" title="E-Mail → 1552330861@qq.com"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RickyD</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">135k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">7:30</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>

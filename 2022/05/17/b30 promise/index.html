@@ -28,7 +28,7 @@
 <meta property="og:description" content="Promise">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-05-17T06:06:09.000Z">
-<meta property="article:modified_time" content="2023-05-29T11:34:30.815Z">
+<meta property="article:modified_time" content="2023-05-29T12:03:07.914Z">
 <meta property="article:author" content="RickyD">
 <meta property="article:tag" content="前端开发">
 <meta property="article:tag" content="笔记">
@@ -124,7 +124,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">48</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">67</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -134,7 +134,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">8</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">10</span></a>
 
   </li>
         <li class="menu-item menu-item-about">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-29 19:34:30" itemprop="dateModified" datetime="2023-05-29T19:34:30+08:00">2023-05-29</time>
+                <time title="修改时间：2023-05-29 20:03:07" itemprop="dateModified" datetime="2023-05-29T20:03:07+08:00">2023-05-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -329,23 +329,23 @@
 <li>catch方法的执行时机 catch会找最先reject的promise 捕获他</li>
 </ol>
 <h2 id="finally"><a href="#finally" class="headerlink" title="finally"></a>finally</h2><p>ES9(ES2018)中新增的一个特性，无论你的 promise 对象是 fulfilled 还是 rejected 状态，最终都要执行的代码。finally 不接收参数。</p>
-<h2 id="Promise-resolve"><a href="#Promise-resolve" class="headerlink" title="Promise.resolve"></a>Promise.resolve</h2><p>最大的作用，就是把一个<strong>现成的内容转成 Promise</strong>来使用,就可以使用 Promise.resolve。<br>作为 resolve 来说，他的参数是有三种情况 04.html 讲过</p>
-<h2 id="Promise-reject"><a href="#Promise-reject" class="headerlink" title="Promise.reject"></a>Promise.reject</h2><p>reject 方法类似于 resolve<br><strong>注意:不管传入 Promise.reject 的参数是何种形式，都会直接作为 rejected 状态给到 catch 的回调</strong></p>
-<h2 id="all"><a href="#all" class="headerlink" title="all"></a>all</h2><p>它的作用是将多个 promise 包裹在一起，形成一个新的 promise；新的 Promise 状态由包裹所有 promise 的状态共同决定；<br>所有的 promise fulfilled -&gt;all fulfilled 并且会将所有 promise 的返回值组成一个数组<br>当有一个 reject -&gt; all rejected,并且会将第一个 reject 的当作参数</p>
+<h2 id="promise的类方法"><a href="#promise的类方法" class="headerlink" title="promise的类方法"></a>promise的类方法</h2><h3 id="Promise-resolve"><a href="#Promise-resolve" class="headerlink" title="Promise.resolve"></a>Promise.resolve</h3><p>最大的作用，就是把一个<strong>现成的内容转成 Promise</strong>来使用,就可以使用 Promise.resolve。<br>作为 resolve 来说，他的参数是有三种情况,如上文所述</p>
+<h3 id="Promise-reject"><a href="#Promise-reject" class="headerlink" title="Promise.reject"></a>Promise.reject</h3><p>reject 方法类似于 resolve<br><strong>注意:不管传入 Promise.reject 的参数是何种形式，都会直接作为 rejected 状态给到 catch 的回调</strong></p>
+<h3 id="all"><a href="#all" class="headerlink" title="all"></a>all</h3><p>它的作用是将多个 promise 包裹在一起，形成一个新的 promise；新的 Promise 状态由包裹所有 promise 的状态共同决定；<br>所有的 promise fulfilled -&gt;all fulfilled 并且会将所有 promise 的返回值组成一个数组<br>当有一个 reject -&gt; all rejected,并且会将第一个 reject 的当作参数</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Promise</span>.<span class="title function_">all</span>([p1, p2, p3])</span><br><span class="line">        .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;所有的promise 都成功&#x27;</span>, res);</span><br><span class="line">        &#125;)</span><br><span class="line">        .<span class="title function_">catch</span>(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;有一个失败了，原因&#x27;</span> + err);</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
 
-<h2 id="allSettled"><a href="#allSettled" class="headerlink" title="allSettled"></a>allSettled</h2><p>all 的缺陷，多个 promise 只要有一个失败，整个 all 的 promise 就会 rejected。那么对于其他可能 resolved 请求或者仍然处于 pending 状态的请求，拿不到结果了。</p>
+<h3 id="allSettled"><a href="#allSettled" class="headerlink" title="allSettled"></a>allSettled</h3><p>all 的缺陷，多个 promise 只要有一个失败，整个 all 的 promise 就会 rejected。那么对于其他可能 resolved 请求或者仍然处于 pending 状态的请求，拿不到结果了。</p>
 <p>ES11 出现的,该方法会在所有的 promise 都有结果(settled)，无论你是失败还是成功，才会有最终的状态，并且这个状态一定是成功 fulfilled 的。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> xp = <span class="title class_">Promise</span>.<span class="title function_">allSettled</span>([p1, p2, p3])</span><br><span class="line">        .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;所有的promise 都成功&#x27;</span>, res);</span><br><span class="line">        &#125;)</span><br><span class="line">        .<span class="title function_">catch</span>(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;有一个失败了，原因&#x27;</span> + err);</span><br><span class="line">        &#125;);</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(xp);</span><br><span class="line">    &lt;/script&gt;</span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="race"><a href="#race" class="headerlink" title="race"></a>race</h2><p>如果多个 promise 中，有一个有了结果，我们就希望用这个来决定最终的 promise 的状态，那就用 race。<br>谁的结果先出来，我就用谁的</p>
+<h3 id="race"><a href="#race" class="headerlink" title="race"></a>race</h3><p>如果多个 promise 中，有一个有了结果，我们就希望用这个来决定最终的 promise 的状态，那就用 race。<br>谁的结果先出来，我就用谁的</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Promise</span>.<span class="title function_">race</span>([p1, p2, p3])</span><br><span class="line">        .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;then&#x27;</span>, res);</span><br><span class="line">        &#125;)</span><br><span class="line">        .<span class="title function_">catch</span>(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;catch&#x27;</span>, err);</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="any"><a href="#any" class="headerlink" title="any"></a>any</h2><p>race 永远拿最先的，可能是好的也可能是坏的。有些时候我们想要只拿好的<br>ES12,any 方法会等到一个 fulfilled 状态，才来决定新的 promise 的状态<br>如果所有的 promise 都是坏的，那他也会等所有的都 rejected</p>
+<h3 id="any"><a href="#any" class="headerlink" title="any"></a>any</h3><p>race 永远拿最先的，可能是好的也可能是坏的。有些时候我们想要只拿好的<br>ES12,any 方法会等到一个 fulfilled 状态，才来决定新的 promise 的状态<br>如果所有的 promise 都是坏的，那他也会等所有的都 rejected</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Promise</span>.<span class="title function_">any</span>([p1, p2, p3])</span><br><span class="line">        .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;then&#x27;</span>, res);</span><br><span class="line">        &#125;)</span><br><span class="line">        .<span class="title function_">catch</span>(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="comment">//内部报一个错误</span></span><br><span class="line">          <span class="comment">//AggregateError: All promises were rejected</span></span><br><span class="line">          <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;catch&#x27;</span>, err);</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
 
 
@@ -457,7 +457,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Promise"><span class="nav-number">1.</span> <span class="nav-text">Promise</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise-%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-number">1.1.</span> <span class="nav-text">Promise 的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E4%BB%A3%E7%A0%81%E7%9A%84%E5%9B%B0%E5%A2%83"><span class="nav-number">1.1.1.</span> <span class="nav-text">异步代码的困境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8promise%E6%9D%A5%E8%A7%A3%E5%86%B3%E5%BC%82%E6%AD%A5%E7%9A%84%E5%9B%9E%E8%B0%83%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.2.</span> <span class="nav-text">使用promise来解决异步的回调问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#promise-%E7%9A%84%E4%B8%89%E4%B8%AA%E7%8A%B6%E6%80%81"><span class="nav-number">1.2.</span> <span class="nav-text">promise 的三个状态</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#executor"><span class="nav-number">1.2.1.</span> <span class="nav-text">executor</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#resolve-%E5%8F%82%E6%95%B0%E7%9A%84%E4%B8%89%E7%A7%8D%E6%83%85%E5%86%B5"><span class="nav-number">1.3.</span> <span class="nav-text">resolve 参数的三种情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#promise%E7%9A%84then%E6%96%B9%E6%B3%95"><span class="nav-number">1.4.</span> <span class="nav-text">promise的then方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#promise%E7%9A%84catch%E6%96%B9%E6%B3%95"><span class="nav-number">1.5.</span> <span class="nav-text">promise的catch方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#finally"><span class="nav-number">1.6.</span> <span class="nav-text">finally</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise-resolve"><span class="nav-number">1.7.</span> <span class="nav-text">Promise.resolve</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise-reject"><span class="nav-number">1.8.</span> <span class="nav-text">Promise.reject</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#all"><span class="nav-number">1.9.</span> <span class="nav-text">all</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#allSettled"><span class="nav-number">1.10.</span> <span class="nav-text">allSettled</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#race"><span class="nav-number">1.11.</span> <span class="nav-text">race</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#any"><span class="nav-number">1.12.</span> <span class="nav-text">any</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Promise"><span class="nav-number">1.</span> <span class="nav-text">Promise</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise-%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-number">1.1.</span> <span class="nav-text">Promise 的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E4%BB%A3%E7%A0%81%E7%9A%84%E5%9B%B0%E5%A2%83"><span class="nav-number">1.1.1.</span> <span class="nav-text">异步代码的困境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8promise%E6%9D%A5%E8%A7%A3%E5%86%B3%E5%BC%82%E6%AD%A5%E7%9A%84%E5%9B%9E%E8%B0%83%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.2.</span> <span class="nav-text">使用promise来解决异步的回调问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#promise-%E7%9A%84%E4%B8%89%E4%B8%AA%E7%8A%B6%E6%80%81"><span class="nav-number">1.2.</span> <span class="nav-text">promise 的三个状态</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#executor"><span class="nav-number">1.2.1.</span> <span class="nav-text">executor</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#resolve-%E5%8F%82%E6%95%B0%E7%9A%84%E4%B8%89%E7%A7%8D%E6%83%85%E5%86%B5"><span class="nav-number">1.3.</span> <span class="nav-text">resolve 参数的三种情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#promise%E7%9A%84then%E6%96%B9%E6%B3%95"><span class="nav-number">1.4.</span> <span class="nav-text">promise的then方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#promise%E7%9A%84catch%E6%96%B9%E6%B3%95"><span class="nav-number">1.5.</span> <span class="nav-text">promise的catch方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#finally"><span class="nav-number">1.6.</span> <span class="nav-text">finally</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#promise%E7%9A%84%E7%B1%BB%E6%96%B9%E6%B3%95"><span class="nav-number">1.7.</span> <span class="nav-text">promise的类方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Promise-resolve"><span class="nav-number">1.7.1.</span> <span class="nav-text">Promise.resolve</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Promise-reject"><span class="nav-number">1.7.2.</span> <span class="nav-text">Promise.reject</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#all"><span class="nav-number">1.7.3.</span> <span class="nav-text">all</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#allSettled"><span class="nav-number">1.7.4.</span> <span class="nav-text">allSettled</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#race"><span class="nav-number">1.7.5.</span> <span class="nav-text">race</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#any"><span class="nav-number">1.7.6.</span> <span class="nav-text">any</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -473,7 +473,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">67</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -486,7 +486,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -533,12 +533,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">76k</span>
+    <span title="站点总字数">135k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:15</span>
+    <span title="站点阅读时长">7:30</span>
 </div>
 
         

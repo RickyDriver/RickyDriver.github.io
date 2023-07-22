@@ -28,7 +28,7 @@
 <meta property="og:description" content="1. 函数">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-05-13T06:06:09.000Z">
-<meta property="article:modified_time" content="2023-05-29T11:34:23.577Z">
+<meta property="article:modified_time" content="2023-06-22T13:05:55.134Z">
 <meta property="article:author" content="RickyD">
 <meta property="article:tag" content="前端开发">
 <meta property="article:tag" content="笔记">
@@ -124,7 +124,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">48</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">67</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -134,7 +134,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">8</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">10</span></a>
 
   </li>
         <li class="menu-item menu-item-about">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-29 19:34:23" itemprop="dateModified" datetime="2023-05-29T19:34:23+08:00">2023-05-29</time>
+                <time title="修改时间：2023-06-22 21:05:55" itemprop="dateModified" datetime="2023-06-22T21:05:55+08:00">2023-06-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -245,14 +245,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.5k</span>
+              <span>1.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>5 分钟</span>
+              <span>6 分钟</span>
             </span>
 
         </div>
@@ -291,7 +291,16 @@
 <h2 id="5-Map-映射"><a href="#5-Map-映射" class="headerlink" title="5. Map 映射"></a>5. Map 映射</h2><h3 id="5-1-Map"><a href="#5-1-Map" class="headerlink" title="5.1 Map"></a>5.1 Map</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//没有map 对象不能当作键名</span></span><br><span class="line"><span class="keyword">const</span> info = &#123; <span class="attr">name</span>: <span class="string">&#x27;alex&#x27;</span> &#125;;</span><br><span class="line"><span class="keyword">const</span> info2 = &#123; <span class="attr">name</span>: <span class="string">&#x27;jack&#x27;</span> &#125;;</span><br><span class="line"><span class="comment">// const obj = &#123;</span></span><br><span class="line"><span class="comment">//   address: &#x27;火星&#x27;,</span></span><br><span class="line"><span class="comment">//   [info]: &#x27;hhahah&#x27;,</span></span><br><span class="line"><span class="comment">//   [info2]: &#x27;嘻嘻嘻嘻&#x27;,</span></span><br><span class="line"><span class="comment">// &#125;;</span></span><br><span class="line"><span class="comment">// console.log(obj);</span></span><br><span class="line"><span class="comment">// //[object Object]是字符串，100%会遇到这个</span></span><br><span class="line"><span class="comment">// //我只能接受字符串，你却给我一个对象，我没办法了就展示成这样</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> map = <span class="keyword">new</span> <span class="title class_">Map</span>();</span><br><span class="line"><span class="comment">//设置 set</span></span><br><span class="line">map.<span class="title function_">set</span>(info, <span class="string">&#x27;aaaa&#x27;</span>);</span><br><span class="line">map.<span class="title function_">set</span>(info2, <span class="string">&#x27;bbb&#x27;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(map);</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取 get</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(map.<span class="title function_">get</span>(info));</span><br><span class="line"></span><br><span class="line"><span class="comment">//删除 delete</span></span><br><span class="line"><span class="comment">// map.delete(info);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 清空 clear()</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//has</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(map.<span class="title function_">has</span>(info));</span><br><span class="line"></span><br><span class="line"><span class="comment">//forEach 值</span></span><br><span class="line">map.<span class="title function_">forEach</span>(<span class="function">(<span class="params">item</span>) =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(item));</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> item <span class="keyword">of</span> map) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(item); <span class="comment">//是数组</span></span><br><span class="line">  <span class="keyword">const</span> [key, value] = item;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;解构后&#x27;</span>, key, value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//map让对象可以作为key</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="5-2-WeakMap"><a href="#5-2-WeakMap" class="headerlink" title="5.2 WeakMap"></a>5.2 WeakMap</h3><p>区别一:WeakMap 只能用对象做 key，不接受其他类型<br>区别二:WeakMap 弱引用。</p>
-<h2 id="6-ES6"><a href="#6-ES6" class="headerlink" title="6. ES6"></a>6. ES6</h2><p>Proxy、Reflect 放后面，Vue3 的原理<br>回调 Promise Iterator Generator async…await 异步解决方案，详细学习 写一个 myPromise<br>ES Module 模块化开发-工程化<br>深拷贝和事件总线<br>XHR-Fetch(重要‼️)</p>
+<h2 id="6-Object-assign-合并对象"><a href="#6-Object-assign-合并对象" class="headerlink" title="6. Object.assign()合并对象"></a>6. Object.assign()合并对象</h2><p><code>Object.assign()</code> 方法用于将所有可枚举属性的值从一个或多个源对象复制到目标对象。它将返回目标对象。<br><code>Object.assign(target, ...sources) </code>   【target：目标对象】，【souce：源对象（可多个）】</p>
+<p>举个例子:</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object1 = &#123;</span><br><span class="line">  <span class="attr">a</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">b</span>: <span class="number">2</span>,</span><br><span class="line">  <span class="attr">c</span>: <span class="number">3</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> object2 = <span class="title class_">Object</span>.<span class="title function_">assign</span>(&#123;<span class="attr">c</span>: <span class="number">4</span>, <span class="attr">d</span>: <span class="number">5</span>&#125;, object1);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(object2.<span class="property">c</span>, object2.<span class="property">d</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(object1)  <span class="comment">// &#123; a: 1, b: 2, c: 3 &#125;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(object2)  <span class="comment">// &#123; c: 3, d: 5, a: 1, b: 2 &#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>注意:</p>
+<ol>
+<li>如果目标对象中的属性具有相同的键，则属性将被源对象中的属性覆盖。后面的源对象的属性将类似地覆盖前面的源对象的属性</li>
+<li><code>Object.assign</code> 方法只会拷贝源对象自身的并且可枚举的属性到目标对象。该方法使用源对象的[[Get]]和目标<br>对象的[[Set]]，所以它会调用相关 getter 和 setter。因此，它分配属性，而不仅仅是复制或定义新的属性。如<br>果合并源包含getter，这可能使其不适合将新属性合并到原型中。为了将属性定义（包括其可枚举性）复制到<br>原型，应使用<code>Object.getOwnPropertyDescriptor()</code>和<code>Object.defineProperty() 。</code></li>
+</ol>
+<p>详见:<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/f9ec860ecd81">https://www.jianshu.com/p/f9ec860ecd81</a></p>
 
     </div>
 
@@ -399,7 +408,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">1. 函数 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E9%BB%98%E8%AE%A4%E5%8F%82%E6%95%B0"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 默认参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%E8%A1%A5%E5%85%85"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 箭头函数补充</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%B1%95%E5%BC%80%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">2.</span> <span class="nav-text">2. 展开运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%B1%95%E5%BC%80%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 展开的基本使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%BC%95%E7%94%A8%E8%B5%8B%E5%80%BC%E5%92%8C%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 引用赋值和深浅拷贝</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Symbol"><span class="nav-number">3.</span> <span class="nav-text">3. Symbol</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%88%9D%E8%AF%86-symbol"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 初识 symbol</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-symbol-%E6%B3%A8%E6%84%8F%E5%92%8C-api"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 symbol 注意和 api</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Set-%E9%9B%86%E5%90%88"><span class="nav-number">4.</span> <span class="nav-text">4. Set 集合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-set"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-WeakSet"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 WeakSet</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Map-%E6%98%A0%E5%B0%84"><span class="nav-number">5.</span> <span class="nav-text">5. Map 映射</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-Map"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 Map</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-WeakMap"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 WeakMap</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-ES6"><span class="nav-number">6.</span> <span class="nav-text">6. ES6</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">1. 函数 </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E9%BB%98%E8%AE%A4%E5%8F%82%E6%95%B0"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 默认参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%E8%A1%A5%E5%85%85"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 箭头函数补充</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%B1%95%E5%BC%80%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">2.</span> <span class="nav-text">2. 展开运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%B1%95%E5%BC%80%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 展开的基本使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%BC%95%E7%94%A8%E8%B5%8B%E5%80%BC%E5%92%8C%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 引用赋值和深浅拷贝</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Symbol"><span class="nav-number">3.</span> <span class="nav-text">3. Symbol</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%88%9D%E8%AF%86-symbol"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 初识 symbol</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-symbol-%E6%B3%A8%E6%84%8F%E5%92%8C-api"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 symbol 注意和 api</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Set-%E9%9B%86%E5%90%88"><span class="nav-number">4.</span> <span class="nav-text">4. Set 集合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-set"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-WeakSet"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 WeakSet</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Map-%E6%98%A0%E5%B0%84"><span class="nav-number">5.</span> <span class="nav-text">5. Map 映射</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-Map"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 Map</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-WeakMap"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 WeakMap</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-Object-assign-%E5%90%88%E5%B9%B6%E5%AF%B9%E8%B1%A1"><span class="nav-number">6.</span> <span class="nav-text">6. Object.assign()合并对象</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -415,7 +424,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">67</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -428,7 +437,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -475,12 +484,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">76k</span>
+    <span title="站点总字数">135k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:15</span>
+    <span title="站点阅读时长">7:30</span>
 </div>
 
         
