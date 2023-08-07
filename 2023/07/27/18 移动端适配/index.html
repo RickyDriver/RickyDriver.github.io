@@ -20,23 +20,19 @@
     var CONFIG = {"hostname":"muleandhorse.icu","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="这个系列的文章是将我在学生时期学习的一些笔记上传留作纪念和备份，如果能帮助到一些新手朋友那就更好了。  如果笔记有误或者有更多建议，欢迎在评论区指出！">
+  <meta name="description" content="什么是移动端适配？ 移动端开发目前主要包括三类 原生 App 开发(ios android RN uniapp flutter) 小程序(原生小程序 uniapp taro) web 页面   因为目前移动端的设备非常多，所以需要对其进行一些适配 两个概念 自适应:根据不同设备的屏幕大小来自动调整尺寸、大小 响应式:会随着屏幕的实时变动而自动调整，是一种自适应    认识视口视口的概念：  在一个">
 <meta property="og:type" content="article">
-<meta property="og:title" content="前端开发学习笔记 01 md基本语法">
-<meta property="og:url" content="http://muleandhorse.icu/2021/03/20/00%20md%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/index.html">
+<meta property="og:title" content="Mule and Horse">
+<meta property="og:url" content="http://muleandhorse.icu/2023/07/27/18%20%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D/index.html">
 <meta property="og:site_name" content="Mule and Horse">
-<meta property="og:description" content="这个系列的文章是将我在学生时期学习的一些笔记上传留作纪念和备份，如果能帮助到一些新手朋友那就更好了。  如果笔记有误或者有更多建议，欢迎在评论区指出！">
+<meta property="og:description" content="什么是移动端适配？ 移动端开发目前主要包括三类 原生 App 开发(ios android RN uniapp flutter) 小程序(原生小程序 uniapp taro) web 页面   因为目前移动端的设备非常多，所以需要对其进行一些适配 两个概念 自适应:根据不同设备的屏幕大小来自动调整尺寸、大小 响应式:会随着屏幕的实时变动而自动调整，是一种自适应    认识视口视口的概念：  在一个">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://muleandhorse.icu/img.jpg">
-<meta property="article:published_time" content="2021-03-20T00:00:00.000Z">
-<meta property="article:modified_time" content="2023-03-25T05:06:20.138Z">
+<meta property="article:published_time" content="2023-07-27T14:35:41.263Z">
+<meta property="article:modified_time" content="2023-03-21T07:00:29.000Z">
 <meta property="article:author" content="RickyD">
-<meta property="article:tag" content="前端开发">
-<meta property="article:tag" content="笔记">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://muleandhorse.icu/img.jpg">
 
-<link rel="canonical" href="http://muleandhorse.icu/2021/03/20/00%20md%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/">
+<link rel="canonical" href="http://muleandhorse.icu/2023/07/27/18%20%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D/">
 
 
 <script id="page-configurations">
@@ -49,7 +45,7 @@
   };
 </script>
 
-  <title>前端开发学习笔记 01 md基本语法 | Mule and Horse</title>
+  <title> | Mule and Horse</title>
   
 
 
@@ -198,7 +194,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://muleandhorse.icu/2021/03/20/00%20md%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/">
+    <link itemprop="mainEntityOfPage" href="http://muleandhorse.icu/2023/07/27/18%20%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -211,7 +207,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          前端开发学习笔记 01 md基本语法
+          
         </h1>
 
         <div class="post-meta">
@@ -221,24 +217,15 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-03-20 08:00:00" itemprop="dateCreated datePublished" datetime="2021-03-20T08:00:00+08:00">2021-03-20</time>
+              <time title="创建时间：2023-07-27 22:35:41" itemprop="dateCreated datePublished" datetime="2023-07-27T22:35:41+08:00">2023-07-27</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-25 13:06:20" itemprop="dateModified" datetime="2023-03-25T13:06:20+08:00">2023-03-25</time>
+                <time title="修改时间：2023-03-21 15:00:29" itemprop="dateModified" datetime="2023-03-21T15:00:29+08:00">2023-03-21</time>
               </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
-                </span>
-            </span>
 
           <br>
             <span class="post-meta-item" title="本文字数">
@@ -246,14 +233,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>217</span>
+              <span>820</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -265,36 +252,101 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <ul>
-<li><p>这个系列的文章是将我在学生时期学习的一些笔记上传留作纪念和备份，如果能帮助到一些新手朋友那就更好了。</p>
+        <h2 id="什么是移动端适配？"><a href="#什么是移动端适配？" class="headerlink" title="什么是移动端适配？"></a>什么是移动端适配？</h2><ul>
+<li>移动端开发目前主要包括三类<ul>
+<li>原生 App 开发(ios android RN uniapp flutter)</li>
+<li>小程序(原生小程序 uniapp taro)</li>
+<li>web 页面</li>
+</ul>
 </li>
-<li><p>如果笔记有误或者有更多建议，欢迎在评论区指出！</p>
-<span id="more"></span></li>
+<li>因为目前移动端的设备非常多，所以需要对其进行一些适配</li>
+<li>两个概念<ul>
+<li>自适应:根据不同设备的屏幕大小来自动调整尺寸、大小</li>
+<li>响应式:会随着屏幕的实时变动而自动调整，是一种自适应</li>
 </ul>
-<h1 id="代表一级标题"><a href="#代表一级标题" class="headerlink" title="#代表一级标题"></a>#代表一级标题</h1><h2 id="代表二级"><a href="#代表二级" class="headerlink" title="代表二级"></a>代表二级</h2><h3 id="三级，一共有六级标题"><a href="#三级，一共有六级标题" class="headerlink" title="三级，一共有六级标题"></a>三级，一共有六级标题</h3><p>字体<br><strong>两个星号包裹的文字会加粗</strong><br><em>一个星号或者两边下划线包裹的文字会倾斜</em><br><em>这里也是倾斜</em><br><em><strong>斜体加粗</strong></em><br><del>英文波浪线删除</del></p>
-<blockquote>
-<p>用大于号</p>
-<blockquote>
-<p>引用的内容可以嵌套引用</p>
-</blockquote>
-</blockquote>
-<hr>
-<p>三个—代表分割线<br><img src="/img.jpg"><br>超链接<br><a target="_blank" rel="noopener" href="http://www.baidu.com/">百度</a></p>
-<p>列表</p>
-<p>无序列表</p>
+</li>
+</ul>
+<h2 id="认识视口"><a href="#认识视口" class="headerlink" title="认识视口"></a>认识视口</h2><p>视口的概念：</p>
 <ul>
-<li>列表1</li>
-<li>列表2</li>
+<li>在一个浏览器中，<strong>我们可以看到的区域就是视口</strong></li>
+<li>fixed 是相对于视口来进行定位的</li>
+<li>在 pc 端中，我们<strong>不需要对视口进行区分</strong>，因为我们的<strong>布局视口和视觉视口是同一个</strong></li>
 </ul>
-<p>有序列表</p>
+<p>在移动端视口的情况不太一样，</p>
+<ul>
+<li>因为手机的<strong>屏幕往往比较小</strong>，我们可能会希望一个大的网页在移动端可以<strong>完整的显示</strong></li>
+<li>在默认情况下，<strong>移动端的布局视口是大于视觉视口</strong></li>
+</ul>
+<p>在移动端，视口划分为三种情况</p>
+<ul>
+<li>布局视口(layout viewport)<ul>
+<li>默认情况下，一个 pc 的网页在移动端是如何展示？</li>
+<li>第一：按照宽度为 980px 来布局</li>
+<li>第二：为了显示完整的网页，它会对整个页面进行缩小</li>
+</ul>
+</li>
+<li>视觉视口(visual viewport)<ul>
+<li>默认情况下，按照 980px 来显示内容，右侧会有区域看不到，所以手机端的浏览器会缩放到能够完整显示</li>
+<li>那显示在可见区域的这个视口就是视觉视口</li>
+</ul>
+</li>
+<li>理想视口(ideal viewport)<ul>
+<li>默认情况下的 layout viewport 980px 并不适合我们布局</li>
+<li>我们可以对 viewport 进行设置，以满足在正常的移动端窗口布局</li>
+<li><code>&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0&quot; /&gt;</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="移动端适配方案"><a href="#移动端适配方案" class="headerlink" title="移动端适配方案"></a>移动端适配方案</h2><blockquote>
+<p>理解移动端适配</p>
+</blockquote>
+<p>100<em>100 的盒子<br>375px -&gt; 100</em>100<br>320px -&gt;90<em>90<br>414px -&gt;110</em>110<br>其他的尺寸也如此 比如 padding margin border left font-size…</p>
 <ol>
-<li>有序列表1</li>
-<li>有序列表2</li>
+<li>百分比 ❌</li>
+<li>rem+动态 font-size ✅</li>
+<li>vw ✅✅✅</li>
 </ol>
-<h2 id="代码框"><a href="#代码框" class="headerlink" title="代码框"></a>代码框</h2><p>单行代码<br><code>hello wolrd</code></p>
-<p>多行代码框</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;&lt;/div&gt;</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="rem-动态的-html-的-font-size"><a href="#rem-动态的-html-的-font-size" class="headerlink" title="rem+动态的 html 的 font-size"></a>rem+动态的 html 的 font-size</h2><p>动态 font-size</p>
+<ol>
+<li>媒体查询<ol>
+<li>需要针对不同的屏幕编写大量的媒体查询</li>
+<li>如果动态改变尺寸，不会实时更新</li>
+</ol>
+</li>
+<li>手写 js 设置<ol>
+<li>根据 html 的宽度计算出 font-size 大小然后设置到 html 上</li>
+<li>监听页面宽度变化，并重新设置 font-size</li>
+</ol>
+</li>
+<li>利用 lib-flexible</li>
+</ol>
+<h2 id="rem-的单位换算"><a href="#rem-的单位换算" class="headerlink" title="rem 的单位换算"></a>rem 的单位换算</h2><ol>
+<li>手动计算</li>
+<li>scss 函数</li>
+</ol>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@function</span> pxToRem(<span class="variable">$px</span>, <span class="variable">$baseFs</span>: <span class="number">37.5px</span>) &#123;</span><br><span class="line">  <span class="keyword">@return</span> (<span class="variable">$px</span>/<span class="variable">$baseFs</span>) * <span class="number">1rem</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="built_in">pxToRem</span>(<span class="number">100px</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<ol start="3">
+<li>插件<br>px to rem &amp; px to vw</li>
+</ol>
+<h2 id="适配方案-vw"><a href="#适配方案-vw" class="headerlink" title="适配方案 vw"></a>适配方案 vw</h2><p>vw 相比 rem 有很多优势</p>
+<ol>
+<li>不需要去计算 html 的 font-size 大小，也不需要去设置这样一个字体大小</li>
+<li>不会因为设置了 html 的 font-size 而还需要单独设置 body 的 font-size</li>
+<li>不依赖于 font-size 属性，所以不用担心 html 的 font-size 被改掉而导致页面混乱</li>
+<li>vw 相比 rem 更加语义化，1vw 刚好是 1&#x2F;100 viewport 大小</li>
+<li>可以同时具有之前 rem 的所有优点</li>
+</ol>
+<p>vw 的换算</p>
+<ol>
+<li>手动</li>
+<li>scss 函数</li>
+</ol>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@function</span> px2Vw(<span class="variable">$px</span>, <span class="variable">$baseRatio</span>: <span class="number">3.75px</span>) &#123;</span><br><span class="line">  <span class="keyword">@return</span> (<span class="variable">$px</span>/<span class="variable">$baseRatio</span>) * <span class="number">1vw</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="built_in">px2Vw</span>(<span class="number">100px</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>插件</li>
+</ol>
 
     </div>
 
@@ -310,7 +362,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://muleandhorse.icu/2021/03/20/00%20md%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" title="前端开发学习笔记 01 md基本语法">http://muleandhorse.icu/2021/03/20/00 md基本语法/</a>
+    <a href="http://muleandhorse.icu/2023/07/27/18%20%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D/" title="">http://muleandhorse.icu/2023/07/27/18 移动端适配/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -320,10 +372,6 @@
 
 
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/" rel="tag"># 前端开发</a>
-              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
-          </div>
 
         
 
@@ -331,12 +379,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/03/20/02%20%E8%A1%A8%E5%8D%95%E3%80%81%E8%A1%A8%E6%A0%BC/" rel="prev" title="前端开发学习笔记 03 表单、表格">
-      <i class="fa fa-chevron-left"></i> 前端开发学习笔记 03 表单、表格
+    <a href="/2023/07/10/b47%20vue-router/" rel="prev" title="">
+      <i class="fa fa-chevron-left"></i> 
     </a></div>
       <div class="post-nav-item">
-    <a href="/2022/04/27/b04%20javascript%E5%85%A5%E9%97%A801/" rel="next" title="javascript 笔记01-初认识">
-      javascript 笔记01-初认识 <i class="fa fa-chevron-right"></i>
+    <a href="/2023/07/27/19%20%E9%9F%B3%E8%A7%86%E9%A2%91%E6%A0%87%E7%AD%BE%E5%92%8C%E5%B8%B8%E8%A7%81%E5%B8%83%E5%B1%80/" rel="next" title="">
+       <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -401,7 +449,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E8%A1%A8%E4%B8%80%E7%BA%A7%E6%A0%87%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">#代表一级标题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E8%A1%A8%E4%BA%8C%E7%BA%A7"><span class="nav-number">1.1.</span> <span class="nav-text">代表二级</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E7%BA%A7%EF%BC%8C%E4%B8%80%E5%85%B1%E6%9C%89%E5%85%AD%E7%BA%A7%E6%A0%87%E9%A2%98"><span class="nav-number">1.1.1.</span> <span class="nav-text">三级，一共有六级标题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%A1%86"><span class="nav-number">1.2.</span> <span class="nav-text">代码框</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">什么是移动端适配？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86%E8%A7%86%E5%8F%A3"><span class="nav-number">2.</span> <span class="nav-text">认识视口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D%E6%96%B9%E6%A1%88"><span class="nav-number">3.</span> <span class="nav-text">移动端适配方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rem-%E5%8A%A8%E6%80%81%E7%9A%84-html-%E7%9A%84-font-size"><span class="nav-number">4.</span> <span class="nav-text">rem+动态的 html 的 font-size</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rem-%E7%9A%84%E5%8D%95%E4%BD%8D%E6%8D%A2%E7%AE%97"><span class="nav-number">5.</span> <span class="nav-text">rem 的单位换算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%82%E9%85%8D%E6%96%B9%E6%A1%88-vw"><span class="nav-number">6.</span> <span class="nav-text">适配方案 vw</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
